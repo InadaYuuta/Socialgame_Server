@@ -8,12 +8,10 @@ use App\Models\Devices;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
-class ResistrationController extends Controller
+class RegistrationController extends Controller
 {
     public function __invoke(Request $request)
     {
-       // return json_encode($request->did);
-       
        // ユーザーIDの決定
        $user_id = Str::ulid();
        
@@ -59,7 +57,11 @@ class ResistrationController extends Controller
             ]);
         });
         
-        return json_encode($test);
+        $response = array(
+            'usersModel' => $test,
+        );
+
+        return json_encode($response);
 
         // デバイス情報を保存するためのクロージャ
         // DB::transaction (function() use($request)

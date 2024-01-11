@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ResistrationController;
+use App\Http\Controllers\RegistrationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,5 +18,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Route::get('/view',[ResistrationController::class]);
-//Route::post('/view',[ResistrationController::class]);
+//Route::get('/view',[RegistrationController::class]);
+//Route::post('/view',[RegistrationController::class]);
