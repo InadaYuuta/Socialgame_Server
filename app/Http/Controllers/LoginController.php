@@ -14,12 +14,13 @@ class LoginController extends Controller
     {
         $last_login_time = [];
         // TODO: ここで指定されたuser_idからユーザーを取得して最終ログイン時間を更新する処理を書く
-        DB::transaction(function() use($request,&$last_login_time)
+         DB::transaction(function() use($request,&$last_login_time)
         {
-            $users = DB::table('users')->where('user_id',$request->uid)->first(); // ユーザーIDからユーザーを取得
+          $update = Users::where('user_id',$request->uid)->update([]); // 更新
+
+            $users = Users::where('user_id',$request->uid)->first();// ユーザーIDからユーザーを取得
             if($users)
             {
-                $users->touch();
                 $last_login_time = $users->last_login;
             }
         });
