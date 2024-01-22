@@ -3,11 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Users extends Model
 {
+    use HasFactory;
+
     protected $table = 'users';
-    protected $primarykey = 'manager_id';
+    protected $primarykey = 'manage_id';
 
     const CREATED_AT = 'created';
     const UPDATED_AT = 'modified';
@@ -24,6 +27,6 @@ class Users extends Model
     // ];
     
     protected $guarded = [
-        'manager_id',
+        'manage_id',
     ];
 }

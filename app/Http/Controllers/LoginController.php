@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Users;
 use App\Models\Devices;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
@@ -12,22 +13,20 @@ class LoginController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $last_login_time = [];
-        // TODO: ここで指定されたuser_idからユーザーを取得して最終ログイン時間を更新する処理を書く
-         DB::transaction(function() use($request,&$last_login_time)
+        $result = 0;
+        // ユーザー情報取得
+        $userData = Users::where('user_id',$request->uid)->first();
+         DB::transaction(function() use($userData,&$result)
         {
-          $update = Users::where('user_id',$request->uid)->update([]); // 更新
-
-            $users = Users::where('user_id',$request->uid)->first();// ユーザーIDからユーザーを取得
-            if($users)
-            {
-                $last_login_time = $users->last_login;
-            }
+          $result = Users::where('manage_id',$userData->manage_id)->update([
+            'last_login' => Carbon::now()->format('Y-m-d H:i:s'),
+          ]); // 更新
         });
-
-        $response = array(
-            "lastLoginTime"=>$last_login_time,
-        );
+        $response['result'] = 0;
+        if($result == 0)
+        {
+            $response['result'] = -1;
+        }
         return json_encode($response);
     }
 }

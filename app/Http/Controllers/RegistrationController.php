@@ -18,7 +18,7 @@ class RegistrationController extends Controller
        // 生成したIDが重複していないかのチェックを入れる、生成できなかったら再度生成、できたら進む
        DB::transaction(function() use($user_id)
        {
-           $checks = Users::select('user_id')->get();
+           $checks = users::select('user_id')->get();
            foreach($checks as $check)
            {
                if($user_id == $check)
@@ -29,7 +29,7 @@ class RegistrationController extends Controller
         });
         
         // 初期データ設定
-        $users = new Users;
+        $users = new users;
         $users->user_id = $user_id;
         $users->user_name = config('constants.USER_NAME');
         $users->handover_passhash = config('constants.HANDOVER_PASSHASH');
@@ -45,7 +45,7 @@ class RegistrationController extends Controller
         // クロージャ　関数を引数として渡すようなイメージの仕組み
         DB::transaction(function() use($users,$request,&$test)
         {
-            $test = Users::create([
+            $test = users::create([
                 'user_id'=>$users->user_id,
                 'user_name'=>$request->un,
                 'handover_passhash'=>$users->handover_passhash,
@@ -57,9 +57,9 @@ class RegistrationController extends Controller
             ]);
         });
         
-        $response = array(
+        $response = [
             'usersModel' => $test,
-        );
+        ];
 
         return json_encode($response);
 
