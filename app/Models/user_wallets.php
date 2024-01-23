@@ -16,6 +16,6 @@ class user_wallets extends Model
     const UPDATED_AT = 'modified';
 
     protected $guarded = [
-        'manage_id',
+        //'manage_id',
     ];
 }
