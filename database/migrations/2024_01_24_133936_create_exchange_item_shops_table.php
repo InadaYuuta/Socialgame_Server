@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('exchange_item_shops', function (Blueprint $table) {
             $table->unsignedBigInteger('exchange_product_id')->default(0)->comment('交換アイテムの商品ID');
             $table->unsignedTinyInteger('exchange_item_category')->default(0)->comment('交換アイテムのカテゴリー');
-            $table->string('exchange_item_name')->default('no name')->comment('交換アイテムの名前(商品名)');
+            $table->string('exchange_item_name')->default('no name')->charset('utf8')->comment('交換アイテムの名前(商品名)');
             $table->unsignedSmallInteger('exchange_item_amount')->default(0)->comment('交換でもらえるアイテムの量');
             $table->unsignedSmallInteger('exchange_price')->default(0)->comment('交換に必要アイテム数');
             $table->dateTime('created')->useCurrent()->comment('作成日時');

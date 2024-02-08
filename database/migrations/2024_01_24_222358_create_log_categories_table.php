@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('log_categories', function (Blueprint $table) {
             $table->unsignedTinyInteger('log_category')->default(0)->comment('ログの種類(カテゴリー)');
-            $table->string('category_name')->default('no name')->comment('カテゴリーの名前');
+            $table->string('category_name')->default('no name')->charset('utf8')->comment('カテゴリーの名前');
             $table->dateTime('created')->useCurrent()->comment('作成日時');
             $table->dateTime('modified')->useCurrent()->useCurrentOnUpdate()->comment('更新日時');
             $table->boolean('deleted')->default(0)->comment('削除');

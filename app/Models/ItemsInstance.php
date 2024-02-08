@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class ItemsInstance extends Model
 {
     use HasFactory;
+
+    protected $table = 'items_instances';
+    protected $primarykey = 'manage_id';
+
+    const CREATED_AT = 'created';
+    const UPDATED_AT = 'modified';
+
+    protected $guarded = [
+        '',
+    ];
 }
