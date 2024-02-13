@@ -16,7 +16,7 @@ return new class extends Migration
             $table->ulid('user_id',26)->charset('utf8')->comment('ユーザーID');
             $table->string('user_name',16)->charset('utf8')->comment('表示名');
             $table->string('handover_passhash',255)->charset('utf8')->comment('引き継ぎパスワードハッシュ');
-            $table->unsignedMediumInteger('has_weapon_exp_point')->default(0)->comment('所持武器経験値');
+            $table->unsignedMediumInteger('has_reinforce_point')->default(0)->comment('所持強化ポイント');
             $table->unsignedSmallInteger('user_rank')->default(1)->comment('ユーザーランク');
             $table->unsignedMediumInteger('user_rank_exp')->default(0)->comment('ユーザーランク用の経験値');
             $table->unsignedInteger('login_days')->default(0)->comment('累計ログイン日数');
