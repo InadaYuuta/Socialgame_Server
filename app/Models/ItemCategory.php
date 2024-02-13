@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Libs\MasterDataService;
 
-class ItemsCategorie extends Model
+class ItemCategory extends Model
 {
     use HasFactory;
 
@@ -20,9 +20,9 @@ class ItemsCategorie extends Model
         '',
     ];
 
-    public static function GetItemsCategories()
+    public static function GetItemCategory()
     {
-        $master_data_list = MasterDataService::GetMasterData('items_category');
+        $master_data_list = MasterDataService::GetMasterData('item_category');
         return $master_data_list;
     }
 

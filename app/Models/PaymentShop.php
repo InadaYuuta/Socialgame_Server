@@ -21,8 +21,8 @@ class PaymentShop extends Model
 
     public static function GetPaymentShop()
     {
-        $payment_shpo_data_list = MasterDataService::GetMasterData('payment_shop');
-        return $payment_shpo_data_list;
+        $payment_shop_data_list = MasterDataService::GetMasterData('payment_shop');
+        return $payment_shop_data_list;
     }
 
     public static function GetPaymentShopByProductId($product_id)

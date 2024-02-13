@@ -14,9 +14,8 @@ return [
     'PAID_AMOUNT' => 0,
     'MAX_AMOUNT' => 99999,
     // アイテムテーブル
-    'ITEM_ID' => 0,
-    'HAS_STAMINA_ITEM_NUM' => 0,
-    'HAS_EXCHANGE_ITEM_NUM' => 0,
+    'ITEM_NUM' => 0,
+    'USED_NUM' => 0,
 
     // マスタデータ
     'MASTER_DATA_VERSION' => 1,

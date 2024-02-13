@@ -1,8 +1,12 @@
 <?php
 
 namespace App\Libs;
-use App\Models\ItemsCategorie;
+use App\Models\ItemCategory;
 use App\Models\PaymentShop;
+use App\Models\Item;
+use App\Models\ExchangeItemCategory;
+use App\Models\ExchangeItemShop;
+use App\Models\LogCategory;
 
 class MasterDataService
 {
@@ -19,8 +23,12 @@ class MasterDataService
 
         // master_dataを追加
         $master_data_list = [];
-        $master_data_list['items_category'] = ItemsCategorie::all();
+        $master_data_list['item_master'] = Item::all();
+        $master_data_list['item_category'] = ItemCategory::all();
+        $master_data_list['exchange_item_categories'] = ExchangeItemCategory::all();
+        $master_data_list['log_category'] = LogCategory::all();
         $master_data_list['payment_shop'] = PaymentShop::all();
+        $master_data_list['exchange_item_shops'] = ExchangeItemShop::all();
 
         // JSONファイルを作成
         $json = json_encode($master_data_list);

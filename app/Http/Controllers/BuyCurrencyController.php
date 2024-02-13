@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Users;
-use App\Models\user_wallets; // TODO: Walletsモデルに名前を変更する
+use App\Models\UserWallet;
 use App\Models\PaymentShop;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
@@ -22,14 +22,14 @@ class BuyCurrencyController extends Controller
 
         // 指定された商品分通貨を増やす処理
         DB::transaction(function() use($userData,$paymentData,&$result){
-            $walletsData = user_wallets::where('manage_id',$userData->manage_id)->first();
-            $result = user_wallets::where('manage_id',$userData->manage_id)->update([
+            $walletsData = UserWallet::where('manage_id',$userData->manage_id)->first();
+            $result = UserWallet::where('manage_id',$userData->manage_id)->update([
                 'free_amount' => $walletsData->free_amount + $paymentData->bonus_currency,
                 'paid_amount' => $walletsData->paid_amount + $paymentData->paid_currency,
             ]);
         });
         $response = [
-           'wallets' => user_wallets::where('manage_id',$userData->manage_id)->first(),
+           'wallets' => UserWallet::where('manage_id',$userData->manage_id)->first(),
         ];
         return json_encode($response);
     }

@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Users;
-use App\Models\user_wallets;
-use App\Models\ItemsInstance;
+use App\Models\UserWallet;
+use App\Models\ItemInstance;
 use App\Models\Devices;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
@@ -55,7 +55,7 @@ class RegistrationController extends Controller
         
         // ウォレットの登録
         DB::transaction(function() use($registId,&$walletsData){
-            $walletsData = user_wallets::create([
+            $walletsData = UserWallet::create([
                 'manage_id'=>$registId,
                 'free_amount'=>config('constants.FREE_AMOUNT'),
                 'paid_amount'=>config('constants.PAID_AMOUNT'),
