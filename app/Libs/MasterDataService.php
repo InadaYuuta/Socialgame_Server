@@ -7,6 +7,11 @@ use App\Models\Item;
 use App\Models\ExchangeItemCategory;
 use App\Models\ExchangeItemShop;
 use App\Models\LogCategory;
+use App\Models\Weapon;
+use App\Models\WeaponCategory;
+use App\Models\WeaponRarity;
+use App\Models\GachaWeapon;
+
 
 class MasterDataService
 {
@@ -29,6 +34,10 @@ class MasterDataService
         $master_data_list['log_category'] = LogCategory::all();
         $master_data_list['payment_shop'] = PaymentShop::all();
         $master_data_list['exchange_item_shops'] = ExchangeItemShop::all();
+        $master_data_list['weapon_master'] = Weapon::all();
+        $master_data_list['weapon_category'] = WeaponCategory::all();
+        $master_data_list['weapon_rarity'] = WeaponRarity::all();
+        $master_data_list['gacha_weapon'] = GachaWeapon::all();
 
         // JSONファイルを作成
         $json = json_encode($master_data_list);
