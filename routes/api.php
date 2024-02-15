@@ -14,6 +14,7 @@ use App\Http\Controllers\TestStaminaConsumptionController;
 use App\Http\Controllers\ItemRegistrationController;
 use App\Http\Controllers\UpdateItemsController;
 use App\Http\Controllers\BuyExchangeShopItemController;
+use App\Http\Controllers\GachaExecuteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,3 +61,6 @@ Route::post('/itemUpdate',UpdateItemsController::class); /*アイテムの更新
 
 //Route::get('/exchangeShop',BuyExchangeShopItemController::class); /*交換ショップで購入 */
 Route::post('/exchangeShop',BuyExchangeShopItemController::class); /*交換ショップで購入 */
+
+//Route::get('/gachaExcute',GachaExecuteController::class); /*ガチャ */
+Route::post('/gachaExcute',GachaExecuteController::class); /*ガチャ */

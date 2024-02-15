@@ -9,6 +9,13 @@ use App\Models\Item;
 use App\Models\ExchangeItemCategory;
 use App\Models\ExchangeItemShop;
 use App\Models\LogCategory;
+// --武器
+use App\Models\Weapon;
+use App\Models\WeaponCategory;
+use App\Models\WeaponRarity;
+// --ガチャ
+use App\Models\GachaWeapon;
+
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
@@ -179,8 +186,103 @@ class AddMasterDataController extends Controller
             ],
         ];
 
-        // 指定されたIDの情報が無かったら追加する
-        DB::transaction(function() use($addItemCategoryData,$addItemData,$addPaymentShopData,$addExchangeShopCategory,$addExchangeShopData,$addLogCategory){
+        // 追加データ(武器マスターデータ) TODO:今回は先生の確認なしで追加しているため、これ以下のデータは本実装時は内容を変更する
+        $addMasterWeapon = [
+            [
+                'weapon_id' => 1010001,
+                'rarity_id' => 1,
+                'weapon_category' =>1,
+                'weapon_name' =>'普通の剣',
+            ],
+            [
+                'weapon_id' =>3010001,
+                'rarity_id' =>3,
+                'weapon_category' =>1,
+                'weapon_name' =>'めっちゃ強い剣',
+            ],
+            [
+                'weapon_id' =>1020001,
+                'rarity_id' =>1,
+                'weapon_category' =>2,
+                'weapon_name' =>'普通の弓',
+            ],
+            [
+                'weapon_id' =>2020001,
+                'rarity_id' =>2,
+                'weapon_category' =>2,
+                'weapon_name' =>'強い弓',
+            ],
+            [
+                'weapon_id' =>1030001,
+                'rarity_id' =>1,
+                'weapon_category' =>3,
+                'weapon_name' =>'普通の槍',
+            ],
+        ];
+
+        // 追加データ(武器カテゴリーデータ)
+        $addWeaponCategory = [
+            [
+                'weapon_category' => 1,
+                'category_name' =>'SWORD',
+            ],
+            [
+                'weapon_category' => 2,
+                'category_name' =>'BOW',
+            ],
+            [
+                'weapon_category' => 3,
+                'category_name' =>'SPEAR',
+            ],
+        ];
+
+        // 追加データ(武器レアリティデータ)
+        $addWeaponRarity = [
+            [
+                'rarity_id'=>1,
+                'rarity_name'=>'COMON',
+            ],
+            [
+                'rarity_id'=>2,
+                'rarity_name'=>'RARE',
+            ],
+            [
+                'rarity_id'=>3,
+                'rarity_name'=>'SRARE',
+            ],
+        ];
+
+        // 追加データ(ガチャ武器データ)
+        $addGachaWeaponData = [
+            [
+                'gacha_id' => 100001,
+                'weapon_id' => 1010001,
+                'weight' => 26666,
+            ],
+            [
+                'gacha_id' => 100001,
+                'weapon_id' => 3010001,
+                'weight' => 3000,
+            ],
+            [
+                'gacha_id' => 100001,
+                'weapon_id' => 1020001,
+                'weight' => 26666,
+            ],
+            [
+                'gacha_id' => 100001,
+                'weapon_id' => 2020001,
+                'weight' => 17000,
+            ],
+            [
+                'gacha_id' => 100001,
+                'weapon_id' => 1030001,
+                'weight' => 26666,
+            ],
+        ];
+
+        // 指定されたIDの情報が無かったら追加する TODO: useの中身が多すぎるからそれも連想配列にする
+        DB::transaction(function() use($addItemCategoryData,$addItemData,$addPaymentShopData,$addExchangeShopCategory,$addExchangeShopData,$addLogCategory,$addMasterWeapon,$addWeaponCategory,$addWeaponRarity,$addGachaWeaponData){
             
             foreach($addItemCategoryData as $data)
             {
@@ -256,6 +358,57 @@ class AddMasterDataController extends Controller
                     LogCategory::create([
                         'log_category'=>$data['log_category'],
                         'category_name'=>$data['category_name'],
+                    ]);
+                }
+            }
+
+            foreach($addMasterWeapon as $data)
+            {
+                $check = Weapon::where('weapon_id',$data['weapon_id'])->first();
+                if($check == null)
+                {
+                    Weapon::create([
+                        'weapon_id'=>$data['weapon_id'],
+                        'rarity_id' => $data['rarity_id'],
+                        'weapon_category' =>$data['weapon_category'],
+                        'weapon_name' =>$data['weapon_name'],
+                    ]);
+                }
+            }
+
+            foreach($addWeaponCategory as $data)
+            {
+                $check = WeaponCategory::where('weapon_category',$data['weapon_category'])->first();
+                if($check == null)
+                {
+                    WeaponCategory::create([
+                        'weapon_category'=>$data['weapon_category'],
+                        'category_name'=>$data['category_name'],
+                    ]);
+                }
+            }
+            
+            foreach($addWeaponRarity as $data)
+            {
+                $check = WeaponRarity::where('rarity_id',$data['rarity_id'])->first();
+                if($check == null)
+                {
+                    WeaponRarity::create([
+                        'rarity_id'=>$data['rarity_id'],
+                        'rarity_name'=>$data['rarity_name'],
+                    ]);
+                }
+            }
+            
+            foreach($addGachaWeaponData as $data)
+            {
+                $check = GachaWeapon::where('weapon_id',$data['weapon_id'])->first();
+                if($check == null)
+                {
+                    GachaWeapon::create([
+                        'gacha_id' => $data['gacha_id'],
+                        'weapon_id' => $data['weapon_id'],
+                        'weight' => $data['weight'],
                     ]);
                 }
             }
