@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class GachaLog extends Model
 {
     use HasFactory;
+
+    protected $table = 'gacha_logs';
+   // protected $primarykey = 'gacha_log_id';
+
+    const CREATED_AT = 'created';
+    const UPDATED_AT = 'modified';
+
+    protected $guarded = [
+    ];
 }

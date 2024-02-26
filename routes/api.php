@@ -15,6 +15,7 @@ use App\Http\Controllers\ItemRegistrationController;
 use App\Http\Controllers\UpdateItemsController;
 use App\Http\Controllers\BuyExchangeShopItemController;
 use App\Http\Controllers\GachaExecuteController;
+use App\Http\Controllers\GetGachaLogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,3 +65,6 @@ Route::post('/exchangeShop',BuyExchangeShopItemController::class); /*交換シ�
 
 //Route::get('/gachaExcute',GachaExecuteController::class); /*ガチャ */
 Route::post('/gachaExcute',GachaExecuteController::class); /*ガチャ */
+
+//Route::get('/getGachaLog',GetGachaLogController::class); /*ガチャログ取得*/
+Route::post('/getGachaLog',GetGachaLogController::class); /*ガチャログ取得*/
