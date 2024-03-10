@@ -14,24 +14,24 @@ class ItemRegistrationController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $result = 0;
         // ユーザー情報取得
         $userData = Users::where('user_id',$request->uid)->first();
         
         // アイテムテーブルにデータを登録する
-        DB::transaction(function() use($userData,$result){
+        DB::transaction(function() use($userData){
             $item_data_list = Item::all();
-            $checkManageId = ItemInstance::where('manage_id',$userData['manage_id'])->first();
-            if($checkManageId == null)
+            foreach($item_data_list as $item_data)
             {
-                foreach($item_data_list as $item_data)
+                $checkManageId = ItemInstance::where('manage_id',$userData['manage_id'])->where('item_id',$item_data['item_id'])->first();
+                if($checkManageId == null)
                 {
                     $itemsData = ItemInstance::create([
-                        'manage_id'=>$userData->manage_id,
-                        'item_id'=>$item_data['item_id'],
-                        'item_num'=>config('constants.ITEM_NUM'),
-                        'used_num'=>config('constants.USED_NUM'),
+                    'manage_id'=>$userData->manage_id,
+                    'item_id'=>$item_data['item_id'],
+                    'item_num'=>config('constants.ITEM_NUM'),
+                    'used_num'=>config('constants.USED_NUM'),
                     ]);
+
                 }
             }
         });

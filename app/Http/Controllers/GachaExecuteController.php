@@ -9,6 +9,8 @@ use App\Models\WeaponInstance;
 use App\Models\ItemInstance;
 use App\Models\GachaWeapon;
 use App\Models\GachaLog;
+use App\Models\Weapon;
+use App\Models\Item;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
@@ -89,10 +91,12 @@ class GachaExecuteController extends Controller
                 $hasCheck = WeaponInstance::where('manage_id',$userData->manage_id)->where('weapon_id',$data['weapon_id'])->first();
                 if($hasCheck == null)
                 {
+                    $rarity = Weapon::where('weapon_id',$data['weapon_id'])->first();
                     // 未所持なら所持に
                     WeaponInstance::create([
                         'manage_id'=>$userData->manage_id,
                         'weapon_id'=>$data['weapon_id'],
+                        'rarity_id'=>$rarity->rarity_id,
                     ]);
                     $newWeaponIds[] = [
                         'weapon_id'=>$data['weapon_id'],
@@ -100,6 +104,79 @@ class GachaExecuteController extends Controller
                 }
                 else
                 {
+                    // TODO:ここは定数にしてもいいかも
+                    $normalSwordId = 40002;
+                    $normalBowId = 40003;
+                    $normalSpearId = 40004;
+                    $strongBowId = 40005;
+                    $veryStrongSwordId = 40006;
+
+                    // 凸アイテム所持数確認 TODO:もっといいやり方があるようなら後日変更　ここは武器のテーブルの方に凸アイテムのカラムを入れればもっとスムーズにいけるかも
+                    switch($data['weapon_id'])
+                    {
+                        case 1010001: // 普通の剣
+                           $itemData = ItemInstance::where('manage_id',$userData->manage_id)->where('item_id',$normalSwordId)->first();
+                           $itemNum = $itemData->item_num;
+                           $usedNum = $itemData->used_num;
+                           if($itemNum +$usedNum < 5) // ゲーム全体を通して5個まで入手
+                           {
+                                $addItemData = ItemInstance::where('manage_id',$userData->manage_id)->where('item_id',$normalSwordId)->update([
+                                    'item_num' => $itemNum + 1,
+                                ]);
+                           }
+                           else{$getFragmentItem += 1;}
+                            break;
+                        case 1020001: // 普通の弓
+                            $itemData = ItemInstance::where('manage_id',$userData->manage_id)->where('item_id',$normalBowId)->first();
+                           $itemNum = $itemData->item_num;
+                           $usedNum = $itemData->used_num;
+                           if($itemNum +$usedNum < 5) // ゲーム全体を通して5個まで入手
+                           {
+                                $addItemData = ItemInstance::where('manage_id',$userData->manage_id)->where('item_id',$normalBowId)->update([
+                                    'item_num' => $itemNum + 1,
+                                ]);
+                           }
+                           else{$getFragmentItem += 1;}
+                            break;
+                        case 1030001: // 普通の槍
+                            $itemData = ItemInstance::where('manage_id',$userData->manage_id)->where('item_id',$normalSpearId)->first();
+                           $itemNum = $itemData->item_num;
+                           $usedNum = $itemData->used_num;
+                           if($itemNum +$usedNum < 5) // ゲーム全体を通して5個まで入手
+                           {
+                                $addItemData = ItemInstance::where('manage_id',$userData->manage_id)->where('item_id',$normalSpearId)->update([
+                                    'item_num' => $itemNum + 1,
+                                ]);
+                           }
+                           else{$getFragmentItem += 3;}
+                            break;
+                        case 2020001: // 強い弓
+                            $itemData = ItemInstance::where('manage_id',$userData->manage_id)->where('item_id',$strongBowId)->first();
+                           $itemNum = $itemData->item_num;
+                           $usedNum = $itemData->used_num;
+                           if($itemNum +$usedNum < 5) // ゲーム全体を通して5個まで入手
+                           {
+                                $addItemData = ItemInstance::where('manage_id',$userData->manage_id)->where('item_id',$strongBowId)->update([
+                                    'item_num' => $itemNum + 1,
+                                ]);
+                           }
+                           else{$getFragmentItem += 1;}
+                            break;
+                        case 3010001: // めっちゃ強い剣
+                            $itemData = ItemInstance::where('manage_id',$userData->manage_id)->where('item_id',$veryStrongSwordId)->first();
+                           $itemNum = $itemData->item_num;
+                           $usedNum = $itemData->used_num;
+                           if($itemNum +$usedNum < 5) // ゲーム全体を通して5個まで入手
+                           {
+                                $addItemData = ItemInstance::where('manage_id',$userData->manage_id)->where('item_id',$veryStrongSwordId)->update([
+                                    'item_num' => $itemNum + 1,
+                                ]);
+                           }
+                           else{$getFragmentItem += 30;}
+                            break;
+                    }
+
+
                     // 桁でレアリティを分別
                     $currentDigitNum = 1;
                     $digit = 7;

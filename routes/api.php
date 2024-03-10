@@ -2,20 +2,41 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+// 登録
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\ItemRegistrationController;
+// ログイン
 use App\Http\Controllers\LoginController;
+// マスタデータ
 use App\Http\Controllers\AddMasterDataController;
+use App\Http\Controllers\AddMissionMasterDataController;
 use App\Http\Controllers\MasterDataCheckController;
 use App\Http\Controllers\MasterDataGetController;
+// ショップ
 use App\Http\Controllers\AddPaymentShopTableDataController;
 use App\Http\Controllers\BuyCurrencyController;
+use App\Http\Controllers\BuyExchangeShopItemController;
+// スタミナ
 use App\Http\Controllers\StaminaRecoveryController;
 use App\Http\Controllers\TestStaminaConsumptionController;
-use App\Http\Controllers\ItemRegistrationController;
+// アイテム
 use App\Http\Controllers\UpdateItemsController;
-use App\Http\Controllers\BuyExchangeShopItemController;
+// ガチャ
 use App\Http\Controllers\GachaExecuteController;
 use App\Http\Controllers\GetGachaLogController;
+// 武器
+use App\Http\Controllers\LevelUpController;
+use App\Http\Controllers\LimitBreakController;
+use App\Http\Controllers\EvolutionController;
+// プレゼントボックス
+use App\Http\Controllers\CreatePrezentController;
+use App\Http\Controllers\ReceivePrezentController;
+// ミッション
+use App\Http\Controllers\CreateMissionController;
+use App\Http\Controllers\UpdateMissionController;
+use App\Http\Controllers\ReceiveMissionController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -39,9 +60,10 @@ Route::post('/register',RegistrationController::class); /*登録*/
 Route::post('/login',LoginController::class); /*ログイン */
 
 Route::get('/addMasterData',AddMasterDataController::class); /* マスターデータ挿入 */
+Route::get('/addMission',AddMissionMasterDataController::class); /*ミッションマスターデータ挿入 */
 
-//Route::get('/buyCurrency',BuyCurrencyController::class); /*通貨購入 */
-Route::post('/buyCurrency',BuyCurrencyController::class); /*通貨購入 */
+Route::get('/buyCurrency',BuyCurrencyController::class); /*通貨購入 */
+//Route::post('/buyCurrency',BuyCurrencyController::class); /*通貨購入 */
 
 //Route::get('/staminaRecovery',StaminaRecoveryController::class); /*スタミナ回復 */
 Route::post('/staminaRecovery',StaminaRecoveryController::class); /*スタミナ回復 */
@@ -54,17 +76,35 @@ Route::post('/masterCheck',MasterDataCheckController::class); /**マスターデ
 //Route::get('/masterGet',MasterDataGetController::class);
 Route::post('/masterGet',MasterDataGetController::class); /*マスターデータ取得 */
 
-//Route::get('/itemRegist',ItemRegistrationController::class); /*アイテムの登録 */
-Route::post('/itemRegist',ItemRegistrationController::class); /*アイテムの登録 */
+Route::get('/itemRegist',ItemRegistrationController::class); /*アイテムの登録 */
+//Route::post('/itemRegist',ItemRegistrationController::class); /*アイテムの登録 */
 
 //Route::get('/itemUpdate',UpdateItemsController::class); /*アイテムの更新 */
 Route::post('/itemUpdate',UpdateItemsController::class); /*アイテムの更新 */
 
-//Route::get('/exchangeShop',BuyExchangeShopItemController::class); /*交換ショップで購入 */
-Route::post('/exchangeShop',BuyExchangeShopItemController::class); /*交換ショップで購入 */
+Route::get('/exchangeShop',BuyExchangeShopItemController::class); /*交換ショップで購入 */
+//Route::post('/exchangeShop',BuyExchangeShopItemController::class); /*交換ショップで購入 */
 
-//Route::get('/gachaExcute',GachaExecuteController::class); /*ガチャ */
-Route::post('/gachaExcute',GachaExecuteController::class); /*ガチャ */
+Route::get('/gachaExcute',GachaExecuteController::class); /*ガチャ */
+//Route::post('/gachaExcute',GachaExecuteController::class); /*ガチャ */
 
 //Route::get('/getGachaLog',GetGachaLogController::class); /*ガチャログ取得*/
 Route::post('/getGachaLog',GetGachaLogController::class); /*ガチャログ取得*/
+
+// TODO: この下はクライアント側を未実装なので順次実装を行う
+
+Route::get('/levelUp',LevelUpController::class); /*レベルアップ*/
+
+Route::get('/limitBreak',LimitBreakController::class); /*限界突破*/
+
+Route::get('/evolution',EvolutionController::class); /*進化*/
+
+Route::get('/createPrezent',CreatePrezentController::class); /*プレゼント作成*/
+
+Route::get('/receivePrezent',ReceivePrezentController::class); /*プレゼント受け取り*/
+
+Route::get('/createMission',CreateMissionController::class); /*ミッション作成*/
+
+Route::get('/updateMission',UpdateMissionController::class); /*ミッション更新*/
+
+Route::get('/receiveMission',ReceiveMissionController::class); /*ミッション受け取り*/
