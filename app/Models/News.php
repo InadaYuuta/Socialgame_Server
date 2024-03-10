@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class GachaLog extends Model
+class News extends Model
 {
     use HasFactory;
 
-    protected $table = 'gacha_logs';
-   // protected $primarykey = 'gacha_log_id';
+    protected $table = 'news';
+    protected $primarykey = 'news_id';
 
     const CREATED_AT = 'created';
     const UPDATED_AT = 'modified';

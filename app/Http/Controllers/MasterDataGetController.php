@@ -14,6 +14,7 @@ use App\Models\Weapon;
 use App\Models\WeaponCategory;
 use App\Models\WeaponRarity;
 use App\Models\GachaWeapon;
+use App\Models\WeaponExp;
 
 class MasterDataGetController extends Controller
 {
@@ -30,6 +31,7 @@ class MasterDataGetController extends Controller
         $weapon_category = WeaponCategory::GetWeaponCategory();
         $weapon_rarity = WeaponRarity::GetWeaponRarity();
         $gacha_weapon = GachaWeapon::GetGachaWeapon();
+        $weapon_exp = WeaponExp::GetWeaponExp();
 
         $response = [
             'master_data_version' => config('constants.MASTER_DATA_VERSION'),
@@ -43,6 +45,7 @@ class MasterDataGetController extends Controller
             'weapon_category' =>$weapon_category,
             'weapon_rarity' =>$weapon_rarity,
             'gacha_weapon' =>$gacha_weapon,
+            'weapon_exp' => $weapon_exp,
         ];
 
         return json_encode($response);

@@ -4,23 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Libs\MasterDataService;
 
-class WeaponExp extends Model
+class EvolutionWeapon extends Model
 {
     use HasFactory;
-    protected $table = 'weapon_exps';
-    protected $primarykey = '';
+
+    protected $table = 'evolution_weapons';
+    protected $primarykey = 'evolution_weapon_id';
 
     const CREATED_AT = 'created';
     const UPDATED_AT = 'modified';
 
     protected $guarded = [
+        'evolution_weapons',
     ];
 
-    public static function GetWeaponExp()
+    public static function GetWeaponMaster()
     {
-        $master_data_list = MasterDataService::GetMasterData('weapon_exp');
+        $master_data_list = MasterDataService::GetMasterData('weapon_master');
         return $master_data_list;
     }
 }

@@ -8,6 +8,9 @@ use App\Models\UserWallet;
 use App\Models\WeaponInstance;
 use App\Models\ItemInstance;
 use App\Models\GachaWeapon;
+use App\Models\GachaLog;
+use App\Models\Weapon;
+use App\Models\Item;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
@@ -25,12 +28,22 @@ class GachaExecuteController extends Controller
         // ウォレット情報取得
         $walletData = UserWallet::where('manage_id',$userData->manage_id)->first();
 
+        // 抽選用データ
+        $gottenWeaponIds = [];
+
         // ガチャ武器データ取得
         // TODO: 取り急ぎガチャひとつでやるからあとからちゃんとガチャIDとる処理を追記
         $gachaWeaponData = GachaWeapon::where('gacha_id',100001)->get();
         // 重さのデータ
         $weightData = [];
-        DB::transaction(function() use($gachaWeaponData,&$weightData){
+
+        // 新規の確認
+        $getFragmentItem = 0;
+        $gacha_result = '';
+        $newWeaponIds = [];
+
+        // セクション開始
+        DB::transaction(function() use($gachaWeaponData,&$weightData,$gacha_count,&$gottenWeaponIds,&$newWeaponIds,&$getFragmentItem,&$gacha_result,$userData,$walletData){
             foreach($gachaWeaponData as $data)
             {
                 $weightData[] =[
@@ -38,12 +51,8 @@ class GachaExecuteController extends Controller
                         'weight'=>$data->weight,
                     ];
                 }
-            });
-            
-        // 抽選用データ
-        $gottenWeaponIds = [];
+       
         // ガチャを回す
-        DB::transaction(function() use($gacha_count,$weightData,&$gottenWeaponIds){
             for($i = 0; $i < $gacha_count; $i++)
             {
                 // 抽選処理----
@@ -75,23 +84,19 @@ class GachaExecuteController extends Controller
                     'weapon_id' => $gacha_result,
                 ];
             }
-        });
-
-        // 新規の確認
-        $getFragmentItem = 0;
-        $gacha_result = [];
-        $newWeaponIds = [];
-        DB::transaction(function() use(&$newWeaponIds,&$getFragmentItem,&$gacha_result,$gottenWeaponIds,$userData){
+        
             foreach($gottenWeaponIds as $data)
             {
                 // 所持済みかどうか確認
                 $hasCheck = WeaponInstance::where('manage_id',$userData->manage_id)->where('weapon_id',$data['weapon_id'])->first();
                 if($hasCheck == null)
                 {
+                    $rarity = Weapon::where('weapon_id',$data['weapon_id'])->first();
                     // 未所持なら所持に
                     WeaponInstance::create([
                         'manage_id'=>$userData->manage_id,
                         'weapon_id'=>$data['weapon_id'],
+                        'rarity_id'=>$rarity->rarity_id,
                     ]);
                     $newWeaponIds[] = [
                         'weapon_id'=>$data['weapon_id'],
@@ -99,32 +104,119 @@ class GachaExecuteController extends Controller
                 }
                 else
                 {
-                    // 所持済みのためポイントに変換 TODO:個々もちゃんとレアリティとってやるように直す
-                   switch($data['weapon_id'])
+                    // TODO:ここは定数にしてもいいかも
+                    $normalSwordId = 40002;
+                    $normalBowId = 40003;
+                    $normalSpearId = 40004;
+                    $strongBowId = 40005;
+                    $veryStrongSwordId = 40006;
+
+                    // 凸アイテム所持数確認 TODO:もっといいやり方があるようなら後日変更　ここは武器のテーブルの方に凸アイテムのカラムを入れればもっとスムーズにいけるかも
+                    switch($data['weapon_id'])
+                    {
+                        case 1010001: // 普通の剣
+                           $itemData = ItemInstance::where('manage_id',$userData->manage_id)->where('item_id',$normalSwordId)->first();
+                           $itemNum = $itemData->item_num;
+                           $usedNum = $itemData->used_num;
+                           if($itemNum +$usedNum < 5) // ゲーム全体を通して5個まで入手
+                           {
+                                $addItemData = ItemInstance::where('manage_id',$userData->manage_id)->where('item_id',$normalSwordId)->update([
+                                    'item_num' => $itemNum + 1,
+                                ]);
+                           }
+                           else{$getFragmentItem += 1;}
+                            break;
+                        case 1020001: // 普通の弓
+                            $itemData = ItemInstance::where('manage_id',$userData->manage_id)->where('item_id',$normalBowId)->first();
+                           $itemNum = $itemData->item_num;
+                           $usedNum = $itemData->used_num;
+                           if($itemNum +$usedNum < 5) // ゲーム全体を通して5個まで入手
+                           {
+                                $addItemData = ItemInstance::where('manage_id',$userData->manage_id)->where('item_id',$normalBowId)->update([
+                                    'item_num' => $itemNum + 1,
+                                ]);
+                           }
+                           else{$getFragmentItem += 1;}
+                            break;
+                        case 1030001: // 普通の槍
+                            $itemData = ItemInstance::where('manage_id',$userData->manage_id)->where('item_id',$normalSpearId)->first();
+                           $itemNum = $itemData->item_num;
+                           $usedNum = $itemData->used_num;
+                           if($itemNum +$usedNum < 5) // ゲーム全体を通して5個まで入手
+                           {
+                                $addItemData = ItemInstance::where('manage_id',$userData->manage_id)->where('item_id',$normalSpearId)->update([
+                                    'item_num' => $itemNum + 1,
+                                ]);
+                           }
+                           else{$getFragmentItem += 3;}
+                            break;
+                        case 2020001: // 強い弓
+                            $itemData = ItemInstance::where('manage_id',$userData->manage_id)->where('item_id',$strongBowId)->first();
+                           $itemNum = $itemData->item_num;
+                           $usedNum = $itemData->used_num;
+                           if($itemNum +$usedNum < 5) // ゲーム全体を通して5個まで入手
+                           {
+                                $addItemData = ItemInstance::where('manage_id',$userData->manage_id)->where('item_id',$strongBowId)->update([
+                                    'item_num' => $itemNum + 1,
+                                ]);
+                           }
+                           else{$getFragmentItem += 1;}
+                            break;
+                        case 3010001: // めっちゃ強い剣
+                            $itemData = ItemInstance::where('manage_id',$userData->manage_id)->where('item_id',$veryStrongSwordId)->first();
+                           $itemNum = $itemData->item_num;
+                           $usedNum = $itemData->used_num;
+                           if($itemNum +$usedNum < 5) // ゲーム全体を通して5個まで入手
+                           {
+                                $addItemData = ItemInstance::where('manage_id',$userData->manage_id)->where('item_id',$veryStrongSwordId)->update([
+                                    'item_num' => $itemNum + 1,
+                                ]);
+                           }
+                           else{$getFragmentItem += 30;}
+                            break;
+                    }
+
+
+                    // 桁でレアリティを分別
+                    $currentDigitNum = 1;
+                    $digit = 7;
+                    $num = abs($data['weapon_id']);
+                    
+                    while($num > 0){
+                        if($currentDigitNum === $digit){
+                            $num %= 10;
+                            break;
+                        }
+                        $num = (int)floor($num / 10);
+                        $currentDigitNum++;
+                    }
+
+                    // 所持済みのためポイントに変換
+                   switch($num)
                    {
-                    case 1010001:
-                    case 1020001:
-                    case 1030001:
+                    case 1:
                         $getFragmentItem += 1;
                         break;
-                    case 2020001:
+                    case 2:
                         $getFragmentItem += 3;
                         break;
-                        case 3010001:
+                    case 3:
                         $getFragmentItem += 20;
                         break;
                    }
                 }
-                $gacha_result = [
-                    $data['weapon_id']
-                ]
-                ;
+                $gacha_result = $gacha_result . "/" .$data['weapon_id'];
+
+                // 獲得履歴を追加
+               $gacha_log = GachaLog::create([
+                    'manage_id'=>$userData->manage_id,
+                    'gacha_id'=>100001, // TODO: ガチャが増えるようならそれ用に書き換える、今回はひとつなのでこのまま
+                    'weapon_id'=>$data['weapon_id'],
+                ]);
             }
-        });
 
         // ウォレットとアイテムの更新
-        DB::transaction(function() use($userData,$gacha_count,$walletData,$getFragmentItem){
-            $constantAmount = $gacha_count * 3; // 消費する通貨量
+            $constantAmount = $gacha_count * 30; // 消費する通貨量
             $freeCurrency = $walletData->free_amount;
             $paidCurrency = $walletData->paid_amount;
             $resultCurrency = 0;
@@ -139,12 +231,11 @@ class GachaExecuteController extends Controller
                 $resultCurrency = $constantAmount - $freeCurrency;
                 $paidCurrency -= $resultCurrency;
             }
-            if($paidCurrency ==null){$paidCurrency = 0;}
+            if($paidCurrency==null){$paidCurrency = 0;}
             $result=UserWallet::where('manage_id',$userData->manage_id)->update([
                 'free_amount' => $resultCurrency,
                 'paid_amount' => $paidCurrency,
             ]);
-
 
             $result_item_num = ItemInstance::where('manage_id',$userData->manage_id)->where('item_id',30001)->first()->item_num;
             // アイテムの更新
@@ -157,7 +248,7 @@ class GachaExecuteController extends Controller
             'wallets' => UserWallet::where('manage_id',$userData->manage_id)->first(),
             'items'=>ItemInstance::where('manage_id',$userData->manage_id)->get(),
             'weapons'=>WeaponInstance::where('manage_id',$userData->manage_id)->get(),
-            'gacha_result' => $gacha_result,
+            'gacha_result' =>$gacha_result,
             'new_weapons'=>$newWeaponIds,
             'fragment_num'=>$getFragmentItem,
         ];

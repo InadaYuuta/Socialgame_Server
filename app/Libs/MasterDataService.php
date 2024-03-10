@@ -11,6 +11,7 @@ use App\Models\Weapon;
 use App\Models\WeaponCategory;
 use App\Models\WeaponRarity;
 use App\Models\GachaWeapon;
+use App\Models\WeaponExp;
 
 
 class MasterDataService
@@ -38,6 +39,7 @@ class MasterDataService
         $master_data_list['weapon_category'] = WeaponCategory::all();
         $master_data_list['weapon_rarity'] = WeaponRarity::all();
         $master_data_list['gacha_weapon'] = GachaWeapon::all();
+        $master_data_list['weapon_exp'] = WeaponExp::all();
 
         // JSONファイルを作成
         $json = json_encode($master_data_list);
