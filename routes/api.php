@@ -35,7 +35,9 @@ use App\Http\Controllers\ReceivePrezentController;
 use App\Http\Controllers\CreateMissionController;
 use App\Http\Controllers\UpdateMissionController;
 use App\Http\Controllers\ReceiveMissionController;
-
+// ニュース
+use App\Http\Controllers\AddNewsController;
+use App\Http\Controllers\GetNewsController;
 
 
 /*
@@ -108,3 +110,7 @@ Route::get('/createMission',CreateMissionController::class); /*ミッション�
 Route::get('/updateMission',UpdateMissionController::class); /*ミッション更新*/
 
 Route::get('/receiveMission',ReceiveMissionController::class); /*ミッション受け取り*/
+
+Route::get('/addNews',AddNewsController::class); /*ニュース追加*/
+
+Route::get('/getNews',GetNewsController::class); /*ニュース取得*/
