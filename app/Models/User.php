@@ -4,20 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Libs\MasterDataService;
+use Illuminate\Foundation\Auth\User as Authenticatable; // Authの処理を使うために入れる
+use Illuminate\Notifications\Notifiable;
 
-class WeaponInstance extends Model
+class User extends Authenticatable
 {
-    use HasFactory;
+    use Notifiable,HasFactory;
 
-    protected $table = 'weapon_instances';
-    protected $primarykey = ['manage_id','weapon_id'];
+    protected $table = 'users';
+    protected $primarykey = 'manage_id';
 
     const CREATED_AT = 'created';
     const UPDATED_AT = 'modified';
 
     // 変更を許可しないカラムのリスト
     protected $guarded = [
+        'manage_id',
         'created',
     ];
 }

@@ -24,25 +24,26 @@ use Illuminate\Support\Facades\DB;
 
 class AddMasterDataController extends Controller
 {
+    /* マスターデータを追加する TODO:ここはできたらRequestを使ってまとめて外部から追加できるようにしたい */
     public function __invoke()
     {
         // 追加データ(アイテムカテゴリー)
         $addItemCategoryData = [
             [
                 'item_category' => 1,
-                'category_name' => 'スタミナ回復アイテム',
+                'category_name' => 'STAMINA_RECOVERY_ITEM', // スタミナ回復アイテム
             ],
             [
                 'item_category' => 2,
-                'category_name' => '強化ポイント',
+                'category_name' => 'REINFORCE_POINT', // 強化ポイント
             ],
             [
                 'item_category' => 3,
-                'category_name' => '交換アイテム',
+                'category_name' => 'EXCHANGE_ITEM', // 交換アイテム
             ],
             [
                 'item_category' => 4,
-                'category_name' => '凸アイテム',
+                'category_name' => 'COVEX_ITEM', // 凸アイテム
             ],
         ];
 
@@ -145,15 +146,15 @@ class AddMasterDataController extends Controller
         $addExchangeShopCategory = [
             [
                 'exchange_item_category' => 1,
-                'category_name' => '通貨',
+                'category_name' => 'CURRENCY', // 通貨
             ],
             [
                 'exchange_item_category' => 2,
-                'category_name' => 'スタミナ回復アイテム',
+                'category_name' => 'STAMINA_RECOVERY_ITEM', // スタミナ回復アイテム
             ],
             [
                 'exchange_item_category' => 3,
-                'category_name' => '強化ポイント',
+                'category_name' => 'REINFORCE_POINT', // 強化ポイント
             ],
         ];
 
@@ -186,31 +187,31 @@ class AddMasterDataController extends Controller
         $addLogCategory = [
             [
                 'log_category' => 1,
-                'category_name' => 'プレイヤー情報更新',
+                'category_name' => 'PLAYER', // プレイヤー情報更新
             ],
             [
                 'log_category' => 2,
-                'category_name' => '通貨情報更新',
+                'category_name' => 'CURRENCY', // 通貨情報更新
             ],
             [
                 'log_category' => 3,
-                'category_name' => 'アイテム情報更新',
+                'category_name' => 'ITEM', // アイテム情報更新
             ],
             [
                 'log_category' => 4,
-                'category_name' => '武器情報更新',
+                'category_name' => 'WEAPON', // 武器情報更新
             ],
             [
                 'log_category' => 5,
-                'category_name' => 'ミッション情報更新',
+                'category_name' => 'MISSION', // ミッション情報更新
             ],
             [
                 'log_category' => 6,
-                'category_name' => 'シーズンパス情報更新',
+                'category_name' => 'SEASONPASS', // シーズンパス情報更新
             ],
             [
                 'log_category' => 7,
-                'category_name' => 'プレゼントボックス情報更新',
+                'category_name' => 'PREZENTBOX', // プレゼントボックス情報更新
             ],
         ];
 
@@ -440,7 +441,7 @@ class AddMasterDataController extends Controller
 
 
         // 指定されたIDの情報が無かったら追加する TODO: useの中身が多すぎるからそれも連想配列にする
-        DB::transaction(function() use($addItemCategoryData,$addItemData,$addPaymentShopData,$addExchangeShopCategory,$addExchangeShopData,$addLogCategory,$addMasterWeapon,$addEvolutionWeaponData,$addWeaponCategory,$addWeaponRarity,$addGachaWeaponData,$addWeaponExpData,$addRewardCategory){
+        DB::transaction(function() use ($addItemCategoryData,$addItemData,$addPaymentShopData,$addExchangeShopCategory,$addExchangeShopData,$addLogCategory,$addMasterWeapon,$addEvolutionWeaponData,$addWeaponCategory,$addWeaponRarity,$addGachaWeaponData,$addWeaponExpData,$addRewardCategory){
             
             // アイテムカテゴリーデータ
             foreach($addItemCategoryData as $data)

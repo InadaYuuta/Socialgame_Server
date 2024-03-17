@@ -15,7 +15,8 @@ class UserWallet extends Model
     const CREATED_AT = 'created';
     const UPDATED_AT = 'modified';
 
+    // 変更を許可しないカラムのリスト
     protected $guarded = [
-        //'manage_id',
+        'created',
     ];
 }

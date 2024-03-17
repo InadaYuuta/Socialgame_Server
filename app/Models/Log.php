@@ -15,7 +15,9 @@ class Log extends Model
     const CREATED_AT = 'created';
     const UPDATED_AT = 'modified';
 
+   // 変更を許可しないカラムのリスト
     protected $guarded = [
         'log_id',
+        'created',
     ];
 }
