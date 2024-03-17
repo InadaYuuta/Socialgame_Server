@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Libs\GameUtilService;
 
 use App\Models\User;
 use App\Models\WeaponInstance;
@@ -96,11 +97,7 @@ class LimitBreakController extends Controller
             $itemData = $itemDataBase->first();
             $log_category = config('constants.ITEM_DATA');
             $log_context = config('constants.USE_ITEM').$consumptionItemNum.'/'.$itemData;
-            Log::create([
-                'manage_id' => $manage_id,
-                'log_category' => $log_category,
-                'log_context' => $log_context,
-            ]);
+            GameUtilService::logCreate($manage_id,$log_category,$log_context);
 
             // 限界突破
             $result = $weaponBase->update([
@@ -111,11 +108,7 @@ class LimitBreakController extends Controller
             $weaponData = $weaponBase->first();
             $log_category = config('constants.WEAPON_DATA');
             $log_context = config('constants.LIMIT_BREAK_WEAPON').$weaponData;
-            Log::create([
-                'manage_id' => $manage_id,
-                'log_category' => $log_category,
-                'log_context' => $log_context,
-            ]);
+            GameUtilService::logCreate($manage_id,$log_category,$log_context);
 
             $result = 1;
         });

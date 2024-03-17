@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Libs\GameUtilService;
 
 use App\Models\User;
 use App\Models\Log;
@@ -48,11 +49,7 @@ class TestStaminaConsumptionController extends Controller
             // ログを追加する処理(スタミナ更新)
             $log_category = config('constants.USER_DATA');
             $log_context = config('constants.CONSUMPTION_STAMINA').$consumptionStamina.'/'.$userData;
-            Log::create([
-                'manage_id' => $manage_id,
-                'log_category' => $log_category,
-                'log_context' => $log_context,
-            ]);
+            GameUtilService::logCreate($manage_id,$log_category,$log_context);
             $result = 1;
         });
         switch($result)

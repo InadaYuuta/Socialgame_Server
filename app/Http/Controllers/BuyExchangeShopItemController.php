@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Libs\GameUtilService;
 
 use App\Models\User;
 use App\Models\UserWallet;
@@ -69,12 +70,7 @@ class BuyExchangeShopItemController extends Controller
             // ログを追加する処理 ------REVIEW: ログごとにこの処理を回しているけどコードが冗長になってしまうので一回にまとめたい
             $log_category = config('constants.ITEM_DATA');
             $log_context = config('constants.USE_ITEM').$consumption.'/'.'itemData/'.$exchangeItemData;
-            Log::create([
-                'manage_id' => $manage_id,
-                'log_category' => $log_category,
-                'log_context' => $log_context,
-            ]);
-            // -----
+            GameUtilService::logCreate($manage_id,$log_category,$log_context);
 
             // 交換した分だけ各自を追加
             switch($exchangeShopData->exchange_product_id)
@@ -115,11 +111,8 @@ class BuyExchangeShopItemController extends Controller
             } 
 
             // ログを追加する処理 ------
-            Log::create([
-                'manage_id' => $manage_id,
-                'log_category' => $log_category,
-                'log_context' => $log_context,
-            ]);
+            GameUtilService::logCreate($manage_id,$log_category,$log_context);
+
             // -----
             $result = 1;
         });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Libs\GameUtilService;
 
 use App\Models\User;
 use App\Models\Mission;
@@ -64,11 +65,7 @@ class UpdateMissionController extends Controller
                 // ログを追加する処理(ミッション進捗更新)
                 $log_category = config('constants.MISSION_DATA');
                 $log_context = config('constants.PROGRESS_MISSION').$progress.'/'.$instanceData;
-                Log::create([
-                    'manage_id' => $manage_id,
-                    'log_category' => $log_category,
-                    'log_context' => $log_context,
-                ]);
+                GameUtilService::logCreate($manage_id,$log_category,$log_context);
 
                 // 進捗が目標値に到達していたら達成に
                 if($progress >= $achieved_condition)
@@ -82,11 +79,7 @@ class UpdateMissionController extends Controller
                     $instanceData = $missionInstanceBase->first(); // ミッションデータ
                     $log_category = config('constants.MISSION_DATA');
                     $log_context = config('constants.ACHIEVED_MISSION').$instanceData;
-                    Log::create([
-                        'manage_id' => $manage_id,
-                        'log_category' => $log_category,
-                        'log_context' => $log_context,
-                    ]);
+                    GameUtilService::logCreate($manage_id,$log_category,$log_context);
 
                     // 次のミッションがある場合は次のミッションを作成する
                     $next_mission_id = $missionData->next_mission_id;

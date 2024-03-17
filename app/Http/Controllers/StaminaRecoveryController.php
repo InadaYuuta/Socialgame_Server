@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Libs\GameUtilService;
 
 use App\Models\User;
 use App\Models\UserWallet;
@@ -55,11 +56,7 @@ class StaminaRecoveryController extends Controller
                 // ログを追加する処理(スタミナ更新)
                 $log_category = config('constants.USER_DATA');
                 $log_context = config('constants.STAMINA_RECOVERY').$userData;
-                Log::create([
-                    'manage_id' => $manage_id,
-                    'log_category' => $log_category,
-                    'log_context' => $log_context,
-                ]);
+                GameUtilService::logCreate($manage_id,$log_category,$log_context);
 
                 $consumptionCurrency = 5; // 消費する通貨
                 $consumptionItem = 1; // 消費するアイテム
@@ -84,11 +81,7 @@ class StaminaRecoveryController extends Controller
                         $walletData = UserWallet::where('manage_id',$manage_id)->first();
                         $log_category = config('constants.CURRENCY_DATA');
                         $log_context = config('constants.USE_CURRENCY').$consumptionCurrency.'/'.$walletData;
-                        Log::create([
-                            'manage_id' => $manage_id,
-                            'log_category' => $log_category,
-                            'log_context' => $log_context,
-                        ]);
+                        GameUtilService::logCreate($manage_id,$log_category,$log_context);
                         break;
                     case "item":
                         $itemBase = ItemInstance::where('manage_id',$manage_id)->where('item_id',config('constants.STAMINA_RECOVERY_ITEM_ID'));
@@ -105,11 +98,7 @@ class StaminaRecoveryController extends Controller
                         $itemData = $itemBase->first();
                         $log_category = config('constants.ITEM_DATA');
                         $log_context = config('constants.USE_ITEM').$consumptionItem.'/'.$itemData;
-                        Log::create([
-                            'manage_id' => $manage_id,
-                            'log_category' => $log_category,
-                            'log_context' => $log_context,
-                        ]);
+                        GameUtilService::logCreate($manage_id,$log_category,$log_context);
                         break;
                     default:
                         break;
