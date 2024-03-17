@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Libs\GameUtilService;
 
 use App\Models\User;
 use App\Models\UserWallet;
@@ -134,11 +135,8 @@ class GachaExecuteController extends Controller
                     $weaponData = WeaponInstance::where('manage_id',$manage_id)->get();
                     $log_category = config('constants.WEAPON_DATA');
                     $log_context = config('constants.GET_WEAPON').$weaponData;
-                    Log::create([
-                        'manage_id' => $manage_id,
-                        'log_category' => $log_category,
-                        'log_context' => $log_context,
-                    ]);
+                    GameUtilService::logCreate($manage_id,$log_category,$log_context);
+
                 }
                 else
                 {
@@ -193,11 +191,8 @@ class GachaExecuteController extends Controller
                             $convexItemData = ItemInstance::where('manage_id',$manage_id)->where('item_id',$item_id)->get();
                             $log_category = config('constants.ITEM_DATA');
                             $log_context = config('constants.GET_ITEM').$getConvexItem.'/'.$convexItemData;
-                            Log::create([
-                                'manage_id' => $manage_id,
-                                'log_category' => $log_category,
-                                'log_context' => $log_context,
-                            ]);
+                            GameUtilService::logCreate($manage_id,$log_category,$log_context);
+
                        }
                        else
                        {
@@ -267,11 +262,7 @@ class GachaExecuteController extends Controller
             $walletData = UserWallet::where('manage_id',$manage_id)->first();
             $log_category = config('constants.CURRENCY_DATA');
             $log_context = config('constants.USE_CURRENCY').$consumptionAmount.'/'.$walletData;
-            Log::create([
-                'manage_id' => $manage_id,
-                'log_category' => $log_category,
-                'log_context' => $log_context,
-            ]);
+            GameUtilService::logCreate($manage_id,$log_category,$log_context);
 
             $result_item_num = ItemInstance::where('manage_id',$manage_id)->where('item_id',30001)->first()->item_num;
             // アイテムの更新
@@ -284,11 +275,7 @@ class GachaExecuteController extends Controller
             $exchangeItemData = ItemInstance::where('manage_id',$manage_id)->where('item_id',$item_id)->get();
             $log_category = config('constants.ITEM_DATA');
             $log_context = config('constants.GET_ITEM').$getExchangeItem.'/'.$exchangeItemData;
-            Log::create([
-                'manage_id' => $manage_id,
-                'log_category' => $log_category,
-                'log_context' => $log_context,
-            ]);
+            GameUtilService::logCreate($manage_id,$log_category,$log_context);
 
             $result = 1;
         });

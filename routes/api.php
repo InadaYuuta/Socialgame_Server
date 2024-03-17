@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegistrationController;
 // ログイン
 use App\Http\Controllers\LoginController;
+// ホーム
+use App\Http\Controllers\HomeController;
 // マスタデータ
 use App\Http\Controllers\AddMasterDataController;
 use App\Http\Controllers\AddMissionMasterDataController;
@@ -57,6 +59,8 @@ Route::get('/register',RegistrationController::class);
 
 Route::get('/login',LoginController::class);
 //Route::post('/login',LoginController::class); /*ログイン */
+
+Route::get('/home',HomeController::class); /* ホーム */
 
 Route::get('/addMasterData',AddMasterDataController::class); /* マスターデータ挿入 */
 Route::get('/addMission',AddMissionMasterDataController::class); /*ミッションマスターデータ挿入 */

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Libs\GameUtilService;
 
 use App\Models\User;
 use App\Models\WeaponInstance;
@@ -65,11 +66,7 @@ class LevelUpController extends Controller
             // ログを追加する処理
             $log_category = config('constants.USER_DATA');
             $log_context = config('constants.USE_HAS_REINFORCE_POINT').$consumptionPoint.'/'.$userData;
-            Log::create([
-                'manage_id' => $manage_id,
-                'log_category' => $log_category,
-                'log_context' => $log_context,
-            ]);
+            GameUtilService::logCreate($manage_id,$log_category,$log_context);
 
             // レベルアップ
             $result = $weaponBase->update([
@@ -80,11 +77,8 @@ class LevelUpController extends Controller
             $weaponData = $weaponBase->first();
             $log_category = config('constants.WEAPON_DATA');
             $log_context = config('constants.LEVEL_UP_WEAPON').$weaponData;
-            Log::create([
-                'manage_id' => $manage_id,
-                'log_category' => $log_category,
-                'log_context' => $log_context,
-            ]);
+            GameUtilService::logCreate($manage_id,$log_category,$log_context);
+
             $result = 1;
         });
 

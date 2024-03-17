@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Libs\GameUtilService;
 
 use App\Models\User;
 use App\Models\UserWallet;
@@ -47,15 +48,11 @@ class LoginController extends Controller
           $userData = User::where('manage_id',$manage_id)->first();
           $log_category = config('constants.USER_DATA');
           $log_context = config('constants.LOGIN_USER').$userData;
-          Log::create([
-              'manage_id' => $manage_id,
-              'log_category' => $log_category,
-              'log_context' => $log_context,
-          ]);
+          GameUtilService::logCreate($manage_id,$log_category,$log_context);
 
           // Authに登録
-          Auth::login($userData);
-          dd(Auth::User());
+          // Auth::login($userData);
+          // dd(Auth::User());
 
           $result = 1;
         });

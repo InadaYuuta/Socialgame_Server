@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Libs\GameUtilService;
 
 use App\Models\User;
 use App\Models\UserWallet;
@@ -89,11 +90,7 @@ class RegistrationController extends Controller
             // ログを追加する処理
             $log_category = config('constants.USER_DATA');
             $log_context = config('constants.REGISTRATION_USER').$userData;
-            Log::create([
-                'manage_id' => $manage_id,
-                'log_category' => $log_category,
-                'log_context' => $log_context,
-            ]);
+            GameUtilService::logCreate($manage_id,$log_category,$log_context);
 
             // ウォレットの登録
             $walletsData = UserWallet::create([
@@ -107,11 +104,7 @@ class RegistrationController extends Controller
             $walletsData = UserWallet::where('manage_id',$manage_id)->first();
             $log_category = config('constants.CURRENCY_DATA');
             $log_context = config('constants.REGISTRATION_WALLET').$walletsData;
-            Log::create([
-                'manage_id' => $manage_id,
-                'log_category' => $log_category,
-                'log_context' => $log_context,
-            ]);
+            GameUtilService::logCreate($manage_id,$log_category,$log_context);
 
             // アイテムの登録
             $item_data_list = Item::all();
@@ -134,11 +127,7 @@ class RegistrationController extends Controller
             $itemData = ItemInstance::where('manage_id',$manage_id)->get();
             $log_category = config('constants.ITEM_DATA');
             $log_context = config('constants.REGISTRATION_Item').$itemData;
-            Log::create([
-                'manage_id' => $manage_id,
-                'log_category' => $log_category,
-                'log_context' => $log_context,
-            ]);
+            GameUtilService::logCreate($manage_id,$log_category,$log_context);
 
             $result = 1;
         });

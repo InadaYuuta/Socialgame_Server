@@ -54,6 +54,9 @@ return [
     // ログイン
     'CANT_LOGIN' => 'ログインができませんでした',
 
+    // ホーム
+    'CANT_UPDATE_HOME' => 'ホーム情報を更新できませんでした',
+
     // スタミナ
     'CANT_STAMINA_RECOVERY' => 'スタミナ回復ができませんでした',
     'CANT_STAMINA_CONSUMTION' => 'スタミナ回復ができませんでした',
@@ -107,6 +110,7 @@ return [
     'UPDATE_USER_RANK' => 'update_user_rank/',
     'UPDATE_MAX_STAMINA' => 'update_max_stamina/',
     'UPDATE_LAST_STAMINA' => 'update_last_stamina/',
+    'UPDATE_STAMINA' => 'update_stamina/',
     'STAMINA_RECOVERY' => 'stamina_recovery/',
     'CONSUMPTION_STAMINA' => 'consumption_stamina/',
 

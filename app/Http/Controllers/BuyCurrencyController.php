@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Libs\GameUtilService;
 
 use App\Models\User;
 use App\Models\UserWallet;
@@ -25,26 +26,12 @@ class BuyCurrencyController extends Controller
         $result = 0;
         $errmsg = '';
         $response = [];
-        if(!Auth::hasUser())
-        {
-            $result = -3;
-            dd($result);
-        }
-
-        // Authから情報取得
-        $authUserData = Auth::user();
 
         // ユーザー情報取得
         $userData = User::where('user_id',$request->uid)->first();
 
         // ユーザー管理ID
         $manage_id = $userData->manage_id;
-
-        // クライアントのデータとAuthのデータを照合
-        if ($manage_id != $authUserData->getAuthIdentifier())
-        {
-            $result = -4;
-        }
 
         // 商品情報取得
         $paymentData = PaymentShop::where('product_id',$request->pid)->first();
@@ -65,11 +52,8 @@ class BuyCurrencyController extends Controller
             $paymentData = PaymentShop::where('product_id',$paymentData->product_id)->first();
             $log_category = config('constants.CURRENCY_DATA'); // 通貨情報更新
             $log_context = config('constants.BUY_CURRENCY').'bonus_currency/'.$bonus_currency.'/'.'paid_currency/'.$paid_currency.'/'.'walletData/'.$paymentData;
-            Log::create([
-                'manage_id' => $manage_id,
-                'log_category' => $log_category,
-                'log_context' => $log_context,
-            ]);
+            GameUtilService::logCreate($manage_id,$log_category,$log_context);
+
             $result = 1;
         });
 
