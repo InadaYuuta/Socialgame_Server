@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class AddNewsController extends Controller
 {
+    /* ニュース関連のマスターデータを追加する TODO:ここはできたらRequestを使ってまとめて外部から追加できるようにしたい */
     public function __invoke()
     {
         // ニュースカテゴリー
@@ -73,7 +74,7 @@ class AddNewsController extends Controller
             ],
         ];
 
-        DB::transaction(function() use($addNewsCategoryData,$addnewsData){
+        DB::transaction(function() use ($addNewsCategoryData,$addnewsData){
             // ミッションカテゴリー
             foreach($addNewsCategoryData as $data)
             {

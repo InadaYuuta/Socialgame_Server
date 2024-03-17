@@ -15,6 +15,15 @@ class PrezentBoxInstance extends Model
     const CREATED_AT = 'created';
     const UPDATED_AT = 'modified';
 
+   // 変更を許可しないカラムのリスト
     protected $guarded = [
+        'created',
     ];
+
+     // マスタデータ取得
+     public static function GetPrezentBoxInstance()
+     {
+         $prezent_box_data_list = MasterDataService::GetMasterData('prezentBoxInstance');
+         return $prezent_box_data_list;
+     }
 }

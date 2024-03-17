@@ -3,18 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Libs\MasterDataService;
-use App\Models\ItemCategory;
-use App\Models\PaymentShop;
+// アイテム
 use App\Models\Item;
-use App\Models\ExchangeItemCategory;
-use App\Models\ExchangeItemShop;
-use App\Models\LogCategory;
+use App\Models\ItemCategory;
+// 武器
 use App\Models\Weapon;
 use App\Models\WeaponCategory;
 use App\Models\WeaponRarity;
-use App\Models\GachaWeapon;
 use App\Models\WeaponExp;
+use App\Models\EvolutionWeapon;
+// ショップ
+use App\Models\PaymentShop;
+use App\Models\ExchangeItemCategory;
+use App\Models\ExchangeItemShop;
+// ガチャ
+use App\Models\GachaWeapon;
+// ミッション
+use App\Models\Mission;
+use App\Models\MissionCategory;
+// 報酬
+use App\Models\RewardCategory;
 
 class MasterDataGetController extends Controller
 {
@@ -22,30 +30,36 @@ class MasterDataGetController extends Controller
     {
         // クライアント側に送信したいマスターデータだけを選択
         $item = Item::GetItem();
-        $payment_shop = PaymentShop::GetPaymentShop();
         $master_item_category = ItemCategory::GetItemCategory();
-        $exchange_item_category = ExchangeItemCategory::GetExchangeItemCategory();
-        $exchange_item_shop = ExchangeItemShop::GetExchangeItemShop();
-        $log_category = LogCategory::GetLogCategory();
         $weapon_master = Weapon::GetWeaponMaster();
         $weapon_category = WeaponCategory::GetWeaponCategory();
         $weapon_rarity = WeaponRarity::GetWeaponRarity();
-        $gacha_weapon = GachaWeapon::GetGachaWeapon();
         $weapon_exp = WeaponExp::GetWeaponExp();
+        $evolution_weapon = EvolutionWeapon::GetEvolutionWeapon();
+        $payment_shop = PaymentShop::GetPaymentShop();
+        $exchange_item_category = ExchangeItemCategory::GetExchangeItemCategory();
+        $exchange_item_shop = ExchangeItemShop::GetExchangeItemShop();
+        $gacha_weapon = GachaWeapon::GetGachaWeapon();
+        $mission = Mission::GetMission();
+        $mission_category = MissionCategory::GetMissionCategory();
+        $reward_category = RewardCategory::GetRewardCategory();
 
         $response = [
             'master_data_version' => config('constants.MASTER_DATA_VERSION'),
             'item_master' => $item,
             'item_category'=>$master_item_category,
-            'exchange_item_category' => $exchange_item_category,
-            'log_category' => $log_category,
-            'payment_shop' => $payment_shop,
-            'exchange_item_shop' => $exchange_item_shop,
             'weapon_master' =>$weapon_master,
             'weapon_category' =>$weapon_category,
             'weapon_rarity' =>$weapon_rarity,
-            'gacha_weapon' =>$gacha_weapon,
             'weapon_exp' => $weapon_exp,
+            'evolution_weapon' => $evolution_weapon,
+            'payment_shop' => $payment_shop,
+            'exchange_item_category' => $exchange_item_category,
+            'exchange_item_shop' => $exchange_item_shop,
+            'gacha_weapon' =>$gacha_weapon,
+            'mission' =>$mission,
+            'mission_category' =>$mission_category,
+            'reward_category' =>$reward_category,
         ];
 
         return json_encode($response);

@@ -15,6 +15,15 @@ class News extends Model
     const CREATED_AT = 'created';
     const UPDATED_AT = 'modified';
 
+    // 変更を許可しないカラムのリスト
     protected $guarded = [
+        'created',
     ];
+
+    // マスタデータ取得
+    public static function GetNews()
+    {
+        $news_data_list = MasterDataService::GetMasterData('news');
+        return $news_data_list;
+    }
 }

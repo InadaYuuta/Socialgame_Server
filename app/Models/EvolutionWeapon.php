@@ -15,13 +15,15 @@ class EvolutionWeapon extends Model
     const CREATED_AT = 'created';
     const UPDATED_AT = 'modified';
 
+    // 変更を許可しないカラムのリスト
     protected $guarded = [
-        'evolution_weapons',
+        'created',
     ];
 
-    public static function GetWeaponMaster()
+    // マスタデータを取得する
+    public static function GetEvolutionWeapon()
     {
-        $master_data_list = MasterDataService::GetMasterData('weapon_master');
-        return $master_data_list;
+        $evolution_weapon_master_data_list = MasterDataService::GetMasterData('evolution_weapon');
+        return $evolution_weapon_master_data_list;
     }
 }

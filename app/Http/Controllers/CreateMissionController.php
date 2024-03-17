@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Users;
+use App\Models\User;
 use App\Models\Mission;
 use App\Models\MissionCategory;
 use App\Models\MissionInstance;
@@ -14,16 +14,18 @@ use Illuminate\Support\Facades\DB;
 
 class CreateMissionController extends Controller
 {
-    // uid = ユーザーID
-    // mid = ミッションID
+    /* ミッション作成(ユーザーは操作しない) 
+    /* uid = ユーザーID
+    /* mid = ミッションID
+    */
     public function __invoke(Request $request)
     {
         $result = 0;
         $errmsg = '';
-        $response = 0;
+        $response = [];
 
         // ユーザー情報
-        $userData = Users::where('user_id',$request->uid)->first();
+        $userData = User::where('user_id',$request->uid)->first();
 
         // 管理ID
         $manage_id = $userData->manage_id;
@@ -35,7 +37,7 @@ class CreateMissionController extends Controller
         $instanceBase = MissionInstance::where('manage_id',$manage_id)->where('mission_id',$missionData->mission_id);
 
         // ミッション生成
-        DB::transaction(function() use($manage_id,$missionData,$instanceBase,&$result){
+        DB::transaction(function() use(&$result,$manage_id,$missionData,$instanceBase){
             // 最初だけ一括で生成(1010001~1050001まで)
             $check = MissionInstance::where('manage_id',$manage_id)->where('mission_id',1010001)->first();
             if($check == null)
@@ -100,12 +102,16 @@ class CreateMissionController extends Controller
         switch($result)
         {
             case -1:
-                $errmsg = '既に追加済みのミッションです';
-                $response = $errmsg;
+                $errmsg = config('constants.MISSION_ALREADY_ADDED');
+                $response = [
+                    'errmsg' => $errmsg,
+                ];
                 break;
             case 0:
-                $errmsg = '追加できませんでした';
-                $response = $errmsg;
+                $errmsg = config('constants.CANT_ADD_MISSION');
+                $response = [
+                    'errmsg' => $errmsg,
+                ];
                 break;
             case 1:
                 $response = [
@@ -113,6 +119,7 @@ class CreateMissionController extends Controller
                 ];
                 break;
         }
+
 
         return json_encode($response);
     }

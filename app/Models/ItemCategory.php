@@ -16,27 +16,15 @@ class ItemCategory extends Model
     const CREATED_AT = 'created';
     const UPDATED_AT = 'modified';
 
+   // 変更を許可しないカラムのリスト
     protected $guarded = [
-        '',
+        'created',
     ];
 
+    // マスタデータ取得
     public static function GetItemCategory()
     {
         $master_data_list = MasterDataService::GetMasterData('item_category');
         return $master_data_list;
-    }
-
-    public static function GetItemsCategoriesByItemCategory($item_category)
-    {
-        $master_data_list = self::GetItemsCategories(); // selfは自クラスを示す。staticメソッドにアクセスできる
-        foreach($master_data_list as $master_data){
-            $item_categories = new GetItemsCategories;
-            $item_categories->item_category = $master_data['item_category'];
-            $item_categories->category_name = $master_data['category_name'];
-            if($item_category == $item_categories->item_category){
-                return $item_categories;
-            }
-        }
-        return null;
     }
 }

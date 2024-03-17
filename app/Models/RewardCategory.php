@@ -14,6 +14,15 @@ class RewardCategory extends Model
     const CREATED_AT = 'created';
     const UPDATED_AT = 'modified';
 
+    // 変更を許可しないカラムのリスト
     protected $guarded = [
+        'created',
     ];
+
+    // マスタデータ取得
+    public static function GetRewardCategory()
+    {
+        $reward_category_data_list = MasterDataService::GetMasterData('rewardCategory');
+        return $reward_category_data_list;
+    }
 }

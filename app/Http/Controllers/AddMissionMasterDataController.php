@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class AddMissionMasterDataController extends Controller
 {
+    /* ミッション関連のマスターデータを追加する TODO:ここはできたらRequestを使ってまとめて外部から追加できるようにしたい */
     public function __invoke()
     {
         // ミッションカテゴリー
@@ -159,7 +160,7 @@ class AddMissionMasterDataController extends Controller
             ],
         ];
 
-        DB::transaction(function() use($addMissionCategoryData,$addMissionData){
+        DB::transaction(function() use ($addMissionCategoryData,$addMissionData){
             // ミッションカテゴリー
             foreach($addMissionCategoryData as $data)
             {

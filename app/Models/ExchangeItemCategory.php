@@ -16,29 +16,15 @@ class ExchangeItemCategory extends Model
     const CREATED_AT = 'created';
     const UPDATED_AT = 'modified';
 
+    // 変更を許可しないカラムのリスト
     protected $guarded = [
-        '',
+        'created',
     ];
 
+    // マスタデータ取得
     public static function GetExchangeItemCategory()
     {
         $exchange_item_category_list = MasterDataService::GetMasterData('exchange_item_categories');
         return $exchange_item_category_list;
-    }
-
-    public static function GetExchangeItemCategories($exchange_item_category)
-    {
-        $exchange_item_category_list = self::GetExchangeItemCategory();
-        foreach ($exchange_item_category_list as $exchange_item_category_data)
-        {
-            $exchange_item_data = new ExchangeItemCategory;
-            $exchange_item_data->exchange_item_category = $exchange_item_category_data['exchange_item_category'];
-            $exchange_item_data->category_name = $exchange_item_category_data['category_name'];
-            if($exchange_item_category == $exchange_item_data->exchange_item_category)
-            {
-                return $exchange_item_data;
-            }
-        }
-        return null;
     }
 }

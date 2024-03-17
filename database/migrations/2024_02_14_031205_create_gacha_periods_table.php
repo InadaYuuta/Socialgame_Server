@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('gacha_periods', function (Blueprint $table) {
             $table->unsignedBigInteger('gacha_id')->default(0)->comment('ガチャID');
-            $table->string('gacha_name')->default('no name')->comment('ガチャ名');
+            $table->string('gacha_name')->default('no name')->charset('utf8')->comment('ガチャ名');
             $table->unsignedTinyInteger('single_cost')->default(1)->comment('単発ガチャ価格');
             $table->unsignedTinyInteger('multi_cost')->default(1)->comment('連ガチャ価格');
             $table->dateTime('period_start')->default('2000-01-01 00:00:00')->comment('開始日時');

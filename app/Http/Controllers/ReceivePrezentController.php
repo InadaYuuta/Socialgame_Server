@@ -3,26 +3,32 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Users;
+
+use App\Models\User;
 use App\Models\UserWallet;
 use App\Models\ItemInstance;
 use App\Models\Weapon;
 use App\Models\PrezentBoxInstance;
+use App\Models\Log;
+
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
 class ReceivePrezentController extends Controller
 {
-    // uid = ユーザーID
-    // prezent_id = プレゼントID
+    /* プレゼント受け取り
+    /* uid = ユーザーID
+    /* prezent_id = プレゼントID
+    */
     public function __invoke(Request $request)
     {
         $result = 0;
         $errmsg = '';
         $response = 0;
+
         // ユーザー情報
-        $userData = Users::where('user_id',$request->uid)->first();
+        $userData = User::where('user_id',$request->uid)->first();
 
         // ユーザー管理ID
         $manage_id = $userData->manage_id;
@@ -34,7 +40,11 @@ class ReceivePrezentController extends Controller
         if($prezentData->receipt > 0){$result = -1;}// 受取済みかどうかを確認
 
         DB::transaction(function() use(&$result,$userData,$manage_id,$prezentData,$prezentBase){
-            if($result <= 0){return;}
+            if($result < 0){return;}
+
+            // ログ関連
+            $log_category = 0;
+            $log_context = '';
 
             $isItem = 0; // アイテムかどうか
             $reward_category = $prezentData->reward_category; // カテゴリー
@@ -47,22 +57,39 @@ class ReceivePrezentController extends Controller
                     $result = UserWallet::where('manage_id',$manage_id)-> update([
                         'free_amount' => $walletData->free_amount + $prezent_box_reward_num,
                     ]);
+                    // ログを追加する処理
+                    $log_category = config('constants.CURRENCY_DATA'); // 通貨情報更新
+                    $log_context = config('constants.GET_CURRENCY').$prezent_box_reward_num.'/'.'walletData/'.$walletData;
+                    Log::create([
+                        'manage_id' => $manage_id,
+                        'log_category' => $log_category,
+                        'log_context' => $log_context,
+                    ]);
                     break;
                 case 2: // スタミナ回復アイテム
-                    $item_id = 10001;
+                    $item_id = config('constants.STAMINA_RECOVERY_ITEM_ID');
                     $isItem = 1;
                     break;
                 case 3: // 強化ポイント
-                    $result = Users::where('manage_id',$manage_id)->update([
+                    $result = User::where('manage_id',$manage_id)->update([
                         'has_reinforce_point' => $userData->has_reinforce_point + $prezent_box_reward_num,
+                    ]);
+
+                    // ログを追加する処理
+                    $log_category = config('constants.USER_DATA');
+                    $log_context = config('constants.GET_HAS_REINFORCE_POINT').$prezent_box_reward_num.'/'.$userData;
+                    Log::create([
+                        'manage_id' => $manage_id,
+                        'log_category' => $log_category,
+                        'log_context' => $log_context,
                     ]);
                    break;
                 case 4: // 交換アイテム
-                    $item_id = 30001;
+                    $item_id = config('constants.EXCHANGE_ITEM_ID');
                     $isItem = 1;
                     break;
                 case 5: // 凸アイテム
-                    $item_id = 40001;
+                    $item_id = config('constants.CONVEX_ITEM_ID');
                     $isItem = 1;
                     break;
                 case 6: // 武器
@@ -77,6 +104,16 @@ class ReceivePrezentController extends Controller
                 $result = $itemBase->update([
                     'item_num' => $itemData->item_num + $prezent_box_reward_num,
                 ]);
+
+                // ログを追加する処理
+                $itemData = $itemBase->first();
+                $log_category = config('constants.ITEM_DATA');
+                $log_context = config('constants.GET_ITEM').$prezent_box_reward_num.'/'.$itemData;
+                Log::create([
+                    'manage_id' => $manage_id,
+                    'log_category' => $log_category,
+                    'log_context' => $log_context,
+                ]);
             }
 
             // ここで受け取り完了処理
@@ -84,22 +121,32 @@ class ReceivePrezentController extends Controller
                'receipt' => 1,
                'receipt_date' => Carbon::now()->format('Y-m-d H:i:s'),
             ]);
+
+            // ログを追加する処理
+            $log_category = config('constants.PREZENT_BOX_DATA');
+            $log_context = config('constants.RECEIPT_PREZENT_BOX').$prezentData;
+            Log::create([
+                'manage_id' => $manage_id,
+                'log_category' => $log_category,
+                'log_context' => $log_context,
+            ]);
+
             $result = 1;
         });
 
         switch($result)
         {
             case -1:
-                $errmsg = '既に受け取ったプレゼントです';
+                $errmsg = config('constants.PREZENT_ALREADY_RECEIVE');
                 $response = $errmsg;
                 break;
             case 0:
-                $errmsg = '正常に処理が行われませんでした';
+                $errmsg = config('constants.CANT_RECEIVE_PREZENT');
                 $response = $errmsg;
                 break;
             case 1:
                 $response = [
-                    'users'=>Users::where('manage_id',$manage_id)->first(),
+                    'users'=>User::where('manage_id',$manage_id)->first(),
                     'wallets'=>UserWallet::where('manage_id',$manage_id)->first(),
                     'items'=>ItemInstance::where('manage_id',$manage_id)->get(),
                 ];
