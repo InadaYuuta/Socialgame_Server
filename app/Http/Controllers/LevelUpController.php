@@ -25,7 +25,7 @@ class LevelUpController extends Controller
     public function __invoke(Request $request)
     {
         $result = 0;
-        $errmsg = '';
+        $errcode = '';
         $response = 0;
 
         // ユーザー情報
@@ -85,27 +85,27 @@ class LevelUpController extends Controller
         switch($result)
         {
             case -1:
-                $errmsg = config('constants.HASNT_WEAPON');
+                $errcode = config('constants.HASNT_WEAPON');
                 $response = [
-                    'errmsg' => $errmsg,
+                    'errcode' => $errcode,
                 ];
                 break;
             case -2:
-                $errmsg = config('constants.MAX_LEVEL');
+                $errcode = config('constants.MAX_LEVEL');
                 $response = [
-                    'errmsg' => $errmsg,
+                    'errcode' => $errcode,
                 ];
                 break;
             case -3:
-                $errmsg = config('constants.NOT_ENOUGH_REINFORCEPOINT');
+                $errcode = config('constants.NOT_ENOUGH_REINFORCEPOINT');
                 $response = [
-                    'errmsg' => $errmsg,
+                    'errcode' => $errcode,
                 ];
                 break;
             case 0:
-                $errmsg = config('constants.CANT_LEVEL_UP');
+                $errcode = config('constants.CANT_LEVEL_UP');
                 $response = [
-                    'errmsg' => $errmsg,
+                    'errcode' => $errcode,
                 ];
                 break;
             case 1:

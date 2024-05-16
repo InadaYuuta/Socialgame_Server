@@ -25,7 +25,7 @@ class ReceivePrezentController extends Controller
     public function __invoke(Request $request)
     {
         $result = 0;
-        $errmsg = '';
+        $errcode = '';
         $response = 0;
 
         // ユーザー情報
@@ -126,12 +126,12 @@ class ReceivePrezentController extends Controller
         switch($result)
         {
             case -1:
-                $errmsg = config('constants.PREZENT_ALREADY_RECEIVE');
-                $response = $errmsg;
+                $errcode = config('constants.PREZENT_ALREADY_RECEIVE');
+                $response = $errcode;
                 break;
             case 0:
-                $errmsg = config('constants.CANT_RECEIVE_PREZENT');
-                $response = $errmsg;
+                $errcode = config('constants.CANT_RECEIVE_PREZENT');
+                $response = $errcode;
                 break;
             case 1:
                 $response = [

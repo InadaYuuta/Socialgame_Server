@@ -28,7 +28,7 @@ class GachaExecuteController extends Controller
     public function __invoke(Request $request)
     {
         $result = 0;
-        $errmsg = '';
+        $errcode = '';
         $response = [];
 
         // ユーザー情報取得
@@ -283,15 +283,15 @@ class GachaExecuteController extends Controller
         switch($result)
         {
             case -1:
-                $errmsg = config('constants.NOT_ENOUGH_CURRENCY');
+                $errcode = config('constants.NOT_ENOUGH_CURRENCY');
                 $response = [
-                    'errmsg' => $errmsg,
+                    'errcode' => $errcode,
                 ];
                 break;
             case 0:
-                $errmsg = config('constants.CANT_GACHA');
+                $errcode = config('constants.CANT_GACHA');
                 $response = [
-                    'errmsg' => $errmsg,
+                    'errcode' => $errcode,
                 ];
                 break;
             case 1:

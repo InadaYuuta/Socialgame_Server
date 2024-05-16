@@ -4,14 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Libs\GameUtilService;
+use App\Libs\ErrorUtilService;
 
 use App\Models\User;
 use App\Models\UserWallet;
 use App\Models\PaymentShop;
-use App\Models\Log;
 
-use Carbon\Carbon;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,7 +22,7 @@ class BuyCurrencyController extends Controller
     public function __invoke(Request $request)
     {
         $result = 0;
-        $errmsg = '';
+        $errcode = -1;
         $response = [];
 
         // ユーザー情報取得
@@ -37,6 +35,12 @@ class BuyCurrencyController extends Controller
         $paymentData = PaymentShop::where('product_id',$request->pid)->first();
 
         $walletBase = UserWallet::where('manage_id',$manage_id);
+
+        // ユーザーがログインしているか確認
+        if(!Auth::hasUser())
+        {
+            ErrorUtilService::returnErrorCode('constants.ERRCODE_LOGIN_USER_NOT_FOUND');
+        }
 
         // 指定された商品分通貨を増やす処理
         DB::transaction(function() use (&$result,$manage_id,$paymentData,$walletBase){
@@ -59,20 +63,15 @@ class BuyCurrencyController extends Controller
 
         switch($result)
         {
-            case -3:
-                $errmsg = config('constants.LOGIN_USER_NOT_FOUND');
-                $response = [
-                    'errmsg' => $errmsg,
-                ];
             case -4:
-                $errmsg = config('constants.USER_IS_NOT_LOGGED_IN');
+                $errcode = config('constants.USER_IS_NOT_LOGGED_IN');
                 $response = [
-                    'errmsg' => $errmsg,
+                    'errcode' => $errcode,
                 ];
             case 0:
-                $errmsg = config('constants.CANT_BUYCURRENCY');
+                $errcode = config('constants.CANT_BUYCURRENCY');
                 $response = [
-                    'errmsg' => $errmsg,
+                    'errcode' => $errcode,
                 ];
                 break;
             case 1:

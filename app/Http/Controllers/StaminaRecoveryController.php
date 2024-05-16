@@ -23,7 +23,7 @@ class StaminaRecoveryController extends Controller
     public function __invoke(Request $request)
     {
         $result = 0;
-        $errmsg = '';
+        $errcode = '';
         $response = 0;
 
         // ユーザー情報取得
@@ -111,12 +111,12 @@ class StaminaRecoveryController extends Controller
         switch($result)
         {
             case -1:
-                $errmsg = config('constants.CANT_STAMINA_ANY_MORE_STAMINA');
-                $response = $errmsg;
+                $errcode = config('constants.CANT_STAMINA_ANY_MORE_STAMINA');
+                $response = $errcode;
                 break;
             case 0:
-                $errmsg = config('constants.CANT_STAMINA_RECOVERY');
-                $response = $errmsg;
+                $errcode = config('constants.CANT_STAMINA_RECOVERY');
+                $response = $errcode;
                 break;
             case 1:
                 $response = [

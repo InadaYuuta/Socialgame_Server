@@ -21,7 +21,7 @@ class CreateMissionController extends Controller
     public function __invoke(Request $request)
     {
         $result = 0;
-        $errmsg = '';
+        $errcode = '';
         $response = [];
 
         // ユーザー情報
@@ -102,15 +102,15 @@ class CreateMissionController extends Controller
         switch($result)
         {
             case -1:
-                $errmsg = config('constants.MISSION_ALREADY_ADDED');
+                $errcode = config('constants.MISSION_ALREADY_ADDED');
                 $response = [
-                    'errmsg' => $errmsg,
+                    'errcode' => $errcode,
                 ];
                 break;
             case 0:
-                $errmsg = config('constants.CANT_ADD_MISSION');
+                $errcode = config('constants.CANT_ADD_MISSION');
                 $response = [
-                    'errmsg' => $errmsg,
+                    'errcode' => $errcode,
                 ];
                 break;
             case 1:

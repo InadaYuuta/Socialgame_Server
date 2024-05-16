@@ -18,7 +18,7 @@ class GetGachaLogController extends Controller
     public function __invoke(Request $request)
     {
         $result = 0;
-        $errmsg = '';
+        $errcode = '';
         $response = [];
 
         // ユーザー情報取得
@@ -35,9 +35,9 @@ class GetGachaLogController extends Controller
         switch($result)
         {
             case 0:
-                $errmsg = config('constants.CANT_GET_GACHA_LOG');
+                $errcode = config('constants.CANT_GET_GACHA_LOG');
                 $response = [
-                    'errmsg' => $errmsg,
+                    'errcode' => $errcode,
                 ];
                 break;
             case 1:

@@ -20,7 +20,7 @@ class TestStaminaConsumptionController extends Controller
     public function __invoke(REQUEST $request)
     {
         $result = 0;
-        $errmsg = '';
+        $errcode = '';
         $response = 0;
 
         // ユーザー情報
@@ -55,8 +55,8 @@ class TestStaminaConsumptionController extends Controller
         switch($result)
         {
             case 0:
-                $errmsg = config('constants.CANT_STAMINA_CONSUMTION');
-                $response = $errmsg;
+                $errcode = config('constants.CANT_STAMINA_CONSUMTION');
+                $response = $errcode;
                 break;
             case 1:
                 $response = [

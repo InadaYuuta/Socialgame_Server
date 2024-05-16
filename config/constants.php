@@ -26,7 +26,7 @@ return [
     'NORMAL_SPEAR_ITEM_ID' => 40004,
     'STRONG_BOW_ITEM_ID' => 40005,
     'VERY_STRONG_SWORD_ITEM_ID' => 40006,
-    
+
     // 武器ID
     'NORMAL_SWORD_ID' => 1010001,
     'NORMAL_BOW_ID' => 1020001,
@@ -41,11 +41,52 @@ return [
     'STAMINA_RECOVERY_SECOND' => 180,  // スタミナ回復にかかる時間
     'STAMINA_RECOVERY_VALUE' => 1,     // 1回のスタミナ回復量
 
+    /*レスポンス*/
+    /*100番台...情報 
+    /*200番台...成功
+    /*300番台...リダイレクト
+    /*400番台...クライアントエラー
+    /*500番台...サーバーエラー
+    */
+
+    /* 情報 */
+
+    /* 成功 */
+    'RESPONSE_SUCCESS' => 200,
+
+    /* リダイレクト */
+    'ERRCODE_LOGIN_SESSION' => 400,
+
+    // クライアントエラー
+
+    /* サーバーエラー */
+    'ERRCODE_VALIDATION' => 500,
+    'ERRCODE_MASTER_VERSION' => 501,
+
+    // Auth関連
+    'ERRCODE_LOGIN_USER_NOT_FOUND' => 502, // ログインユーザーが見つからなかった
+    'ERRCODE_NOT_LOGGED_IN' => 503, // ログインできなかった
+    'ERRCODE_LOST_CONNECT' => 504, // 通信が切断された
+
+    'ERRCODE_CANT_REGISTRATION' => 505, // 登録ができなかった
+    'ERRCODE_CANT_LOGIN' => 506, // ログインできなかった
+    'ERRCODE_CANT_UPDATE_HOME' => 507,
+    'ERRCODE_CANT_STAMINA_RECOVERY' => 508,
+    'ERRCODE_CANT_STAMINA_RECOVERY' => 509,
+    'ERRCODE_CANT_RECOVERY_ANY_MORE_STAMINA' => 510,
+    'ERRCODE_CANT_BUY_CURRENCY' => 511,
+    'ERRCODE_CANT_EXCHANGE_ITEM' => 512,
+    'ERRCODE_NOT_ENOUGH_EXCHANGE_ITEM' => 513,
+    'ERRCODE_CANT_LEVEL_UP' => 514,
+    'ERRCODE_CANT_EVOLUTION' => 515,
+    'ERRCODE_VALIDATION' => 516, // バリデーションエラー
+
     /* エラーメッセージ */
 
     // Auth関連
     'LOGIN_USER_NOT_FOUND' => 'ログインしているユーザーは見つかりませんでした',
     'USER_IS_NOT_LOGGED_IN' => 'ユーザーはログインしていません',
+    'LOST_CONNECT' => '接続が切れました',
 
     // 登録
     'CANT_REGISTRATION' => '登録ができませんでした',
@@ -59,8 +100,8 @@ return [
 
     // スタミナ
     'CANT_STAMINA_RECOVERY' => 'スタミナ回復ができませんでした',
-    'CANT_STAMINA_CONSUMTION' => 'スタミナ回復ができませんでした',
-    'CANT_STAMINA_ANY_MORE_STAMINA' => 'これ以上スタミナを回復できません',
+    'CANT_STAMINA_CONSUMTION' => 'スタミナ消費ができませんでした',
+    'CANT_RECOVERY_ANY_MORE_STAMINA' => 'これ以上スタミナを回復できません',
 
     // ショップ
     'CANT_BUY_CURRENCY' => '通貨の購入ができませんでした',

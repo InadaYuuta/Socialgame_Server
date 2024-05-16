@@ -4,18 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Libs\GameUtilService;
+use App\Libs\ErrorUtilService;
 
 use App\Models\User;
 use App\Models\UserWallet;
 use App\Models\WeaponInstance;
 use App\Models\ItemInstance;
-use App\Models\Log;
 
-use Carbon\Carbon;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Contracts\Session\Session;
 
 class HomeController extends Controller
 {
@@ -25,29 +22,37 @@ class HomeController extends Controller
     public function __invoke(Request $request)
     {
         $result = 0;
-        $errmsg = '';
+        $errcode = '';
         $response = 0;
-
-        // if(!Auth::hasUser())
-        // {
-        //     $result = -3;
-        //     dd($result);
-        // }
-
-        // Authから情報取得
-        //$authUserData = Auth::user();
 
         // ユーザー情報取得
         $userData = User::where('user_id',$request->uid)->first();
 
+        Auth::login($userData); // TODO: これは仮修正、本来ならログインが継続してこの下に入るはずだけど、なぜか継続されないので一旦ここでログイン
+        // ---
+        // ユーザーがログインしていなかったらリダイレクト
+        if (!Auth::hasUser()) {
+            $response = [
+                'errcode' => config('constants.ERRCODE_LOGIN_USER_NOT_FOUND'),
+            ];
+            return json_encode($response);
+        }
+
+        $authUserData = Auth::user();
+
+       
         // ユーザー管理ID
         $manage_id = $userData->manage_id;
 
-        // クライアントのデータとAuthのデータを照合
-        // if ($manage_id != $authUserData->getAuthIdentifier())
-        // {
-        //     $result = -4;
-        // }
+        // ログインしているユーザーが自分と違ったらリダイレクト
+        //if ($manage_id != $authUserData->getAuthIdentifier()) {
+        if ($manage_id != $authUserData->manage_id) {
+            $response = [
+                'errcode' => config('constants.ERRCODE_LOGIN_SESSION'),
+            ];
+            return json_encode($response);
+        }
+        // ---
 
          DB::transaction(function() use(&$result,$userData,$manage_id)
         {
@@ -59,6 +64,7 @@ class HomeController extends Controller
           $maxStamina = $userData->max_stamina;
           $updated = $userData->stamina_updated;
           
+          // スタミナ回復
           if($lastStamina < $maxStamina)
           {
             $recoveryStamina = GameUtilService::getCurrentStamina($lastStamina, $maxStamina, $updated);
@@ -90,20 +96,10 @@ class HomeController extends Controller
 
         switch($result)
         {
-            case -3:
-                $errmsg = config('constants.LOGIN_USER_NOT_FOUND');
-                $response = [
-                    'errmsg' => $errmsg,
-                ];
-            case -4:
-                $errmsg = config('constants.USER_IS_NOT_LOGGED_IN');
-                $response = [
-                    'errmsg' => $errmsg,
-                ];
             case 0:
-                $errmsg = config('constants.CANT_UPDATE_HOME');
+                $errcode = config('constants.CANT_UPDATE_HOME');
                 $response = [
-                    'errmsg' => $errmsg,
+                    'errcode' => $errcode,
                 ];
                 break;
             case 1:

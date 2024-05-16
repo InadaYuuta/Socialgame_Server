@@ -25,7 +25,7 @@ class LimitBreakController extends Controller
     public function __invoke(Request $request)
     {
         $result = 0;
-        $errmsg = '';
+        $errcode = '';
         $response = 0;
 
         // ユーザー情報
@@ -116,27 +116,27 @@ class LimitBreakController extends Controller
         switch($result)
         {
             case -1:
-                $errmsg = config('constants.HASNT_WEAPON');
+                $errcode = config('constants.HASNT_WEAPON');
                 $response = [
-                    'errmsg' => $errmsg,
+                    'errcode' => $errcode,
                 ];
                 break;
             case -2:
-                $errmsg = config('constants.MAX_LIMIT_BREAK');
+                $errcode = config('constants.MAX_LIMIT_BREAK');
                 $response = [
-                    'errmsg' => $errmsg,
+                    'errcode' => $errcode,
                 ];
                 break;
             case -3:
-                $errmsg = config('constants.NOT_ENOUGH_CONVEX_ITEM');
+                $errcode = config('constants.NOT_ENOUGH_CONVEX_ITEM');
                 $response = [
-                    'errmsg' => $errmsg,
+                    'errcode' => $errcode,
                 ];
                 break;
             case 0:
-                $errmsg = config('constants.CANT_LIMIT_BREAK');
+                $errcode = config('constants.CANT_LIMIT_BREAK');
                 $response = [
-                    'errmsg' => $errmsg,
+                    'errcode' => $errcode,
                 ];
                 break;
             case 1:

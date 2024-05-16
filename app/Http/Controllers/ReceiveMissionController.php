@@ -26,7 +26,7 @@ class ReceiveMissionController extends Controller
     public function __invoke(Request $request)
     {
         $result = 0;
-        $errmsg = '';
+        $errcode = '';
         $response = 0;
         // ユーザー情報
         $userData = User::where('user_id',$request->uid)->first();
@@ -130,16 +130,16 @@ class ReceiveMissionController extends Controller
         switch($result)
         {
             case -1:
-                $errmsg = config('constants.MISSION_ALREADY_RECEIVE');
-                $response = $errmsg;
+                $errcode = config('constants.MISSION_ALREADY_RECEIVE');
+                $response = $errcode;
                 break;
             case -2:
-                $errmsg = config('constants.MISSION_NOT_ACCOMPLISHED');
-                $response = $errmsg;
+                $errcode = config('constants.MISSION_NOT_ACCOMPLISHED');
+                $response = $errcode;
                 break;
             case 0:
-                $errmsg = config('constants.CANT_RECEIVE_MISSION');
-                $response = $errmsg;
+                $errcode = config('constants.CANT_RECEIVE_MISSION');
+                $response = $errcode;
                 break;
             case 1:
                 $response = [

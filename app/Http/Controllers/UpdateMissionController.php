@@ -26,7 +26,7 @@ class UpdateMissionController extends Controller
     public function __invoke(Request $request)
     {
         $result = 0;
-        $errmsg = '';
+        $errcode = '';
         $response = 0;
 
         // ユーザー情報
@@ -124,16 +124,16 @@ class UpdateMissionController extends Controller
         switch($result)
         {
             case -1:
-                $errmsg = config('constants.MISSION_ALREADY_COMPLETE');
-                $response = $errmsg;
+                $errcode = config('constants.MISSION_ALREADY_COMPLETE');
+                $response = $errcode;
                 break;
             case -2:
-                $errmsg = config('constants.MISSION_ALREADY_ADDED');
-                $response = $errmsg;
+                $errcode = config('constants.MISSION_ALREADY_ADDED');
+                $response = $errcode;
                 break;
             case 0:
-                $errmsg = config('constants.CANT_UPDATE_MISSION');
-                $response = $errmsg;
+                $errcode = config('constants.CANT_UPDATE_MISSION');
+                $response = $errcode;
                 break;
             case 1:
                 $response = [
