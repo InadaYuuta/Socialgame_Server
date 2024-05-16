@@ -24,7 +24,7 @@ class BuyExchangeShopItemController extends Controller
     public function __invoke(Request $request)
     {
         $result = 0;
-        $errmsg = '';
+        $errcode = '';
         $response = [];
 
         // ユーザー情報
@@ -120,15 +120,15 @@ class BuyExchangeShopItemController extends Controller
         switch($result)
         {
             case -1:
-                $errmsg = config('constants.NOT_ENOUGH_EXCHANGE_ITEM');
+                $errcode = config('constants.NOT_ENOUGH_EXCHANGE_ITEM');
                 $response = [
-                    'errmsg' => $errmsg,
+                    'errcode' => $errcode,
                 ];
                 break;
             case 0:
-                $errmsg = config('constants.CANT_EXCHANGE_ITEM');
+                $errcode = config('constants.CANT_EXCHANGE_ITEM');
                 $response = [
-                    'errmsg' => $errmsg,
+                    'errcode' => $errcode,
                 ];
                 break;
             case 1:

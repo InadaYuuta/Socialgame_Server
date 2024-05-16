@@ -4,18 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Libs\GameUtilService;
+use App\Libs\ErrorUtilService;
 
 use App\Models\User;
 use App\Models\UserWallet;
 use App\Models\WeaponInstance;
 use App\Models\ItemInstance;
-use App\Models\Log;
 
 use Carbon\Carbon;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Contracts\Session\Session;
 
 class LoginController extends Controller
 {
@@ -25,7 +23,7 @@ class LoginController extends Controller
     public function __invoke(Request $request)
     {
         $result = 0;
-        $errmsg = '';
+        $errcode = '';
         $response = 0;
 
         // ユーザー情報
@@ -50,10 +48,6 @@ class LoginController extends Controller
           $log_context = config('constants.LOGIN_USER').$userData;
           GameUtilService::logCreate($manage_id,$log_category,$log_context);
 
-          // Authに登録
-          // Auth::login($userData);
-          // dd(Auth::User());
-
           $result = 1;
         });
 
@@ -62,12 +56,16 @@ class LoginController extends Controller
         switch($result)
         {
             case 0:
-                $errmsg = config('constants.CANT_LOGIN');
+                $errcode = config('constants.CANT_LOGIN');
                 $response = [
-                    'errmsg' => $errmsg,
+                    'errcode' => $errcode,
                 ];
                 break;
             case 1:
+                
+                 // Authに登録
+                Auth::login($userData);
+                
                 $response =[
                     'user' => User::where('manage_id',$manage_id)->first(),
                     'wallet'=> UserWallet::where('manage_id',$manage_id)->first(),

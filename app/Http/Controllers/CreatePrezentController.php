@@ -22,7 +22,7 @@ class CreatePrezentController extends Controller
     public function __invoke(Request $request)
     {
         $result = 0;
-        $errmsg = '';
+        $errcode = '';
         $response = [];
 
         // ユーザー情報
@@ -66,9 +66,9 @@ class CreatePrezentController extends Controller
         switch($result)
         {
             case 0:
-                $errmsg = config('constants.CANT_ADD_PREZENT');
+                $errcode = config('constants.CANT_ADD_PREZENT');
                 $response = [
-                    'errmsg' => $errmsg,
+                    'errcode' => $errcode,
                 ];
                 break;
             case 1:

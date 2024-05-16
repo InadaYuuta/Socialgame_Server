@@ -25,7 +25,7 @@ class EvolutionController extends Controller
     public function __invoke(Request $request)
     {
         $result = 0;
-        $errmsg = '';
+        $errcode = '';
         $response = [];
 
         // ユーザー情報
@@ -91,33 +91,33 @@ class EvolutionController extends Controller
         switch($result)
         {
             case -1:
-                $errmsg = config('constants.HAS_WEAPON');
+                $errcode = config('constants.HAS_WEAPON');
                 $response = [
-                    'errmsg' => $errmsg,
+                    'errcode' => $errcode,
                 ];
                 break;
             case -2:
-                $errmsg = config('constants.HASNT_WEAPON');
+                $errcode = config('constants.HASNT_WEAPON');
                 $response = [
-                    'errmsg' => $errmsg,
+                    'errcode' => $errcode,
                 ];
                 break;
             case -3:
-                $errmsg = config('constants.NOT_ENOUGH_LEVEL');
+                $errcode = config('constants.NOT_ENOUGH_LEVEL');
                 $response = [
-                    'errmsg' => $errmsg,
+                    'errcode' => $errcode,
                 ];
                 break;
             case -4:
-                $errmsg = config('constants.NOT_ENOUGH_REINFORCEPOINT');
+                $errcode = config('constants.NOT_ENOUGH_REINFORCEPOINT');
                 $response = [
-                    'errmsg' => $errmsg,
+                    'errcode' => $errcode,
                 ];
                 break;
             case 0:
-                $errmsg = config('constants.CANT_EVOLUTION');
+                $errcode = config('constants.CANT_EVOLUTION');
                 $response = [
-                    'errmsg' => $errmsg,
+                    'errcode' => $errcode,
                 ];
                 break;
             case 1:
