@@ -16,8 +16,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('weapon_exps', function (Blueprint $table) {
-            $table->dropPrimary(['rarity_id']);
-            $table->dropPrimary(['level']);
+            $table->dropPrimary(['rarity_id','level']);
         });
     }
 };

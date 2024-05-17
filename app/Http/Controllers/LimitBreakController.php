@@ -7,13 +7,8 @@ use App\Libs\GameUtilService;
 
 use App\Models\User;
 use App\Models\WeaponInstance;
-use App\Models\WeaponExp;
-use App\Models\Weapon;
 use App\Models\ItemInstance;
-use App\Models\Log;
 
-use Carbon\Carbon;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
 class LimitBreakController extends Controller
@@ -41,6 +36,7 @@ class LimitBreakController extends Controller
         $item_id = 0;
 
         // アイテムID取得
+        // TODO: ここスクリプトにしてもっとたくさんのIDを取得できるようにする
         switch($weapon_id)
         {
             case config('constants.NORMAL_SWORD_ID'): // 普通の剣

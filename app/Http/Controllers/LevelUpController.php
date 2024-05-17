@@ -8,11 +8,7 @@ use App\Libs\GameUtilService;
 use App\Models\User;
 use App\Models\WeaponInstance;
 use App\Models\WeaponExp;
-use App\Models\Weapon;
-use App\Models\Log;
 
-use Carbon\Carbon;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
 class LevelUpController extends Controller
@@ -44,6 +40,7 @@ class LevelUpController extends Controller
 
         // 消費ポイント
         $consumptionPoint = $request->rp;
+        // TODO: 見た感じ武器のレベルやレアリティに応じてポイントを取得する感じではなくこのコードに入るときに数を入力する感じになっているから、今の武器のレベル、武器レアリティを取得してそれに応じてレベルに必要なポイントが消費されるようにする
 
         // エラーチェック
         if($weaponData == null){$result = -1;}
