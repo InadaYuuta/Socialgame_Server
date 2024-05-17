@@ -9,10 +9,7 @@ use App\Models\User;
 use App\Models\WeaponInstance;
 use App\Models\Weapon;
 use App\Models\EvolutionWeapon;
-use App\Models\Log;
 
-use Carbon\Carbon;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
 class EvolutionController extends Controller

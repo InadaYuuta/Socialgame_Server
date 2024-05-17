@@ -8,7 +8,6 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::dropIfExists('prezent_box_instances');
         Schema::create('prezent_box_instances', function (Blueprint $table) {
             $table->unsignedBigInteger('manage_id')->default(0)->comment('ユーザー管理ID');
             $table->unsignedBigInteger('prezent_id')->default(0)->comment('プレゼントID');
