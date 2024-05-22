@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ErrorUtilService
 {
+    // TODO: 現状ここでreturn json_encodeするとただjson変換されたコードが返るだけで、呼び出し元のコードから出れないから余裕があるときに出れるようにするコードを書く
     /**
      * $errcodeの中に入ったエラーコードをクライアントに返す
      */

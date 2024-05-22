@@ -8,11 +8,9 @@ use App\Libs\GameUtilService;
 use App\Models\User;
 use App\Models\UserWallet;
 use App\Models\ItemInstance;
-use App\Models\Log;
 
-use Carbon\Carbon;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class StaminaRecoveryController extends Controller
 {
@@ -26,11 +24,33 @@ class StaminaRecoveryController extends Controller
         $errcode = '';
         $response = 0;
 
-        // ユーザー情報取得
-        $userData = User::where('user_id',$request->uid)->first();
+         // ユーザー情報取得
+         $userData = User::where('user_id',$request->uid)->first();
 
-        // ユーザー管理ID
-        $manage_id = $userData->manage_id;
+         Auth::login($userData); // TODO: これは仮修正、本来ならログインが継続してこの下に入るはずだけど、なぜか継続されないので一旦ここでログイン
+         // --- Auth処理(ログイン確認)-----------------------------------------
+         // ユーザーがログインしていなかったらリダイレクト
+         if (!Auth::hasUser()) {
+             $response = [
+                 'errcode' => config('constants.ERRCODE_LOGIN_USER_NOT_FOUND'),
+             ];
+             return json_encode($response);
+         }
+ 
+         $authUserData = Auth::user();
+        
+         // ユーザー管理ID
+         $manage_id = $userData->manage_id;
+ 
+         // ログインしているユーザーが自分と違ったらリダイレクト
+         //if ($manage_id != $authUserData->getAuthIdentifier()) {
+         if ($manage_id != $authUserData->manage_id) {
+             $response = [
+                 'errcode' => config('constants.ERRCODE_LOGIN_SESSION'),
+             ];
+             return json_encode($response);
+         }
+         // -----------------------------------------------------------------
 
         // ウォレット情報取得
         $walletBase = UserWallet::where('manage_id',$manage_id);
@@ -39,9 +59,16 @@ class StaminaRecoveryController extends Controller
         // 回復方法を取得
         $recoveryMode = $request->remode;
 
+        // 現在のスタミナが最大スタミナを超えていたらエラー
+         if($userData->last_stamina >= $userData->max_stamina)
+         {
+            $errcode = config('constants.ERRCODE_CANT_RECOVERY_ANY_MORE_STAMINA');
+                $response = $errcode;
+                return json_encode($response);
+         }
+
         DB::transaction(function() use (&$result,$userData,$manage_id,$walletBase,$walletData,$recoveryMode)
         {
-
             // ログ関連
             $log_category = 0;
             $log_context = '';
@@ -105,17 +132,12 @@ class StaminaRecoveryController extends Controller
                 }
                 $result = 1;
             }
-            else{$result = -1;}
         });
         
         switch($result)
         {
-            case -1:
-                $errcode = config('constants.CANT_STAMINA_ANY_MORE_STAMINA');
-                $response = $errcode;
-                break;
             case 0:
-                $errcode = config('constants.CANT_STAMINA_RECOVERY');
+                $errcode = config('constants.ERRCODE_CANT_STAMINA_RECOVERY');
                 $response = $errcode;
                 break;
             case 1:

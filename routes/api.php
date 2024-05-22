@@ -66,14 +66,14 @@ Route::post('/home',HomeController::class); /* ホーム */
 Route::get('/addMasterData',AddMasterDataController::class); /* マスターデータ挿入 */
 Route::get('/addMission',AddMissionMasterDataController::class); /*ミッションマスターデータ挿入 */
 
-Route::get('/buyCurrency',BuyCurrencyController::class); /*通貨購入 */
-//Route::post('/buyCurrency',BuyCurrencyController::class); /*通貨購入 */
+//Route::get('/buyCurrency',BuyCurrencyController::class); /*通貨購入 */
+Route::post('/buyCurrency',BuyCurrencyController::class); /*通貨購入 */
 
-Route::get('/staminaRecovery',StaminaRecoveryController::class); /*スタミナ回復 */
-//Route::post('/staminaRecovery',StaminaRecoveryController::class); /*スタミナ回復 */
+//Route::get('/staminaRecovery',StaminaRecoveryController::class); /*スタミナ回復 */
+Route::post('/staminaRecovery',StaminaRecoveryController::class); /*スタミナ回復 */
 
-Route::get('/testConsumption',TestStaminaConsumptionController::class); /*スタミナ消費 */
-//Route::post('/testConsumption',TestStaminaConsumptionController::class); /*スタミナ消費 */
+//Route::get('/testConsumption',TestStaminaConsumptionController::class); /*スタミナ消費 */
+Route::post('/testConsumption',TestStaminaConsumptionController::class); /*スタミナ消費 */
 
 Route::get('/masterCheck',MasterDataCheckController::class);
 //Route::post('/masterCheck',MasterDataCheckController::class); /**マスターデータチェック */
