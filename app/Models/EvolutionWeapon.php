@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Libs\MasterDataService;
+
 class EvolutionWeapon extends Model
 {
     use HasFactory;

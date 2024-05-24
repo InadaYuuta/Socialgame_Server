@@ -28,19 +28,35 @@ class BuyCurrencyController extends Controller
         // ユーザー情報取得
         $userData = User::where('user_id',$request->uid)->first();
 
+        Auth::login($userData); // TODO: これは仮修正、本来ならログインが継続してこの下に入るはずだけど、なぜか継続されないので一旦ここでログイン
+        // --- Auth処理(ログイン確認)-----------------------------------------
+        // ユーザーがログインしていなかったらリダイレクト
+        if (!Auth::hasUser()) {
+            $response = [
+                'errcode' => config('constants.ERRCODE_LOGIN_USER_NOT_FOUND'),
+            ];
+            return json_encode($response);
+        }
+
+        $authUserData = Auth::user();
+       
         // ユーザー管理ID
         $manage_id = $userData->manage_id;
+
+        // ログインしているユーザーが自分と違ったらリダイレクト
+        //if ($manage_id != $authUserData->getAuthIdentifier()) {
+        if ($manage_id != $authUserData->manage_id) {
+            $response = [
+                'errcode' => config('constants.ERRCODE_LOGIN_SESSION'),
+            ];
+            return json_encode($response);
+        }
+        // -----------------------------------------------------------------
 
         // 商品情報取得
         $paymentData = PaymentShop::where('product_id',$request->pid)->first();
 
         $walletBase = UserWallet::where('manage_id',$manage_id);
-
-        // ユーザーがログインしているか確認
-        if(!Auth::hasUser())
-        {
-            ErrorUtilService::returnErrorCode('constants.ERRCODE_LOGIN_USER_NOT_FOUND');
-        }
 
         // 指定された商品分通貨を増やす処理
         DB::transaction(function() use (&$result,$manage_id,$paymentData,$walletBase){
@@ -63,13 +79,8 @@ class BuyCurrencyController extends Controller
 
         switch($result)
         {
-            case -4:
-                $errcode = config('constants.USER_IS_NOT_LOGGED_IN');
-                $response = [
-                    'errcode' => $errcode,
-                ];
             case 0:
-                $errcode = config('constants.CANT_BUYCURRENCY');
+                $errcode = config('constants.ERRCODE_CANT_BUY_CURRENCY');
                 $response = [
                     'errcode' => $errcode,
                 ];

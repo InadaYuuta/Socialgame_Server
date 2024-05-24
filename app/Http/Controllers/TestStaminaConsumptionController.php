@@ -6,11 +6,10 @@ use Illuminate\Http\Request;
 use App\Libs\GameUtilService;
 
 use App\Models\User;
-use App\Models\Log;
 
 use Carbon\Carbon;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class TestStaminaConsumptionController extends Controller
 {
@@ -23,11 +22,33 @@ class TestStaminaConsumptionController extends Controller
         $errcode = '';
         $response = 0;
 
-        // ユーザー情報
-        $userData = User::where('user_id',$request->uid)->first();
+         // ユーザー情報取得
+         $userData = User::where('user_id',$request->uid)->first();
 
-        // ユーザー管理ID
-        $manage_id = $userData->manage_id;
+         Auth::login($userData); // TODO: これは仮修正、本来ならログインが継続してこの下に入るはずだけど、なぜか継続されないので一旦ここでログイン
+         // --- Auth処理(ログイン確認)-----------------------------------------
+         // ユーザーがログインしていなかったらリダイレクト
+         if (!Auth::hasUser()) {
+             $response = [
+                 'errcode' => config('constants.ERRCODE_LOGIN_USER_NOT_FOUND'),
+             ];
+             return json_encode($response);
+         }
+ 
+         $authUserData = Auth::user();
+        
+         // ユーザー管理ID
+         $manage_id = $userData->manage_id;
+ 
+         // ログインしているユーザーが自分と違ったらリダイレクト
+         //if ($manage_id != $authUserData->getAuthIdentifier()) {
+         if ($manage_id != $authUserData->manage_id) {
+             $response = [
+                 'errcode' => config('constants.ERRCODE_LOGIN_SESSION'),
+             ];
+             return json_encode($response);
+         }
+         // -----------------------------------------------------------------
 
         DB::transaction(function() use (&$result,$userData,$manage_id){
 
@@ -55,7 +76,7 @@ class TestStaminaConsumptionController extends Controller
         switch($result)
         {
             case 0:
-                $errcode = config('constants.CANT_STAMINA_CONSUMTION');
+                $errcode = config('constants.ERRCODE_CANT_STAMINA_CONSUMPTION');
                 $response = $errcode;
                 break;
             case 1:

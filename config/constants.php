@@ -71,15 +71,19 @@ return [
     'ERRCODE_CANT_REGISTRATION' => 505, // 登録ができなかった
     'ERRCODE_CANT_LOGIN' => 506, // ログインできなかった
     'ERRCODE_CANT_UPDATE_HOME' => 507,
-    'ERRCODE_CANT_STAMINA_RECOVERY' => 508,
-    'ERRCODE_CANT_STAMINA_RECOVERY' => 509,
-    'ERRCODE_CANT_RECOVERY_ANY_MORE_STAMINA' => 510,
+    'ERRCODE_CANT_STAMINA_RECOVERY' => 508, // スタミナ回復ができなかった
+    'ERRCODE_CANT_STAMINA_CONSUMPTION' => 509, // スタミナ消費ができなかった
+    'ERRCODE_CANT_RECOVERY_ANY_MORE_STAMINA' => 510, // これ以上スタミナが回復できない
     'ERRCODE_CANT_BUY_CURRENCY' => 511,
     'ERRCODE_CANT_EXCHANGE_ITEM' => 512,
     'ERRCODE_NOT_ENOUGH_EXCHANGE_ITEM' => 513,
     'ERRCODE_CANT_LEVEL_UP' => 514,
     'ERRCODE_CANT_EVOLUTION' => 515,
     'ERRCODE_VALIDATION' => 516, // バリデーションエラー
+    'ERRCODE_CANT_BUY_CURRENCY' => 517, // 通貨購入に失敗した
+    'ERRCODE_NOT_ENOUGH_CURRENCY' => 518, // 通貨が足りない
+    'ERRCODE_CANT_GACHA' => 519, // ガチャが引けなかった
+    'ERRCODE_CANT_GET_GACHA_LOG' => 520, // ガチャのログを入手できなかった
 
     /* エラーメッセージ */
 
@@ -100,7 +104,7 @@ return [
 
     // スタミナ
     'CANT_STAMINA_RECOVERY' => 'スタミナ回復ができませんでした',
-    'CANT_STAMINA_CONSUMTION' => 'スタミナ消費ができませんでした',
+    'CANT_STAMINA_CONSUMPTION' => 'スタミナ消費ができませんでした',
     'CANT_RECOVERY_ANY_MORE_STAMINA' => 'これ以上スタミナを回復できません',
 
     // ショップ
@@ -130,9 +134,9 @@ return [
     'CANT_RECEIVE_MISSION' => 'ミッション報酬を受け取れませんでした',
 
     // プレゼント
-    'CANT_ADD_PREZENT' => 'プレゼントを追加できませんでした',
-    'PREZENT_ALREADY_RECEIVE' => '既に受け取ったプレゼントです',
-    'CANT_RECEIVE_PREZENT' => 'プレゼントを受け取れませんでした',
+    'CANT_ADD_PRESENT' => 'プレゼントを追加できませんでした',
+    'PRESENT_ALREADY_RECEIVE' => '既に受け取ったプレゼントです',
+    'CANT_RECEIVE_PRESENT' => 'プレゼントを受け取れませんでした',
 
     // ガチャ
     'NOT_ENOUGH_CURRENCY' => '所持通貨が足りません',
@@ -186,7 +190,7 @@ return [
     'SEASON_PASS_DATA' => 6,
 
     // プレゼントボックス情報更新
-    'PREZENT_BOX_DATA' => 7,
-    'RECEIPT_PREZENT_BOX' => 'receipt_prezent_box',
-    'DELETE_PREZENT_BOX' => 'delete_prezent_box',
+    'PRESENT_BOX_DATA' => 7,
+    'RECEIPT_PRESENT_BOX' => 'receipt_present_box',
+    'DELETE_PRESENT_BOX' => 'delete_present_box',
 ];
