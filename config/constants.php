@@ -81,6 +81,9 @@ return [
     'ERRCODE_CANT_EVOLUTION' => 515,
     'ERRCODE_VALIDATION' => 516, // バリデーションエラー
     'ERRCODE_CANT_BUY_CURRENCY' => 517, // 通貨購入に失敗した
+    'ERRCODE_NOT_ENOUGH_CURRENCY' => 518, // 通貨が足りない
+    'ERRCODE_CANT_GACHA' => 519, // ガチャが引けなかった
+    'ERRCODE_CANT_GET_GACHA_LOG' => 520, // ガチャのログを入手できなかった
 
     /* エラーメッセージ */
 

@@ -12,12 +12,9 @@ use App\Models\ItemInstance;
 use App\Models\GachaWeapon;
 use App\Models\GachaLog;
 use App\Models\Weapon;
-use App\Models\Item;
-use App\Models\Log;
 
-use Carbon\Carbon;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class GachaExecuteController extends Controller
 {
@@ -34,8 +31,30 @@ class GachaExecuteController extends Controller
         // ユーザー情報取得
         $userData = User::where('user_id',$request->uid)->first();
 
+        Auth::login($userData); // TODO: これは仮修正、本来ならログインが継続してこの下に入るはずだけど、なぜか継続されないので一旦ここでログイン
+        // --- Auth処理(ログイン確認)-----------------------------------------
+        // ユーザーがログインしていなかったらリダイレクト
+        if (!Auth::hasUser()) {
+            $response = [
+                'errcode' => config('constants.ERRCODE_LOGIN_USER_NOT_FOUND'),
+            ];
+            return json_encode($response);
+        }
+
+        $authUserData = Auth::user();
+       
         // ユーザー管理ID
         $manage_id = $userData->manage_id;
+
+        // ログインしているユーザーが自分と違ったらリダイレクト
+        //if ($manage_id != $authUserData->getAuthIdentifier()) {
+        if ($manage_id != $authUserData->manage_id) {
+            $response = [
+                'errcode' => config('constants.ERRCODE_LOGIN_SESSION'),
+            ];
+            return json_encode($response);
+        }
+        // -----------------------------------------------------------------
 
         // 何回ガチャを回すか
         $gacha_count=$request->gCount;
@@ -64,7 +83,14 @@ class GachaExecuteController extends Controller
 
         // エラーチェック
         $check = $freeCurrency + $paidCurrency;
-        if($check < $consumptionAmount){$result = -1;} // 所持通貨が足りない
+        if($check < $consumptionAmount)
+        {
+            $errcode = config('constants.ERRCODE_NOT_ENOUGH_CURRENCY');
+                $response = [
+                    'errcode' => $errcode,
+                ];
+                return json_encode($response);
+        } // 所持通貨が足りない
 
         // セクション開始
         DB::transaction(function() use (&$result,$manage_id,$gachaWeaponData,&$weightData,$gacha_count,&$gottenWeaponIds,&$newWeaponIds,&$getExchangeItem,&$gacha_result,$userData,$walletData,$consumptionAmount,$freeCurrency,$paidCurrency){
@@ -144,6 +170,7 @@ class GachaExecuteController extends Controller
                     $getConvexItem = 0;  // 凸アイテムを取得したかどうか
                     $getExchangeNum = 0; //何個交換アイテムを手に入れたか
 
+                    // TODO: もっと武器の種類が増えたときに大変だからメソッド化する
                     switch($data['weapon_id'])
                     {
                         case config('constants.NORMAL_SWORD_ID'): // 普通の剣
@@ -282,14 +309,8 @@ class GachaExecuteController extends Controller
 
         switch($result)
         {
-            case -1:
-                $errcode = config('constants.NOT_ENOUGH_CURRENCY');
-                $response = [
-                    'errcode' => $errcode,
-                ];
-                break;
             case 0:
-                $errcode = config('constants.CANT_GACHA');
+                $errcode = config('constants.ERRCODE_CANT_GACHA');
                 $response = [
                     'errcode' => $errcode,
                 ];

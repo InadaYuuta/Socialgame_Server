@@ -75,20 +75,20 @@ Route::post('/staminaRecovery',StaminaRecoveryController::class); /*スタミナ
 //Route::get('/testConsumption',TestStaminaConsumptionController::class); /*スタミナ消費 */
 Route::post('/testConsumption',TestStaminaConsumptionController::class); /*スタミナ消費 */
 
-Route::get('/masterCheck',MasterDataCheckController::class);
-//Route::post('/masterCheck',MasterDataCheckController::class); /**マスターデータチェック */
+//Route::get('/masterCheck',MasterDataCheckController::class);
+Route::post('/masterCheck',MasterDataCheckController::class); /**マスターデータチェック */
 
-Route::get('/masterGet',MasterDataGetController::class);
-//Route::post('/masterGet',MasterDataGetController::class); /*マスターデータ取得 */
+//Route::get('/masterGet',MasterDataGetController::class);
+Route::post('/masterGet',MasterDataGetController::class); /*マスターデータ取得 */
 
-Route::get('/exchangeShop',BuyExchangeShopItemController::class); /*交換ショップで購入 */
-//Route::post('/exchangeShop',BuyExchangeShopItemController::class); /*交換ショップで購入 */
+//Route::get('/exchangeShop',BuyExchangeShopItemController::class); /*交換ショップで購入 */
+Route::post('/exchangeShop',BuyExchangeShopItemController::class); /*交換ショップで購入 */
 
-Route::get('/gachaExecute',GachaExecuteController::class); /*ガチャ */
-//Route::post('/gachaExecute',GachaExecuteController::class); /*ガチャ */
+//Route::get('/gachaExecute',GachaExecuteController::class); /*ガチャ */
+Route::post('/gachaExecute',GachaExecuteController::class); /*ガチャ */
 
-Route::get('/getGachaLog',GetGachaLogController::class); /*ガチャログ取得*/
-//Route::post('/getGachaLog',GetGachaLogController::class); /*ガチャログ取得*/
+//Route::get('/getGachaLog',GetGachaLogController::class); /*ガチャログ取得*/
+Route::post('/getGachaLog',GetGachaLogController::class); /*ガチャログ取得*/
 
 // TODO: この下はクライアント側を未実装なので順次実装を行う
 
