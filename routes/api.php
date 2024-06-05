@@ -90,9 +90,10 @@ Route::post('/gachaExecute',GachaExecuteController::class); /*ガチャ */
 //Route::get('/getGachaLog',GetGachaLogController::class); /*ガチャログ取得*/
 Route::post('/getGachaLog',GetGachaLogController::class); /*ガチャログ取得*/
 
-// TODO: この下はクライアント側を未実装なので順次実装を行う
+//Route::get('/levelUp',LevelUpController::class); /*レベルアップ*/
+Route::post('/levelUp',LevelUpController::class); /*レベルアップ*/
 
-Route::get('/levelUp',LevelUpController::class); /*レベルアップ*/
+// TODO: この下はクライアント側を未実装なので順次実装を行う
 
 Route::get('/limitBreak',LimitBreakController::class); /*限界突破*/
 

@@ -65,26 +65,29 @@ return [
 
     // Auth関連
     'ERRCODE_LOGIN_USER_NOT_FOUND' => 502, // ログインユーザーが見つからなかった
-    'ERRCODE_NOT_LOGGED_IN' => 503, // ログインできなかった
-    'ERRCODE_LOST_CONNECT' => 504, // 通信が切断された
+    'ERRCODE_NOT_LOGGED_IN' => 503,        // ログインできなかった
+    'ERRCODE_LOST_CONNECT' => 504,         // 通信が切断された
 
     'ERRCODE_CANT_REGISTRATION' => 505, // 登録ができなかった
-    'ERRCODE_CANT_LOGIN' => 506, // ログインできなかった
-    'ERRCODE_CANT_UPDATE_HOME' => 507,
-    'ERRCODE_CANT_STAMINA_RECOVERY' => 508, // スタミナ回復ができなかった
-    'ERRCODE_CANT_STAMINA_CONSUMPTION' => 509, // スタミナ消費ができなかった
+    'ERRCODE_CANT_LOGIN' => 506,        // ログインできなかった
+    'ERRCODE_CANT_UPDATE_HOME' => 507,  // ホーム情報の更新に失敗した
+    'ERRCODE_CANT_STAMINA_RECOVERY' => 508,          // スタミナ回復ができなかった
+    'ERRCODE_CANT_STAMINA_CONSUMPTION' => 509,       // スタミナ消費ができなかった
     'ERRCODE_CANT_RECOVERY_ANY_MORE_STAMINA' => 510, // これ以上スタミナが回復できない
-    'ERRCODE_CANT_BUY_CURRENCY' => 511,
-    'ERRCODE_CANT_EXCHANGE_ITEM' => 512,
-    'ERRCODE_NOT_ENOUGH_EXCHANGE_ITEM' => 513,
-    'ERRCODE_CANT_LEVEL_UP' => 514,
-    'ERRCODE_CANT_EVOLUTION' => 515,
-    'ERRCODE_VALIDATION' => 516, // バリデーションエラー
-    'ERRCODE_CANT_BUY_CURRENCY' => 517, // 通貨購入に失敗した
+    'ERRCODE_CANT_BUY_CURRENCY' => 511,        // 通貨の購入に失敗した
+    'ERRCODE_CANT_EXCHANGE_ITEM' => 512,       // 交換ショップの交換に失敗した
+    'ERRCODE_NOT_ENOUGH_EXCHANGE_ITEM' => 513, // 交換アイテムが足りない
+    'ERRCODE_CANT_LEVEL_UP' => 514,       // レベルアップができなかった
+    'ERRCODE_CANT_EVOLUTION' => 515,      // 進化ができなかった
+    'ERRCODE_VALIDATION' => 516,          // バリデーションエラー
+    'ERRCODE_CANT_BUY_CURRENCY' => 517,   // 通貨購入に失敗した
     'ERRCODE_NOT_ENOUGH_CURRENCY' => 518, // 通貨が足りない
-    'ERRCODE_CANT_GACHA' => 519, // ガチャが引けなかった
-    'ERRCODE_CANT_GET_GACHA_LOG' => 520, // ガチャのログを入手できなかった
-
+    'ERRCODE_CANT_GACHA' => 519,          // ガチャが引けなかった
+    'ERRCODE_CANT_GET_GACHA_LOG' => 520,  // ガチャのログを入手できなかった
+    'ERRCODE_HAS_NOT_WEAPON' => 521,      // 武器を所持していない
+    'ERRCODE_MAX_LEVEL' => 522,           // 武器レベルが上限に達している
+    'ERRCODE_NOT_ENOUGH_REINFORCE_POINT' => 523,  // 武器レベルが上限に達している
+    'ERRCODE_CANT_LEVEL_UP' => 524,       // レベルアップに失敗した
     /* エラーメッセージ */
 
     // Auth関連

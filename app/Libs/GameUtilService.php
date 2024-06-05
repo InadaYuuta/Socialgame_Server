@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Auth;
 
 class GameUtilService
 {
-
     /**
      * 最終更新時間の経過時間から現在のスタミナを計算する
      */
