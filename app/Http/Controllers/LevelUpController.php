@@ -4,19 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Libs\GameUtilService;
+use App\Libs\WeaponService;
 
 use App\Models\User;
 use App\Models\WeaponInstance;
-use App\Models\WeaponExp;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class LevelUpController extends Controller
 {
     /* 武器強化
     /* uid = ユーザーID
     /* wid = 武器ID
-    /* rp = 消費するポイント
     */
     public function __invoke(Request $request)
     {
@@ -26,10 +26,33 @@ class LevelUpController extends Controller
 
         // ユーザー情報
         $userBase = User::where('user_id',$request->uid);
+        // ユーザー情報取得
         $userData = $userBase->first();
 
+        Auth::login($userData); // TODO: これは仮修正、本来ならログインが継続してこの下に入るはずだけど、なぜか継続されないので一旦ここでログイン
+        // --- Auth処理(ログイン確認)-----------------------------------------
+        // ユーザーがログインしていなかったらリダイレクト
+        if (!Auth::hasUser()) {
+            $response = [
+                'errcode' => config('constants.ERRCODE_LOGIN_USER_NOT_FOUND'),
+            ];
+            return json_encode($response);
+        }
+
+        $authUserData = Auth::user();
+       
         // ユーザー管理ID
         $manage_id = $userData->manage_id;
+
+        // ログインしているユーザーが自分と違ったらリダイレクト
+        //if ($manage_id != $authUserData->getAuthIdentifier()) {
+        if ($manage_id != $authUserData->manage_id) {
+            $response = [
+                'errcode' => config('constants.ERRCODE_LOGIN_SESSION'),
+            ];
+            return json_encode($response);
+        }
+        // -----------------------------------------------------------------
 
         // 強化する武器のデータ
         $weaponBase = WeaponInstance::where('manage_id',$manage_id)->where('weapon_id',$request->wid);
@@ -39,14 +62,36 @@ class LevelUpController extends Controller
         $has_reinforce_point = $userData->has_reinforce_point;
 
         // 消費ポイント
-        $consumptionPoint = $request->rp;
-        // TODO: 見た感じ武器のレベルやレアリティに応じてポイントを取得する感じではなくこのコードに入るときに数を入力する感じになっているから、今の武器のレベル、武器レアリティを取得してそれに応じてレベルに必要なポイントが消費されるようにする
+        $consumptionPoint = WeaponService::needReinforcePoint($weaponData);
 
         // エラーチェック
-        if($weaponData == null){$result = -1;}
-        if($weaponData->level >= 50){$result = -2;}
-        $has_reinforce_point = $userData->has_reinforce_point;
-        if($has_reinforce_point < $consumptionPoint){$result = -3;}
+        // 武器を所持していなかったらリダイレクト
+        if($weaponData == null)
+        {
+            $errcode = config('constants.ERRCODE_HAS_NOT_WEAPON');
+            $response = [
+                'errcode' => $errcode,
+            ];
+            return json_encode($response);
+        }
+        // レベル上限に達していたらリダイレクト
+        if($weaponData->level >= 50)
+        {
+            $errcode = config('constants.ERRCODE_MAX_LEVEL');
+            $response = [
+                'errcode' => $errcode,
+            ];
+            return json_encode($response);
+        }
+        // 所持強化ポイントが足りなかったらリダイレクト
+        if($has_reinforce_point < $consumptionPoint)
+        {
+            $errcode = config('constants.ERRCODE_NOT_ENOUGH_REINFORCE_POINT');
+            $response = [
+                'errcode' => $errcode,
+            ];
+            return json_encode($response);
+        }
 
         // 武器を強化
         DB::transaction(function() use (&$result,$userBase,$userData,$manage_id,$weaponBase,$weaponData,$has_reinforce_point,$consumptionPoint){
@@ -81,26 +126,8 @@ class LevelUpController extends Controller
 
         switch($result)
         {
-            case -1:
-                $errcode = config('constants.HASNT_WEAPON');
-                $response = [
-                    'errcode' => $errcode,
-                ];
-                break;
-            case -2:
-                $errcode = config('constants.MAX_LEVEL');
-                $response = [
-                    'errcode' => $errcode,
-                ];
-                break;
-            case -3:
-                $errcode = config('constants.NOT_ENOUGH_REINFORCEPOINT');
-                $response = [
-                    'errcode' => $errcode,
-                ];
-                break;
             case 0:
-                $errcode = config('constants.CANT_LEVEL_UP');
+                $errcode = config('constants.ERRCODE_CANT_LEVEL_UP');
                 $response = [
                     'errcode' => $errcode,
                 ];
