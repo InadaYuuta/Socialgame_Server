@@ -93,9 +93,10 @@ Route::post('/getGachaLog',GetGachaLogController::class); /*ガチャログ取�
 //Route::get('/levelUp',LevelUpController::class); /*レベルアップ*/
 Route::post('/levelUp',LevelUpController::class); /*レベルアップ*/
 
-// TODO: この下はクライアント側を未実装なので順次実装を行う
+//Route::get('/limitBreak',LimitBreakController::class); /*限界突破*/
+Route::post('/limitBreak',LimitBreakController::class); /*限界突破*/
 
-Route::get('/limitBreak',LimitBreakController::class); /*限界突破*/
+// TODO: この下はクライアント側を未実装なので順次実装を行う
 
 Route::get('/evolution',EvolutionController::class); /*進化*/
 
