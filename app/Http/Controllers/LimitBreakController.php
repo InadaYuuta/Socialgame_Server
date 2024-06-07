@@ -10,6 +10,7 @@ use App\Models\WeaponInstance;
 use App\Models\ItemInstance;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class LimitBreakController extends Controller
 {
@@ -23,11 +24,35 @@ class LimitBreakController extends Controller
         $errcode = '';
         $response = 0;
 
-        // ユーザー情報
-        $userData = User::where('user_id',$request->uid)->first();
+       // ユーザー情報
+       $userBase = User::where('user_id',$request->uid);
+       // ユーザー情報取得
+       $userData = $userBase->first();
 
-        // ユーザー管理ID
-        $manage_id = $userData->manage_id;
+       Auth::login($userData); // TODO: これは仮修正、本来ならログインが継続してこの下に入るはずだけど、なぜか継続されないので一旦ここでログイン
+       // --- Auth処理(ログイン確認)-----------------------------------------
+       // ユーザーがログインしていなかったらリダイレクト
+       if (!Auth::hasUser()) {
+           $response = [
+               'errcode' => config('constants.ERRCODE_LOGIN_USER_NOT_FOUND'),
+           ];
+           return json_encode($response);
+       }
+
+       $authUserData = Auth::user();
+      
+       // ユーザー管理ID
+       $manage_id = $userData->manage_id;
+
+       // ログインしているユーザーが自分と違ったらリダイレクト
+       //if ($manage_id != $authUserData->getAuthIdentifier()) {
+       if ($manage_id != $authUserData->manage_id) {
+           $response = [
+               'errcode' => config('constants.ERRCODE_LOGIN_SESSION'),
+           ];
+           return json_encode($response);
+       }
+       // -----------------------------------------------------------------
 
         // 強化する武器のデータ
         $weapon_id = $request->wid;
@@ -36,7 +61,7 @@ class LimitBreakController extends Controller
         $item_id = 0;
 
         // アイテムID取得
-        // TODO: ここスクリプトにしてもっとたくさんのIDを取得できるようにする
+        // TODO: ここをメソッドにしてもっとたくさんのIDを取得できるようにする
         switch($weapon_id)
         {
             case config('constants.NORMAL_SWORD_ID'): // 普通の剣
@@ -67,16 +92,34 @@ class LimitBreakController extends Controller
             $limit_max = $weaponData->limit_break_max;
             $limit_break_num = $weaponData->limit_break;
             $has_convex_item = $itemData->item_num;
-            if($limit_break_num > $limit_max){$result = -2;}
-            if($has_convex_item <= 0){$result = -3;}
+            if($limit_break_num > $limit_max)
+            {
+                $errcode = config('constants.ERRCODE_MAX_LIMIT_BREAK');
+                $response = [
+                    'errcode' => $errcode,
+                ];
+                return json_encode($response);
+            }
+            if($has_convex_item <= 0)
+            {
+                $errcode = config('constants.ERRCODE_NOT_ENOUGH_CONVEX_ITEM');
+                $response = [
+                    'errcode' => $errcode,
+                ];
+                return json_encode($response);
+            }
         }
         else
         {
-            $result = -1;
+            $errcode = config('constants.ERRCODE_HAS_NOT_WEAPON');
+                $response = [
+                    'errcode' => $errcode,
+                ];
+            return json_encode($response);
         }
 
         // 武器を強化
-        DB::transaction(function() use(&$result,$userData,$manage_id,$weaponBase,$weaponData,$itemDataBase,$itemData,$weapon_id,$has_convex_item){
+        DB::transaction(function() use(&$result,$manage_id,$weaponBase,$weaponData,$itemDataBase,$itemData,$weapon_id,$has_convex_item){
             
             // ログ関連
             $log_category = 0;
@@ -111,24 +154,6 @@ class LimitBreakController extends Controller
 
         switch($result)
         {
-            case -1:
-                $errcode = config('constants.HASNT_WEAPON');
-                $response = [
-                    'errcode' => $errcode,
-                ];
-                break;
-            case -2:
-                $errcode = config('constants.MAX_LIMIT_BREAK');
-                $response = [
-                    'errcode' => $errcode,
-                ];
-                break;
-            case -3:
-                $errcode = config('constants.NOT_ENOUGH_CONVEX_ITEM');
-                $response = [
-                    'errcode' => $errcode,
-                ];
-                break;
             case 0:
                 $errcode = config('constants.CANT_LIMIT_BREAK');
                 $response = [
