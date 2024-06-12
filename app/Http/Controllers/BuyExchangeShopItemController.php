@@ -24,6 +24,8 @@ class BuyExchangeShopItemController extends Controller
         $errcode = '';
         $response = [];
 
+        // TODO: 今後Authの処理が安定したら
+
         // ユーザー情報
         $userData = User::where('user_id',$request->uid)->first();
 

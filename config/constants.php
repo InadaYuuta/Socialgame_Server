@@ -86,8 +86,11 @@ return [
     'ERRCODE_CANT_GET_GACHA_LOG' => 520,  // ガチャのログを入手できなかった
     'ERRCODE_HAS_NOT_WEAPON' => 521,      // 武器を所持していない
     'ERRCODE_MAX_LEVEL' => 522,           // 武器レベルが上限に達している
-    'ERRCODE_NOT_ENOUGH_REINFORCE_POINT' => 523,  // 武器レベルが上限に達している
-    'ERRCODE_CANT_LEVEL_UP' => 524,       // レベルアップに失敗した
+    'ERRCODE_NOT_ENOUGH_REINFORCE_POINT' => 523,  // 強化ポイントが足りない
+    'ERRCODE_MAX_LIMIT_BREAK' => 524,        // 限界突破が上限に達している
+    'ERRCODE_NOT_ENOUGH_CONVEX_ITEM' => 525, // 限界突破アイテムが足りない
+    'ERRCODE_NOT_EVOLUTION_WEAPON' => 526,   // 進化先の武器がない(最終進化である)
+    'ERRCODE_NOT_ENOUGH_LEVEL' => 527,       // 武器のレベルが足りない
     /* エラーメッセージ */
 
     // Auth関連

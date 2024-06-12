@@ -96,9 +96,10 @@ Route::post('/levelUp',LevelUpController::class); /*レベルアップ*/
 //Route::get('/limitBreak',LimitBreakController::class); /*限界突破*/
 Route::post('/limitBreak',LimitBreakController::class); /*限界突破*/
 
-// TODO: この下はクライアント側を未実装なので順次実装を行う
+//Route::get('/evolution',EvolutionController::class); /*進化*/
+Route::post('/evolution',EvolutionController::class); /*進化*/
 
-Route::get('/evolution',EvolutionController::class); /*進化*/
+// TODO: この下はクライアント側を未実装なので順次実装を行う
 
 Route::get('/createPrezent',CreatePrezentController::class); /*プレゼント作成*/
 
