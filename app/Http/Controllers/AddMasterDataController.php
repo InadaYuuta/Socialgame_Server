@@ -252,6 +252,41 @@ class AddMasterDataController extends Controller
                 'weapon_name' =>'普通の槍',
                 'evolution_weapon_id'=>1130001,
             ],
+            [
+                'weapon_id'=>1110001,
+                'rarity_id' => 4,
+                'weapon_category' =>1,
+                'weapon_name' =>'普通の剣+',
+                'evolution_weapon_id'=>0,
+            ],
+            [
+                'weapon_id'=>3110001,
+                'rarity_id' => 6,
+                'weapon_category' =>1,
+                'weapon_name' =>'めっちゃ強い剣+',
+                'evolution_weapon_id'=>0,
+            ],
+            [
+                'weapon_id'=>1120001,
+                'rarity_id' => 4,
+                'weapon_category' =>2,
+                'weapon_name' =>'普通の弓+',
+                'evolution_weapon_id'=>0,
+            ],
+            [
+                'weapon_id'=>2120001,
+                'rarity_id' =>5,
+                'weapon_category' =>2,
+                'weapon_name' =>'強い弓+',
+                'evolution_weapon_id'=>0,
+            ],
+            [
+                'weapon_id'=>1130001,
+                'rarity_id' =>4,
+                'weapon_category' =>3,
+                'weapon_name' =>'普通の槍+',
+                'evolution_weapon_id'=>0,
+            ],
         ];
 
         // 追加データ(進化後武器データ)
