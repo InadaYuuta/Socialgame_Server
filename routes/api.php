@@ -28,8 +28,10 @@ use App\Http\Controllers\LevelUpController;
 use App\Http\Controllers\LimitBreakController;
 use App\Http\Controllers\EvolutionController;
 // プレゼントボックス
-use App\Http\Controllers\CreatePrezentController;
-use App\Http\Controllers\ReceivePrezentController;
+use App\Http\Controllers\CreatePresentController;
+use App\Http\Controllers\CreateWholePresentController;
+use App\Http\Controllers\GetPresentBoxDataController;
+use App\Http\Controllers\ReceivePresentController;
 // ミッション
 use App\Http\Controllers\CreateMissionController;
 use App\Http\Controllers\UpdateMissionController;
@@ -57,8 +59,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //Route::get('/register',RegistrationController::class);
 Route::post('/register',RegistrationController::class); /*登録*/
 
-//Route::get('/login',LoginController::class);
-Route::post('/login',LoginController::class); /*ログイン */
+Route::get('/login',LoginController::class);
+//Route::post('/login',LoginController::class); /*ログイン */
 
 //Route::get('/home',HomeController::class); /* ホーム */
 Route::post('/home',HomeController::class); /* ホーム */
@@ -99,11 +101,12 @@ Route::post('/limitBreak',LimitBreakController::class); /*限界突破*/
 //Route::get('/evolution',EvolutionController::class); /*進化*/
 Route::post('/evolution',EvolutionController::class); /*進化*/
 
+//Route::get('/getPresentBox',GetPresentBoxDataController::class); /*プレゼントボックスを取得 */
+Route::post('/getPresentBox',GetPresentBoxDataController::class); /*プレゼントボックスを取得 */
+
 // TODO: この下はクライアント側を未実装なので順次実装を行う
 
-Route::get('/createPrezent',CreatePrezentController::class); /*プレゼント作成*/
-
-Route::get('/receivePrezent',ReceivePrezentController::class); /*プレゼント受け取り*/
+Route::get('/receivePresent',ReceivePresentController::class); /*プレゼント受け取り*/
 
 Route::get('/createMission',CreateMissionController::class); /*ミッション作成*/
 
@@ -111,6 +114,10 @@ Route::get('/updateMission',UpdateMissionController::class); /*ミッション�
 
 Route::get('/receiveMission',ReceiveMissionController::class); /*ミッション受け取り*/
 
-Route::get('/addNews',AddNewsController::class); /*ニュース追加*/
-
 Route::get('/getNews',GetNewsController::class); /*ニュース取得*/
+
+/* この下はユーザーは操作しない */
+Route::get('/createPresent',CreatePresentController::class); /*プレゼント作成*/
+Route::get('/createWholePresent',CreateWholePresentController::class); /*プレゼント作成*/
+
+Route::get('/addNews',AddNewsController::class); /*ニュース追加*/

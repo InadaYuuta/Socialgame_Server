@@ -20,14 +20,13 @@ return new class extends Migration
 
     public function down(): void
     {
-        
         Schema::rename('present_box_instances','prezent_box_instances');
         Schema::table('prezent_box_instances', function (Blueprint $table) {
-            $table->dropPrimary(['manage_id','prezent_id']);
+            $table->dropPrimary(['manage_id','present_id']);
             $table->renameColumn('present_id','prezent_id');
             $table->renameColumn('present_box_reward','prezent_box_reward');
             $table->renameColumn('receive_reason','receive_reson');
-            $table->primary(['manage_id','present_id']);
+            $table->primary(['manage_id','prezent_id']);
         });
     }
 };

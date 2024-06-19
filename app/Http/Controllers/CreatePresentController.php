@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\User;
-use App\Models\PrezentBoxInstance;
+use App\Models\PresentBoxInstance;
 
 use Illuminate\Support\Facades\DB;
 
-class CreatePrezentController extends Controller
+class CreatePresentController extends Controller
 {
-    /* プレゼント作成(ユーザーは操作しない) 
+    /* プレゼント作成
     /* uid = ユーザーID
     /* rCategory = プレゼントのカテゴリー
     /* reward = プレゼントの報酬
@@ -29,34 +29,34 @@ class CreatePrezentController extends Controller
         // ユーザー管理ID
         $manage_id = $userData->manage_id;
         
-        $prezent_id = DB::table('prezent_box_instances')->max('prezent_id');
+        $present_id = DB::table('present_box_instances')->max('present_id');
 
-        $check = PrezentBoxInstance::where('prezent_id',0)->first();
+        $check = PresentBoxInstance::where('present_id',0)->first();
         if($check == null)
         {
-            $prezent_id = 0;
+            $present_id = 0;
         }
         else
         {
-            $prezent_id += 1;
+            $present_id += 1;
         }
 
         // プレゼント情報
-        $prezentData = [
+        $presentData = [
             'manage_id'=>$manage_id,
-            'prezent_id'=>$prezent_id,
+            'present_id'=>$present_id,
             'category'=>$request->rCategory,
             'reward'=>$request->reward,
-            'reson'=>$request->reason,
+            'reason'=>$request->reason,
         ];
 
-        DB::transaction(function() use(&$result,$prezentData){
-            PrezentBoxInstance::create([
-                'manage_id'=>$prezentData['manage_id'],
-                'prezent_id'=>$prezentData['prezent_id'],
-                'reward_category'=>$prezentData['category'],
-                'prezent_box_reward'=>$prezentData['reward'],
-                'receive_reson'=>$prezentData['reson'],
+        DB::transaction(function() use(&$result,$presentData){
+            PresentBoxInstance::create([
+                'manage_id'=>$presentData['manage_id'],
+                'present_id'=>$presentData['present_id'],
+                'reward_category'=>$presentData['category'],
+                'present_box_reward'=>$presentData['reward'],
+                'receive_reason'=>$presentData['reason'],
             ]);
             $result = 1;
         });
@@ -64,14 +64,14 @@ class CreatePrezentController extends Controller
         switch($result)
         {
             case 0:
-                $errcode = config('constants.CANT_ADD_PREZENT');
+                $errcode = config('constants.ERRCODE_CAN_NOT_ADD_PRESENT');
                 $response = [
                     'errcode' => $errcode,
                 ];
                 break;
             case 1:
                 $response = [
-                    'prezent_box' => PrezentBoxInstance::where('manage_id',$manage_id)->get(),
+                    'present_box' => PresentBoxInstance::where('manage_id',$manage_id)->get(),
                 ];
                 break;
         }
