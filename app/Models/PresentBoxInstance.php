@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Libs\MasterDataService;
 
-class PrezentBoxInstance extends Model
+class PresentBoxInstance extends Model
 {
     use HasFactory;
 
-    protected $table = 'prezent_box_instances';
-    protected $primarykey = ['manage_id','prezent_id'];
+    protected $table = 'present_box_instances';
+    protected $primarykey = ['manage_id','present_id'];
 
     const CREATED_AT = 'created';
     const UPDATED_AT = 'modified';
@@ -22,9 +22,9 @@ class PrezentBoxInstance extends Model
     ];
 
      // マスタデータ取得
-     public static function GetPrezentBoxInstance()
+     public static function GetPresentBoxInstance()
      {
-         $prezent_box_data_list = MasterDataService::GetMasterData('prezentBoxInstance');
-         return $prezent_box_data_list;
+         $present_box_data_list = MasterDataService::GetMasterData('presentBoxInstance');
+         return $present_box_data_list;
      }
 }

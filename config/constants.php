@@ -91,6 +91,8 @@ return [
     'ERRCODE_NOT_ENOUGH_CONVEX_ITEM' => 525, // 限界突破アイテムが足りない
     'ERRCODE_NOT_EVOLUTION_WEAPON' => 526,   // 進化先の武器がない(最終進化である)
     'ERRCODE_NOT_ENOUGH_LEVEL' => 527,       // 武器のレベルが足りない
+    'ERRCODE_CAN_NOT_ADD_PRESENT' => 528,    // プレゼントの追加ができなかった
+    'ERRCODE_NO_DISTRIBUTION_DATA' => 529,   // 追加する全体プレゼントデータがない
     /* エラーメッセージ */
 
     // Auth関連
