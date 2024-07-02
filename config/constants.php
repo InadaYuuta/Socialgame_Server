@@ -93,6 +93,11 @@ return [
     'ERRCODE_NOT_ENOUGH_LEVEL' => 527,       // 武器のレベルが足りない
     'ERRCODE_CAN_NOT_ADD_PRESENT' => 528,    // プレゼントの追加ができなかった
     'ERRCODE_NO_DISTRIBUTION_DATA' => 529,   // 追加する全体プレゼントデータがない
+    'ERRCODE_PRESENT_ID_DOES_NOT_EXIST.' => 530,  // プレゼントIDが存在しない
+    'ERRCODE_PRESENT_DOES_NOT_EXIST.' => 531,  // プレゼントが存在しない
+    'ERRCODE_PRESENT_ALREADY_RECEIVE' => 532,  // プレゼントが受取済だった
+    'ERRCODE_CAN_NOT_RECEIVE_PRESENT' => 533,  // プレゼントを受け取れなかった
+
     /* エラーメッセージ */
 
     // Auth関連

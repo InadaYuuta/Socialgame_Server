@@ -104,9 +104,11 @@ Route::post('/evolution',EvolutionController::class); /*進化*/
 //Route::get('/getPresentBox',GetPresentBoxDataController::class); /*プレゼントボックスを取得 */
 Route::post('/getPresentBox',GetPresentBoxDataController::class); /*プレゼントボックスを取得 */
 
+//Route::get('/receivePresent',ReceivePresentController::class); /*プレゼント受け取り*/
+Route::post('/receivePresent',ReceivePresentController::class); /*プレゼント受け取り*/
+
 // TODO: この下はクライアント側を未実装なので順次実装を行う
 
-Route::get('/receivePresent',ReceivePresentController::class); /*プレゼント受け取り*/
 
 Route::get('/createMission',CreateMissionController::class); /*ミッション作成*/
 

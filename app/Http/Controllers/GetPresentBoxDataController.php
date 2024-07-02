@@ -84,8 +84,8 @@ class GetPresentBoxDataController extends Controller
                 // ユーザーごとにプレゼントIdを0から作成
                 // そのユーザーのプレゼントIdの最大値を取得
                 $present_id = PresentBoxInstance::where('manage_id',$manage_id)->max('present_id');
-                
-                if($present_id == null)
+                $check = PresentBoxInstance::where('manage_id',$manage_id)->where('present_id',0)->first();
+                if($check == null)
                 {
                     $present_id = 0;
                 }
@@ -97,7 +97,9 @@ class GetPresentBoxDataController extends Controller
                 $whole_present_id = $data->whole_present_id;
                 
                 // 重複しているかを確認する、重複していたら無視して次に
-                $check = PresentBoxInstance::where('whole_present_id',$whole_present_id)->first();
+                $check = PresentBoxInstance::where('manage_id',$manage_id)->where('present_id',$present_id)->first();
+                if($check != null){continue;}
+                $check = PresentBoxInstance::where('manage_id',$manage_id)->where('whole_present_id',$whole_present_id)->first();
                 if($check != null){continue;}
                  // プレゼント情報
                 $presentData = [
@@ -109,7 +111,6 @@ class GetPresentBoxDataController extends Controller
                     'reason'=>$data->receive_reason,
                     'display'=>$data->distribution_end,
                 ];
-
                 PresentBoxInstance::create([
                     'manage_id'=>$presentData['manage_id'],
                     'present_id'=>$presentData['present_id'],
