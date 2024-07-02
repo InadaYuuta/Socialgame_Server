@@ -14,12 +14,13 @@ use App\Models\Log;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ReceivePresentController extends Controller
 {
     /* プレゼント受け取り
     /* uid = ユーザーID
-    /* present_id = プレゼントID
+    /* pid = プレゼントID
     */
     public function __invoke(Request $request)
     {
@@ -28,16 +29,61 @@ class ReceivePresentController extends Controller
         $response = 0;
 
         // ユーザー情報
-        $userData = User::where('user_id',$request->uid)->first();
+       $userBase = User::where('user_id',$request->uid);
+       // ユーザー情報取得
+       $userData = $userBase->first();
 
-        // ユーザー管理ID
-        $manage_id = $userData->manage_id;
+       Auth::login($userData); // TODO: これは仮修正、本来ならログインが継続してこの下に入るはずだけど、なぜか継続されないので一旦ここでログイン
+       // --- Auth処理(ログイン確認)-----------------------------------------
+       // ユーザーがログインしていなかったらリダイレクト
+       if (!Auth::hasUser()) {
+           $response = [
+               'errcode' => config('constants.ERRCODE_LOGIN_USER_NOT_FOUND'),
+           ];
+           return json_encode($response);
+       }
 
+       $authUserData = Auth::user();
+      
+       // ユーザー管理ID
+       $manage_id = $userData->manage_id;
+
+       // ログインしているユーザーが自分と違ったらリダイレクト
+       //if ($manage_id != $authUserData->getAuthIdentifier()) {
+       if ($manage_id != $authUserData->manage_id) {
+           $response = [
+               'errcode' => config('constants.ERRCODE_LOGIN_SESSION'),
+           ];
+           return json_encode($response);
+       }
+       // -----------------------------------------------------------------
+
+       // プレゼントIDが存在しなかったらエラー
+       if($request->pid == null)
+       {
+           $errcode = config('constants.ERRCODE_PRESENT_ID_DOES_NOT_EXIST');
+           $response = $errcode;
+           return json_encode($response);
+       }
+       
         // 受け取るプレゼントの情報
-        $presentBase = PresentBoxInstance::where('manage_id',$manage_id)->where('present_id',$request->present_id);
+        $presentBase = PresentBoxInstance::where('manage_id',$manage_id)->where('present_id',$request->pid);
         $presentData = $presentBase->first();
         
-        if($presentData->receipt > 0){$result = -1;}// 受取済みかどうかを確認
+        // プレゼントが存在しなかったらエラー
+       if($presentData == null)
+       {
+           $errcode = config('constants.ERRCODE_PRESENT_DOES_NOT_EXIST');
+           $response = $errcode;
+           return json_encode($response);
+       }
+        // 受取済みならエラー
+        if($presentData->receipt > 0)
+        {
+            $errcode = config('constants.ERRCODE_PRESENT_ALREADY_RECEIVE');
+            $response = $errcode;
+            return json_encode($response);
+        }
 
         DB::transaction(function() use(&$result,$userData,$manage_id,$presentData,$presentBase){
             if($result < 0){return;}
@@ -111,8 +157,8 @@ class ReceivePresentController extends Controller
             ]);
 
             // ログを追加する処理
-            $log_category = config('constants.PREZENT_BOX_DATA');
-            $log_context = config('constants.RECEIPT_PREZENT_BOX').$presentData;
+            $log_category = config('constants.PRESENT_BOX_DATA');
+            $log_context = config('constants.RECEIPT_PRESENT_BOX').$presentData;
             Log::create([
                 'manage_id' => $manage_id,
                 'log_category' => $log_category,
@@ -124,12 +170,8 @@ class ReceivePresentController extends Controller
 
         switch($result)
         {
-            case -1:
-                $errcode = config('constants.PREZENT_ALREADY_RECEIVE');
-                $response = $errcode;
-                break;
             case 0:
-                $errcode = config('constants.CANT_RECEIVE_PREZENT');
+                $errcode = config('constants.ERRCODE_CAN_NOT_RECEIVE_PRESENT');
                 $response = $errcode;
                 break;
             case 1:
@@ -137,6 +179,7 @@ class ReceivePresentController extends Controller
                     'users'=>User::where('manage_id',$manage_id)->first(),
                     'wallets'=>UserWallet::where('manage_id',$manage_id)->first(),
                     'items'=>ItemInstance::where('manage_id',$manage_id)->get(),
+                    'presents'=>PresentBoxInstance::where('manage_id',$manage_id)->get(),
                 ];
                 break;
         }
