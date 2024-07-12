@@ -59,8 +59,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //Route::get('/register',RegistrationController::class);
 Route::post('/register',RegistrationController::class); /*登録*/
 
-Route::get('/login',LoginController::class);
-//Route::post('/login',LoginController::class); /*ログイン */
+//Route::get('/login',LoginController::class);
+Route::post('/login',LoginController::class); /*ログイン */
 
 //Route::get('/home',HomeController::class); /* ホーム */
 Route::post('/home',HomeController::class); /* ホーム */
@@ -108,7 +108,6 @@ Route::post('/getPresentBox',GetPresentBoxDataController::class); /*プレゼン
 Route::post('/receivePresent',ReceivePresentController::class); /*プレゼント受け取り*/
 
 // TODO: この下はクライアント側を未実装なので順次実装を行う
-
 
 Route::get('/createMission',CreateMissionController::class); /*ミッション作成*/
 

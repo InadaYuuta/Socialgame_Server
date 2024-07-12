@@ -38,8 +38,6 @@ class LoginController extends Controller
            $log_category = 0;
            $log_context = '';
 
-           dd(Carbon::now());
-
           $result = User::where('manage_id',$manage_id)->update([
             'last_login' => Carbon::now()->format('Y-m-d H:i:s'),
           ]); // ログイン時間更新

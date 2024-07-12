@@ -24,7 +24,7 @@ class MissionCategory extends Model
     // マスタデータ取得
     public static function GetMissionCategory()
     {
-        $mission_category_data_list = MasterDataService::GetMasterData('missionCategory');
+        $mission_category_data_list = MasterDataService::GetMasterData('mission_category');
         return $mission_category_data_list;
     }
 }

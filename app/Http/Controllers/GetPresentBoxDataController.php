@@ -133,7 +133,8 @@ class GetPresentBoxDataController extends Controller
                 ];
                 break;
             case 1:
-                $can_receipt_present_data = PresentBoxUtilService::GetCanReceiptPresentBoxData($manage_id);
+               // $can_receipt_present_data = PresentBoxUtilService::GetCanReceiptPresentBoxData($manage_id);
+               $can_receipt_present_data = PresentBoxInstance::where('manage_id',$manage_id)->get();
                 $response = [
                     'present_box' => $can_receipt_present_data,
                 ];
