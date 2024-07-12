@@ -23,7 +23,7 @@ class RewardCategory extends Model
     // マスタデータ取得
     public static function GetRewardCategory()
     {
-        $reward_category_data_list = MasterDataService::GetMasterData('rewardCategory');
+        $reward_category_data_list = MasterDataService::GetMasterData('reward_category');
         return $reward_category_data_list;
     }
 }
