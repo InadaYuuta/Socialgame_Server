@@ -39,7 +39,7 @@ class MasterDataGetController extends Controller
         $exchange_item_category = ExchangeItemCategory::GetExchangeItemCategory();
         $exchange_item_shop = ExchangeItemShop::GetExchangeItemShop();
         $gacha_weapon = GachaWeapon::GetGachaWeapon();
-        $mission = Mission::GetMission();
+        $mission_master = Mission::GetMission();
         $mission_category = MissionCategory::GetMissionCategory();
         $reward_category = RewardCategory::GetRewardCategory();
 
@@ -56,7 +56,7 @@ class MasterDataGetController extends Controller
             'exchange_item_category' => $exchange_item_category,
             'exchange_item_shop' => $exchange_item_shop,
             'gacha_weapon' =>$gacha_weapon,
-            'mission' =>$mission,
+            'mission_master' =>$mission_master,
             'mission_category' =>$mission_category,
             'reward_category' =>$reward_category,
         ];

@@ -50,7 +50,7 @@ class MasterDataService
         $master_data_list['exchange_item_categories'] = ExchangeItemCategory::all();
         $master_data_list['exchange_item_shops'] = ExchangeItemShop::all();
         $master_data_list['gacha_weapon'] = GachaWeapon::all();
-        $master_data_list['mission'] = Mission::all();
+        $master_data_list['mission_master'] = Mission::all();
         $master_data_list['mission_category'] = MissionCategory::all();
         $master_data_list['reward_category'] = RewardCategory::all();
 

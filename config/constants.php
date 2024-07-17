@@ -97,6 +97,10 @@ return [
     'ERRCODE_PRESENT_DOES_NOT_EXIST.' => 531,  // プレゼントが存在しない
     'ERRCODE_PRESENT_ALREADY_RECEIVE' => 532,  // プレゼントが受取済だった
     'ERRCODE_CAN_NOT_RECEIVE_PRESENT' => 533,  // プレゼントを受け取れなかった
+    'ERRCODE_NEXT_MISSION_DOES_NOT_EXITS' => 534, // 次のミッションが存在しなかった
+    'ERRCODE_MISSION_ALREADY_ADDED' => 535, // 既に対象のミッションが追加されている
+    'ERRCODE_CANT_ADD_MISSION' => 536, // ミッションを追加できなかった
+    'ERRCODE_CANT_GET_MISSION' => 537, // ミッションを取得できなかった
 
     /* エラーメッセージ */
 
