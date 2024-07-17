@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Libs\MissionUtilService;
 
 use App\Models\User;
 use App\Models\Mission;
@@ -34,79 +35,34 @@ class CreateMissionController extends Controller
         // ミッションインスタンスのもと
         $instanceBase = MissionInstance::where('manage_id',$manage_id)->where('mission_id',$missionData->mission_id);
 
-        // ミッション生成
-        DB::transaction(function() use(&$result,$manage_id,$missionData,$instanceBase){
-            // 最初だけ一括で生成(1010001~1050001まで)
-            $check = MissionInstance::where('manage_id',$manage_id)->where('mission_id',1010001)->first();
-            if($check == null)
-            {
-                $first_list = [
-                    [
-                        'mission_id' => 1010001,
-                    ],
-                    [
-                        'mission_id' => 1020001,
-                    ],
-                    [
-                        'mission_id' => 1030001,
-                    ],
-                    [
-                        'mission_id' => 1040001,
-                    ],
-                    [
-                        'mission_id' => 1050001,
-                    ],
+        // エラーチェック
+        $missionInstanceData = $instanceBase->first();
+        if($missionInstanceData != null)
+        {
+            $errcode = config('constants.ERRCODE_MISSION_ALREADY_ADDED');
+                $response = [
+                    'errcode' => $errcode,
                 ];
-    
-                foreach($first_list as $data)
-                {
-                    $check = MissionInstance::where('manage_id',$manage_id)->where('mission_id',$data['mission_id'])->first();
-                    if($check == null)
-                    {
-                        $instanceData = Mission::where('mission_id',$data['mission_id'])->first();
-                        $result = MissionInstance::create([
-                            'manage_id'=>$manage_id,
-                            'mission_id'=>$instanceData->mission_id,
-                            'term' => $instanceData->period_end,
-                        ]);
-                        $result = 1;
-                    }
-                    else
-                    {
-                        $result = -1;
-                    }
-                }
-            }
-            // 最初以外
-            else
+            return json_encode($response);
+        }
+
+        // ミッション生成
+        DB::transaction(function() use(&$result,$manage_id,$missionData,$missionInstanceData){
+            if($missionInstanceData == null)
             {
-                $missionInstanceData = $instanceBase->first();
-                if($missionInstanceData == null)
-                {
-                    $missionInstanceData = MissionInstance::create([
-                        'manage_id'=>$manage_id,
-                        'mission_id'=>$missionData->mission_id,
-                        'term' => $missionData->period_end,
-                    ]);
-                    $result = 1;
-                }
-                else
-                {
-                    $result = -1;
-                }
+                $missionInstanceData = MissionInstance::create([
+                    'manage_id'=>$manage_id,
+                    'mission_id'=>$missionData->mission_id,
+                    'term' => $missionData->period_end,
+                ]);
+                $result = 1;
             }
         });
 
         switch($result)
         {
-            case -1:
-                $errcode = config('constants.MISSION_ALREADY_ADDED');
-                $response = [
-                    'errcode' => $errcode,
-                ];
-                break;
             case 0:
-                $errcode = config('constants.CANT_ADD_MISSION');
+                $errcode = config('constants.ERRCODE_CANT_ADD_MISSION');
                 $response = [
                     'errcode' => $errcode,
                 ];
@@ -117,7 +73,6 @@ class CreateMissionController extends Controller
                 ];
                 break;
         }
-
 
         return json_encode($response);
     }

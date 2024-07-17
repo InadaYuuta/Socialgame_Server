@@ -32,7 +32,7 @@ class AddMissionMasterDataController extends Controller
             ],
             [
                 'mission_category' => 4,
-                'category_name'=>'LIMITEDPERIOD', // 期間限定
+                'category_name'=>'LIMITED_PERIOD', // 期間限定
             ],
         ];
 

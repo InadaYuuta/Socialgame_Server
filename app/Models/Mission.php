@@ -25,7 +25,7 @@ class Mission extends Model
     // マスタデータ取得
     public static function GetMission()
     {
-        $mission_data_list = MasterDataService::GetMasterData('mission');
+        $mission_data_list = MasterDataService::GetMasterData('mission_master');
         return $mission_data_list;
     }
 }

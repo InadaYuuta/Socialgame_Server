@@ -38,6 +38,7 @@ use App\Http\Controllers\UpdateMissionController;
 use App\Http\Controllers\ReceiveMissionController;
 // ニュース
 use App\Http\Controllers\AddNewsController;
+use App\Http\Controllers\GetMissionDataController;
 use App\Http\Controllers\GetNewsController;
 
 
@@ -107,6 +108,9 @@ Route::post('/getPresentBox',GetPresentBoxDataController::class); /*プレゼン
 //Route::get('/receivePresent',ReceivePresentController::class); /*プレゼント受け取り*/
 Route::post('/receivePresent',ReceivePresentController::class); /*プレゼント受け取り*/
 
+//Route::get('/getMission',GetMissionDataController::class); /*ミッションデータ取得 */
+Route::post('/getMission',GetMissionDataController::class); /*ミッションデータ取得 */
+
 // TODO: この下はクライアント側を未実装なので順次実装を行う
 
 Route::get('/createMission',CreateMissionController::class); /*ミッション作成*/
@@ -119,6 +123,6 @@ Route::get('/getNews',GetNewsController::class); /*ニュース取得*/
 
 /* この下はユーザーは操作しない */
 Route::get('/createPresent',CreatePresentController::class); /*プレゼント作成*/
-Route::get('/createWholePresent',CreateWholePresentController::class); /*プレゼント作成*/
+Route::get('/createWholePresent',CreateWholePresentController::class); /*全体プレゼント作成*/
 
 Route::get('/addNews',AddNewsController::class); /*ニュース追加*/
