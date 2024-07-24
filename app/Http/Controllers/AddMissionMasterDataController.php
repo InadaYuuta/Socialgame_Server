@@ -77,12 +77,12 @@ class AddMissionMasterDataController extends Controller
             [
                 'mission_id'=>1040001,
                 'next_mission_id'=>1040002,
-                'mission_name'=>'武器を強化しよう(1)',
-                'mission_content'=>'武器を累計1つ強化する',
+                'mission_name'=>'武器をレベルアップしよう(1)',
+                'mission_content'=>'武器の合計レベルを10にしよう',
                 'mission_category'=>1,
                 'reward_category'=>1,
                 'mission_reward'=>'payment/10',
-                'achievement_condition'=>'weaponReinforce/1',
+                'achievement_condition'=>'weaponLevelUp/10',
                 'period_start'=>'2024-03-10 00:00:00',
                 'period_end'=>'2038-12-31 23:59:59',
             ],
@@ -137,12 +137,12 @@ class AddMissionMasterDataController extends Controller
             [
                 'mission_id'=>1040002,
                 'next_mission_id'=>1040003,
-                'mission_name'=>'武器を強化しよう(2)',
-                'mission_content'=>'武器を累計3つ強化する',
+                'mission_name'=>'武器をレベルアップしよう(2)',
+                'mission_content'=>'武器の合計レベルを10にしよう',
                 'mission_category'=>1,
                 'reward_category'=>1,
                 'mission_reward'=>'payment/10',
-                'achievement_condition'=>'weaponReinforce/3',
+                'achievement_condition'=>'weaponLevelUp/20',
                 'period_start'=>'2024-03-10 00:00:00',
                 'period_end'=>'2038-12-31 23:59:59',
             ],
@@ -177,6 +177,7 @@ class AddMissionMasterDataController extends Controller
             foreach($addMissionData as $data)
             {
                 $check = Mission::where('mission_id',$data['mission_id'])->first();
+                
                 if($check == null)
                 {
                     Mission::create([
