@@ -22,6 +22,7 @@ class GetPresentBoxDataController extends Controller
         $result = 0;
         $errcode = '';
         $response = [];
+        
        // ユーザー情報
        $userBase = User::where('user_id',$request->uid);
        // ユーザー情報取得
@@ -70,9 +71,9 @@ class GetPresentBoxDataController extends Controller
         // エラーチェック
         if($distribution_data == null)
         {
-            $errcode = config('constants.ERRCODE_NO_DISTRIBUTION_DATA');
+            $can_receipt_present_data = PresentBoxInstance::where('manage_id',$manage_id)->get();
                 $response = [
-                    'errcode' => $errcode,
+                    'present_box' => $can_receipt_present_data,
                 ];
             return json_encode($response);
         }
@@ -134,7 +135,7 @@ class GetPresentBoxDataController extends Controller
                 break;
             case 1:
                // $can_receipt_present_data = PresentBoxUtilService::GetCanReceiptPresentBoxData($manage_id);
-               $can_receipt_present_data = PresentBoxInstance::where('manage_id',$manage_id)->get();
+                $can_receipt_present_data = PresentBoxInstance::where('manage_id',$manage_id)->get();
                 $response = [
                     'present_box' => $can_receipt_present_data,
                 ];

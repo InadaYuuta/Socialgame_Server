@@ -12,9 +12,10 @@ use App\Models\MissionInstance;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 
-/* スタミナ回復
+/* ミッション更新
 /* uid = ユーザーID
 /* mid = ミッションID
 /* prog = 進捗
@@ -26,12 +27,35 @@ class UpdateMissionController extends Controller
         $result = 0;
         $errcode = '';
         $response = 0;
-
         // ユーザー情報
-        $userData = User::where('user_id',$request->uid)->first();
+       $userBase = User::where('user_id',$request->uid);
+       // ユーザー情報取得
+       $userData = $userBase->first();
 
-        // 管理ID
-        $manage_id = $userData->manage_id;
+       Auth::login($userData); // TODO: これは仮修正、本来ならログインが継続してこの下に入るはずだけど、なぜか継続されないので一旦ここでログイン
+       // --- Auth処理(ログイン確認)-----------------------------------------
+       // ユーザーがログインしていなかったらリダイレクト
+       if (!Auth::hasUser()) {
+           $response = [
+               'errcode' => config('constants.ERRCODE_LOGIN_USER_NOT_FOUND'),
+           ];
+           return json_encode($response);
+       }
+
+       $authUserData = Auth::user();
+      
+       // ユーザー管理ID
+       $manage_id = $userData->manage_id;
+
+       // ログインしているユーザーが自分と違ったらリダイレクト
+       //if ($manage_id != $authUserData->getAuthIdentifier()) {
+       if ($manage_id != $authUserData->manage_id) {
+           $response = [
+               'errcode' => config('constants.ERRCODE_LOGIN_SESSION'),
+           ];
+           return json_encode($response);
+       }
+       // -----------------------------------------------------------------
 
         // 更新するミッションのマスター情報
         $missionData = Mission::where('mission_id',$request->mid)->first();
@@ -44,6 +68,18 @@ class UpdateMissionController extends Controller
 
         // 進捗
         $progress = $request->prog;
+
+
+        // エラーチェック
+        $instanceData = $missionInstanceBase->first(); // ミッションデータ
+        $achieved = $instanceData->achieved; // 達成しているか
+        // 達成していなければ進捗更新
+        if($achieved > 0)
+        {
+            $errcode = config('constants.ERRCODE_MISSION_ALREADY_COMPLETE');
+            $response = $errcode;
+            return json_encode($response);
+        }
 
         DB::transaction(function() use($manage_id,$missionData,$missionInstanceBase,$achieved_condition,$progress,&$result){
 
@@ -82,18 +118,14 @@ class UpdateMissionController extends Controller
                     // 次のミッションがある場合は次のミッションを作成する
                     $next_mission_id = $missionData->next_mission_id;
                     $missionInstanceData = MissionInstance::where('manage_id',$manage_id)->where('mission_id',$next_mission_id)->first();
-                    if($missionInstanceData == null)
+                    $check = Mission::where('mission_id',$next_mission_id)->first(); // マスタデータに次のミッションが存在しているかどうかを確認
+                    if($missionInstanceData == null && $check != null)
                     {
                         $missionInstanceData = MissionInstance::create([
                             'manage_id'=>$manage_id,
                             'mission_id'=>$next_mission_id,
                             'term' => $missionData->period_end,
                         ]);
-                        $result = 1;
-                    }
-                    else
-                    {
-                        $result = -1;
                     }
                 }
                 $result = 1;
@@ -112,23 +144,11 @@ class UpdateMissionController extends Controller
                         'term' => $missionData->period_end,
                     ]);
                 }
-                else
-                {
-                    $result = -2;
-                }
             }
         });
 
         switch($result)
         {
-            case -1:
-                $errcode = config('constants.MISSION_ALREADY_COMPLETE');
-                $response = $errcode;
-                break;
-            case -2:
-                $errcode = config('constants.MISSION_ALREADY_ADDED');
-                $response = $errcode;
-                break;
             case 0:
                 $errcode = config('constants.CANT_UPDATE_MISSION');
                 $response = $errcode;

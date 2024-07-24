@@ -111,17 +111,17 @@ Route::post('/receivePresent',ReceivePresentController::class); /*プレゼン�
 //Route::get('/getMission',GetMissionDataController::class); /*ミッションデータ取得 */
 Route::post('/getMission',GetMissionDataController::class); /*ミッションデータ取得 */
 
+//Route::get('/updateMission',UpdateMissionController::class); /*ミッション更新*/
+Route::post('/updateMission',UpdateMissionController::class); /*ミッション更新*/
+
+//Route::get('/receiveMission',ReceiveMissionController::class); /*ミッション受け取り*/
+Route::post('/receiveMission',ReceiveMissionController::class); /*ミッション受け取り*/
+
 // TODO: この下はクライアント側を未実装なので順次実装を行う
-
-Route::get('/createMission',CreateMissionController::class); /*ミッション作成*/
-
-Route::get('/updateMission',UpdateMissionController::class); /*ミッション更新*/
-
-Route::get('/receiveMission',ReceiveMissionController::class); /*ミッション受け取り*/
-
 Route::get('/getNews',GetNewsController::class); /*ニュース取得*/
 
 /* この下はユーザーは操作しない */
+Route::get('/createMission',CreateMissionController::class); /*ミッション作成*/
 Route::get('/createPresent',CreatePresentController::class); /*プレゼント作成*/
 Route::get('/createWholePresent',CreateWholePresentController::class); /*全体プレゼント作成*/
 

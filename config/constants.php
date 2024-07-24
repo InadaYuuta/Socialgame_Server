@@ -97,10 +97,17 @@ return [
     'ERRCODE_PRESENT_DOES_NOT_EXIST.' => 531,  // プレゼントが存在しない
     'ERRCODE_PRESENT_ALREADY_RECEIVE' => 532,  // プレゼントが受取済だった
     'ERRCODE_CAN_NOT_RECEIVE_PRESENT' => 533,  // プレゼントを受け取れなかった
-    'ERRCODE_NEXT_MISSION_DOES_NOT_EXITS' => 534, // 次のミッションが存在しなかった
-    'ERRCODE_MISSION_ALREADY_ADDED' => 535, // 既に対象のミッションが追加されている
-    'ERRCODE_CANT_ADD_MISSION' => 536, // ミッションを追加できなかった
-    'ERRCODE_CANT_GET_MISSION' => 537, // ミッションを取得できなかった
+    'ERRCODE_PRESENT_ALREADY_ADDED' => 534,     // 既に対象のプレゼントが追加されている
+    'ERRCODE_NEXT_MISSION_DOES_NOT_EXITS' => 535, // 次のミッションが存在しなかった
+    'ERRCODE_MISSION_ALREADY_ADDED' => 536,     // 既に対象のミッションが追加されている
+    'ERRCODE_CANT_ADD_MISSION' => 537,          // ミッションを追加できなかった
+    'ERRCODE_CANT_GET_MISSION' => 538,          // ミッションを取得できなかった
+    'ERRCODE_MISSION_ALREADY_COMPLETE' => 539,  // 達成済みのミッションです
+    'ERRCODE_CANT_UPDATE_MISSION' => 540,       // ミッションを更新できなかった
+    'ERRCODE_MISSION_ALREADY_RECEIVE' => 541,   // 既にミッションを受け取っている
+    'ERRCODE_MISSION_NOT_ACCOMPLISHED' => 542,  // ミッションを達成していない
+    'ERRCODE_CANT_RECEIVE_MISSION' => 543,  // ミッションを受け取れなかった
+
 
     /* エラーメッセージ */
 
