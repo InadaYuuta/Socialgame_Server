@@ -9,6 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('weapon_exps', function (Blueprint $table) {
+            $table->dropPrimary('rarity_id');
             $table->primary(['rarity_id','level']);
         });
     }
