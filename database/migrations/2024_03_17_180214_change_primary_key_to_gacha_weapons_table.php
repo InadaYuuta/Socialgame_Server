@@ -9,6 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('gacha_weapons', function (Blueprint $table) {
+            $table->dropPrimary('weapon_id');
             $table->primary(['gacha_id','weapon_id']);
         });
     }
