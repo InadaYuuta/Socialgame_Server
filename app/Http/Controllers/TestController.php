@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 class TestController extends Controller
 {
-    public function Test(){
+    public function __invoke(){
         return 0;
     }
 }
