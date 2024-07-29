@@ -40,7 +40,7 @@ use App\Http\Controllers\ReceiveMissionController;
 use App\Http\Controllers\AddNewsController;
 use App\Http\Controllers\GetMissionDataController;
 use App\Http\Controllers\GetNewsController;
-
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -126,3 +126,6 @@ Route::get('/createPresent',CreatePresentController::class); /*プレゼント�
 Route::get('/createWholePresent',CreateWholePresentController::class); /*全体プレゼント作成*/
 
 Route::get('/addNews',AddNewsController::class); /*ニュース追加*/
+
+// テスト
+Route::get('/test',TestController::class);
