@@ -18,7 +18,7 @@ use App\Models\WeaponExp;
 use App\Models\EvolutionWeapon;
 // --ガチャ
 use App\Models\GachaWeapon;
-
+use App\Models\NewsCategory;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
@@ -474,9 +474,29 @@ class AddMasterDataController extends Controller
             ],
         ];
 
+        // ニュースカテゴリー
+        $addNewsCategoryData = [
+            [
+                'news_category' => 1,
+                'category_name'=>'HELP', // お助け情報
+            ],
+            [
+                'news_category' => 2,
+                'category_name'=>'GACHA', //ガチャ
+            ],
+            [
+                'news_category' => 3,
+                'category_name'=>'EVENT', // 開催情報
+            ],
+            [
+                'news_category' => 4,
+                'category_name'=>'DEFECT', // 不具合
+            ],
+        ];
+
 
         // 指定されたIDの情報が無かったら追加する TODO: useの中身が多すぎるからそれも連想配列にする
-        DB::transaction(function() use ($addItemCategoryData,$addItemData,$addPaymentShopData,$addExchangeShopCategory,$addExchangeShopData,$addLogCategory,$addMasterWeapon,$addEvolutionWeaponData,$addWeaponCategory,$addWeaponRarity,$addGachaWeaponData,$addWeaponExpData,$addRewardCategory){
+        DB::transaction(function() use ($addItemCategoryData,$addItemData,$addPaymentShopData,$addExchangeShopCategory,$addExchangeShopData,$addLogCategory,$addMasterWeapon,$addEvolutionWeaponData,$addWeaponCategory,$addWeaponRarity,$addGachaWeaponData,$addWeaponExpData,$addRewardCategory,$addNewsCategoryData){
             
             // アイテムカテゴリーデータ
             foreach($addItemCategoryData as $data)
@@ -751,6 +771,19 @@ class AddMasterDataController extends Controller
                         'reward_category'=>$data['reward_category'],
                         'reward_category_name'=>$data['reward_category_name'],
                      ]);
+                }
+            }
+
+            // ニュースカテゴリー
+            foreach($addNewsCategoryData as $data)
+            {
+                $check = NewsCategory::where('news_category',$data['news_category'])->first();
+                if($check == null)
+                {
+                    NewsCategory::create([
+                        'news_category'=>$data['news_category'],
+                        'category_name'=>$data['category_name'],
+                    ]);
                 }
             }
         });
