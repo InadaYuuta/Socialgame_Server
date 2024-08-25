@@ -75,7 +75,9 @@ class UpdateMissionController extends Controller
         $achieved = $instanceData->achieved; // 達成しているか
         if($achieved > 0)
         {
-            $response = 0;
+            $response = [
+                'missions' => MissionInstance::where('manage_id',$manage_id)->get(),
+            ];
             return json_encode($response); // 達成していたら更新せずに帰す
         }
         
