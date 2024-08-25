@@ -106,7 +106,7 @@ return [
     'ERRCODE_CANT_UPDATE_MISSION' => 540,       // ミッションを更新できなかった
     'ERRCODE_MISSION_ALREADY_RECEIVE' => 541,   // 既にミッションを受け取っている
     'ERRCODE_MISSION_NOT_ACCOMPLISHED' => 542,  // ミッションを達成していない
-    'ERRCODE_CANT_RECEIVE_MISSION' => 543,  // ミッションを受け取れなかった
+    'ERRCODE_CANT_RECEIVE_MISSION' => 543,      // ミッションを受け取れなかった
 
 
     /* エラーメッセージ */

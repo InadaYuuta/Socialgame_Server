@@ -102,11 +102,15 @@ class HomeController extends Controller
                 ];
                 break;
             case 1:
+                $weaponCheck = WeaponInstance::where('manage_id',$manage_id)->get();
+                if($weaponCheck <= 0){$weaponCheck = 0;} // 中身が無かったら0で返す
+                $itemCheck = ItemInstance::where('manage_id',$manage_id)->get();
+                if($itemCheck <= 0){$itemCheck = 0;}
                 $response =[
                     'user' => User::where('manage_id',$manage_id)->first(),
                     'wallet'=> UserWallet::where('manage_id',$manage_id)->first(),
-                    'weapons' => WeaponInstance::where('manage_id',$manage_id)->get(),
-                    'items' => ItemInstance::where('manage_id',$manage_id)->get(),
+                    'weapons' => $weaponCheck,
+                    'items' => $itemCheck,
                     // TODO: 他にホームに戻った時に取得したい情報があればここに追記
                 ];
                 break;

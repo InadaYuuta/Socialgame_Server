@@ -128,13 +128,9 @@ class GetPresentBoxDataController extends Controller
         switch($result)
         {
             case 0:
-                $errcode = config('constants.ERRCODE_CAN_NOT_ADD_PRESENT');
-                $response = [
-                    'errcode' => $errcode,
-                ];
+                $response = 0;
                 break;
             case 1:
-               // $can_receipt_present_data = PresentBoxUtilService::GetCanReceiptPresentBoxData($manage_id);
                 $can_receipt_present_data = PresentBoxInstance::where('manage_id',$manage_id)->get();
                 $response = [
                     'present_box' => $can_receipt_present_data,

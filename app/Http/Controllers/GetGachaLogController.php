@@ -58,10 +58,7 @@ class GetGachaLogController extends Controller
 
         if($result == 0)
         {
-            $errcode = config('constants.ERRCODE_CANT_GET_GACHA_LOG');
-            $response = [
-                'errcode' => $errcode,
-            ];
+            $response = 0;
         }
 
         return json_encode($response);
