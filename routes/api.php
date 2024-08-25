@@ -114,8 +114,9 @@ Route::post('/updateMission',UpdateMissionController::class); /*ミッション�
 //Route::get('/receiveMission',ReceiveMissionController::class); /*ミッション受け取り*/
 Route::post('/receiveMission',ReceiveMissionController::class); /*ミッション受け取り*/
 
-// TODO: この下はクライアント側を未実装なので順次実装を行う
-Route::get('/getNews',GetNewsController::class); /*ニュース取得*/
+//Route::get('/getNews',GetNewsController::class); /*ニュース取得*/
+Route::post('/getNews',GetNewsController::class); /*ニュース取得*/
+
 
 /* この下はユーザーは操作しない */
 Route::get('/addMasterData',AddMasterDataController::class); /* マスターデータ挿入 */
