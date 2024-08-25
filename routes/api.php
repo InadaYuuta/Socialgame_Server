@@ -63,8 +63,8 @@ Route::post('/register',RegistrationController::class); /*登録*/
 //Route::get('/login',LoginController::class);
 Route::post('/login',LoginController::class); /*ログイン */
 
-Route::get('/home',HomeController::class); /* ホーム */
-//Route::post('/home',HomeController::class); /* ホーム */
+//Route::get('/home',HomeController::class); /* ホーム */
+Route::post('/home',HomeController::class); /* ホーム */
 
 //Route::get('/buyCurrency',BuyCurrencyController::class); /*通貨購入 */
 Route::post('/buyCurrency',BuyCurrencyController::class); /*通貨購入 */
@@ -87,8 +87,8 @@ Route::post('/exchangeShop',BuyExchangeShopItemController::class); /*交換シ�
 //Route::get('/gachaExecute',GachaExecuteController::class); /*ガチャ */
 Route::post('/gachaExecute',GachaExecuteController::class); /*ガチャ */
 
-Route::get('/getGachaLog',GetGachaLogController::class); /*ガチャログ取得*/
-//Route::post('/getGachaLog',GetGachaLogController::class); /*ガチャログ取得*/
+//Route::get('/getGachaLog',GetGachaLogController::class); /*ガチャログ取得*/
+Route::post('/getGachaLog',GetGachaLogController::class); /*ガチャログ取得*/
 
 //Route::get('/levelUp',LevelUpController::class); /*レベルアップ*/
 Route::post('/levelUp',LevelUpController::class); /*レベルアップ*/
@@ -99,14 +99,14 @@ Route::post('/limitBreak',LimitBreakController::class); /*限界突破*/
 //Route::get('/evolution',EvolutionController::class); /*進化*/
 Route::post('/evolution',EvolutionController::class); /*進化*/
 
-Route::get('/getPresentBox',GetPresentBoxDataController::class); /*プレゼントボックスを取得 */
-//Route::post('/getPresentBox',GetPresentBoxDataController::class); /*プレゼントボックスを取得 */
+//Route::get('/getPresentBox',GetPresentBoxDataController::class); /*プレゼントボックスを取得 */
+Route::post('/getPresentBox',GetPresentBoxDataController::class); /*プレゼントボックスを取得 */
 
 //Route::get('/receivePresent',ReceivePresentController::class); /*プレゼント受け取り*/
 Route::post('/receivePresent',ReceivePresentController::class); /*プレゼント受け取り*/
 
-Route::get('/getMission',GetMissionDataController::class); /*ミッションデータ取得 */
-//Route::post('/getMission',GetMissionDataController::class); /*ミッションデータ取得 */
+//Route::get('/getMission',GetMissionDataController::class); /*ミッションデータ取得 */
+Route::post('/getMission',GetMissionDataController::class); /*ミッションデータ取得 */
 
 //Route::get('/updateMission',UpdateMissionController::class); /*ミッション更新*/
 Route::post('/updateMission',UpdateMissionController::class); /*ミッション更新*/
