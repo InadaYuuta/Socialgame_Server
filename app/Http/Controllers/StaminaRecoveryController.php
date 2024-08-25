@@ -27,7 +27,7 @@ class StaminaRecoveryController extends Controller
          // ユーザー情報取得
          $userData = User::where('user_id',$request->uid)->first();
 
-         Auth::login($userData); // TODO: これは仮修正、本来ならログインが継続してこの下に入るはずだけど、なぜか継続されないので一旦ここでログイン
+        // Auth::login($userData); // TODO: これは仮修正、本来ならログインが継続してこの下に入るはずだけど、なぜか継続されないので一旦ここでログイン
          // --- Auth処理(ログイン確認)-----------------------------------------
          // ユーザーがログインしていなかったらリダイレクト
          if (!Auth::hasUser()) {
