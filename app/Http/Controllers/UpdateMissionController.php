@@ -70,7 +70,7 @@ class UpdateMissionController extends Controller
         $progress = $request->prog;
 
 
-        // エラーチェック
+        // エラーチェック 
         $instanceData = $missionInstanceBase->first(); // ミッションデータ
         $achieved = $instanceData->achieved; // 達成しているか
         if($achieved > 0)
