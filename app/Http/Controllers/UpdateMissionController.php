@@ -73,14 +73,13 @@ class UpdateMissionController extends Controller
         // エラーチェック
         $instanceData = $missionInstanceBase->first(); // ミッションデータ
         $achieved = $instanceData->achieved; // 達成しているか
-        // 達成していなければ進捗更新
         if($achieved > 0)
         {
-            $errcode = config('constants.ERRCODE_MISSION_ALREADY_COMPLETE');
-            $response = $errcode;
-            return json_encode($response);
+            $response = 0;
+            return json_encode($response); // 達成していたら更新せずに帰す
         }
-
+        
+        // 達成していなければ進捗更新
         DB::transaction(function() use($manage_id,$missionData,$missionInstanceBase,$achieved_condition,$progress,&$result){
 
             // ログ関連
