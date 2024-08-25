@@ -142,7 +142,7 @@ class AuthManager implements FactoryContract
         }
 
         if (method_exists($guard, 'setRequest')) {
-            $guard->setRequest($this->app->refresh('request', $guard, 'setRequest'));
+            $guard->setRequest($this->app['request']);
         }
 
         if (isset($config['remember'])) {
@@ -172,7 +172,7 @@ class AuthManager implements FactoryContract
             $config['hash'] ?? false
         );
 
-        $this->app->refresh('request', $guard, 'setRequest');
+        $guard->setRequest($this->app['request']);
 
         return $guard;
     }
@@ -236,7 +236,7 @@ class AuthManager implements FactoryContract
         return $this->extend($driver, function () use ($callback) {
             $guard = new RequestGuard($callback, $this->app['request'], $this->createUserProvider());
 
-            $this->app->refresh('request', $guard, 'setRequest');
+            $guard->setRequest($this->app['request']);
 
             return $guard;
         });
