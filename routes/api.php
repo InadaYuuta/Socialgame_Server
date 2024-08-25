@@ -66,9 +66,6 @@ Route::post('/login',LoginController::class); /*ログイン */
 //Route::get('/home',HomeController::class); /* ホーム */
 Route::post('/home',HomeController::class); /* ホーム */
 
-Route::get('/addMasterData',AddMasterDataController::class); /* マスターデータ挿入 */
-Route::get('/addMission',AddMissionMasterDataController::class); /*ミッションマスターデータ挿入 */
-
 //Route::get('/buyCurrency',BuyCurrencyController::class); /*通貨購入 */
 Route::post('/buyCurrency',BuyCurrencyController::class); /*通貨購入 */
 
@@ -121,6 +118,9 @@ Route::post('/receiveMission',ReceiveMissionController::class); /*ミッショ�
 Route::get('/getNews',GetNewsController::class); /*ニュース取得*/
 
 /* この下はユーザーは操作しない */
+Route::get('/addMasterData',AddMasterDataController::class); /* マスターデータ挿入 */
+Route::get('/addMission',AddMissionMasterDataController::class); /*ミッションマスターデータ挿入 */
+
 Route::get('/createMission',CreateMissionController::class); /*ミッション作成*/
 Route::get('/createPresent',CreatePresentController::class); /*プレゼント作成*/
 Route::get('/createWholePresent',CreateWholePresentController::class); /*全体プレゼント作成*/
