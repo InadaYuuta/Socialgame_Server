@@ -421,6 +421,7 @@ class AddMissionMasterDataController extends Controller
             // ミッションマスター
             foreach($addMissionData as $data)
             {
+                $delete = Mission::where('mission_id',$data['mission_id'])->delete();
                 $check = Mission::where('mission_id',$data['mission_id'])->first();
                 
                 if($check == null)
