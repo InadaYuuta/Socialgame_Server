@@ -114,8 +114,8 @@ Route::post('/updateMission',UpdateMissionController::class); /*ミッション�
 //Route::get('/receiveMission',ReceiveMissionController::class); /*ミッション受け取り*/
 Route::post('/receiveMission',ReceiveMissionController::class); /*ミッション受け取り*/
 
-//Route::get('/getNews',GetNewsController::class); /*ニュース取得*/
-Route::post('/getNews',GetNewsController::class); /*ニュース取得*/
+Route::get('/getNews',GetNewsController::class); /*ニュース取得*/
+//Route::post('/getNews',GetNewsController::class); /*ニュース取得*/
 
 
 /* この下はユーザーは操作しない */
