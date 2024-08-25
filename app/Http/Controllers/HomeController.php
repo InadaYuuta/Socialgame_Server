@@ -27,6 +27,7 @@ class HomeController extends Controller
 
         // ユーザー情報取得
         $userData = User::where('user_id',$request->uid)->first();
+        dd($userData);
 
         Auth::login($userData); // TODO: これは仮修正、本来ならログインが継続してこの下に入るはずだけど、なぜか継続されないので一旦ここでログイン
         // --- Auth処理(ログイン確認)-----------------------------------------
@@ -102,10 +103,12 @@ class HomeController extends Controller
                 ];
                 break;
             case 1:
-                $weaponCheck = WeaponInstance::where('manage_id',$manage_id)->get();
+                $weaponCheck = WeaponInstance::where('manage_id',$manage_id)->count();
                 if($weaponCheck <= 0){$weaponCheck = 0;} // 中身が無かったら0で返す
-                $itemCheck = ItemInstance::where('manage_id',$manage_id)->get();
+                else{$weaponCheck = WeaponInstance::where('manage_id',$manage_id)->get();}
+                $itemCheck = ItemInstance::where('manage_id',$manage_id)->count();
                 if($itemCheck <= 0){$itemCheck = 0;}
+                else{$itemCheck = ItemInstance::where('manage_id',$manage_id)->get();}
                 $response =[
                     'user' => User::where('manage_id',$manage_id)->first(),
                     'wallet'=> UserWallet::where('manage_id',$manage_id)->first(),
