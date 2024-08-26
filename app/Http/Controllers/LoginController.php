@@ -64,7 +64,7 @@ class LoginController extends Controller
             case 1:
                 
                  // Authに登録
-                Auth::login($userData,true);
+                Auth::login($userData);
                 
                 $response =[
                     'user' => User::where('manage_id',$manage_id)->first(),
