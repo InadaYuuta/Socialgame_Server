@@ -62,10 +62,6 @@ class LoginController extends Controller
                 ];
                 break;
             case 1:
-                
-                 // Authに登録
-                Auth::login($userData);
-                Auth::hasUser();
                 $response =[
                     'user' => User::where('manage_id',$manage_id)->first(),
                     'wallet'=> UserWallet::where('manage_id',$manage_id)->first(),
@@ -73,6 +69,11 @@ class LoginController extends Controller
                     'items' => ItemInstance::where('manage_id',$manage_id)->get(),
                     // TODO: 他にログイン時に取得したい情報があればここに追記
                 ];
+                  // Authに登録
+                  // $user = new User;
+                  // $user = $user->find($manage_id);
+                  //  Auth::login($user);
+                   Auth::login($userData);
                 break;
         }
 

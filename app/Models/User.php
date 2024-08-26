@@ -12,7 +12,7 @@ class User extends Authenticatable
     use Notifiable,HasFactory;
 
     protected $table = 'users';
-    protected $primarykey = 'manage_id';
+    protected $primaryKey = 'manage_id';
 
     const CREATED_AT = 'created';
     const UPDATED_AT = 'modified';
@@ -22,4 +22,9 @@ class User extends Authenticatable
         'manage_id',
         'created',
     ];
+
+    public function find($id,$columns = ['*'])
+    {
+        return $this->where($this->primaryKey,$id)->first($columns);
+    }
 }
