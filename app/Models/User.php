@@ -22,9 +22,4 @@ class User extends Authenticatable
         'manage_id',
         'created',
     ];
-
-    public function find($id,$columns = ['*'])
-    {
-        return $this->where($this->primaryKey,$id)->first($columns);
-    }
 }

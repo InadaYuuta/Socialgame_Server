@@ -49,6 +49,7 @@ class LoginController extends Controller
           GameUtilService::logCreate($manage_id,$log_category,$log_context);
 
           $result = 1;
+
         });
 
         // TODO: 今後ログインボーナス等を実装するときはここに追記
@@ -70,10 +71,7 @@ class LoginController extends Controller
                     // TODO: 他にログイン時に取得したい情報があればここに追記
                 ];
                   // Authに登録
-                  // $user = new User;
-                  // $user = $user->find($manage_id);
-                  //  Auth::login($user);
-                   Auth::login($userData);
+                  Auth::login($userData);
                 break;
         }
 
