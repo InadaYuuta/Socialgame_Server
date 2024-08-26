@@ -60,11 +60,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //Route::get('/register',RegistrationController::class);
 Route::post('/register',RegistrationController::class); /*登録*/
 
-//Route::get('/login',LoginController::class);
-Route::post('/login',LoginController::class); /*ログイン */
+Route::get('/login',LoginController::class);
+//Route::post('/login',LoginController::class); /*ログイン */
 
-//Route::get('/home',HomeController::class); /* ホーム */
-Route::post('/home',HomeController::class); /* ホーム */
+Route::get('/home',HomeController::class); /* ホーム */
+//Route::post('/home',HomeController::class); /* ホーム */
 
 //Route::get('/buyCurrency',BuyCurrencyController::class); /*通貨購入 */
 Route::post('/buyCurrency',BuyCurrencyController::class); /*通貨購入 */

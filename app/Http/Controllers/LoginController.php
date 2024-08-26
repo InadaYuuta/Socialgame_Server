@@ -65,7 +65,7 @@ class LoginController extends Controller
                 
                  // Authに登録
                 Auth::login($userData);
-                
+                Auth::hasUser();
                 $response =[
                     'user' => User::where('manage_id',$manage_id)->first(),
                     'wallet'=> UserWallet::where('manage_id',$manage_id)->first(),
