@@ -84,8 +84,8 @@ Route::post('/masterGet',MasterDataGetController::class); /*マスターデー�
 //Route::get('/exchangeShop',BuyExchangeShopItemController::class); /*交換ショップで購入 */
 Route::post('/exchangeShop',BuyExchangeShopItemController::class); /*交換ショップで購入 */
 
-Route::get('/gachaExecute',GachaExecuteController::class); /*ガチャ */
-//Route::post('/gachaExecute',GachaExecuteController::class); /*ガチャ */
+//Route::get('/gachaExecute',GachaExecuteController::class); /*ガチャ */
+Route::post('/gachaExecute',GachaExecuteController::class); /*ガチャ */
 
 //Route::get('/getGachaLog',GetGachaLogController::class); /*ガチャログ取得*/
 Route::post('/getGachaLog',GetGachaLogController::class); /*ガチャログ取得*/
