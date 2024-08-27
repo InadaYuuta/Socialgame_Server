@@ -28,6 +28,14 @@ class GachaExecuteController extends Controller
         $errcode = '';
         $response = [];
 
+        // Debug
+         // ユーザー情報取得
+         $userData = User::where('user_id',$request->uid)->first();
+       
+        Auth::login($userData);
+        //
+
+
         // --- Auth処理(ログイン確認)-----------------------------------------
         // ユーザーがログインしていなかったらリダイレクト
         if (!Auth::hasUser()) {
