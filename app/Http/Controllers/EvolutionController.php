@@ -25,35 +25,31 @@ class EvolutionController extends Controller
         $errcode = '';
         $response = [];
 
-       // ユーザー情報
-       $userBase = User::where('user_id',$request->uid);
-       // ユーザー情報取得
-       $userData = $userBase->first();
+        // --- Auth処理(ログイン確認)-----------------------------------------
+        // ユーザーがログインしていなかったらリダイレクト
+        if (!Auth::hasUser()) {
+            $response = [
+                'errcode' => config('constants.ERRCODE_LOGIN_USER_NOT_FOUND'),
+            ];
+            return json_encode($response);
+        }
 
-      // Auth::login($userData); // TODO: これは仮修正、本来ならログインが継続してこの下に入るはずだけど、なぜか継続されないので一旦ここでログイン
-       // --- Auth処理(ログイン確認)-----------------------------------------
-       // ユーザーがログインしていなかったらリダイレクト
-       if (!Auth::hasUser()) {
-           $response = [
-               'errcode' => config('constants.ERRCODE_LOGIN_USER_NOT_FOUND'),
-           ];
-           return json_encode($response);
-       }
+        $authUserData = Auth::user();
 
-       $authUserData = Auth::user();
-      
-       // ユーザー管理ID
-       $manage_id = $userData->manage_id;
+         // ユーザー情報取得
+         $userData = User::where('user_id',$request->uid)->first();
+       
+        // ユーザー管理ID
+        $manage_id = $userData->manage_id;
 
-       // ログインしているユーザーが自分と違ったらリダイレクト
-       //if ($manage_id != $authUserData->getAuthIdentifier()) {
-       if ($manage_id != $authUserData->manage_id) {
-           $response = [
-               'errcode' => config('constants.ERRCODE_LOGIN_SESSION'),
-           ];
-           return json_encode($response);
-       }
-       // -----------------------------------------------------------------
+        // ログインしているユーザーが自分と違ったらリダイレクト
+        if ($manage_id != $authUserData->manage_id) {
+            $response = [
+                'errcode' => config('constants.ERRCODE_LOGIN_SESSION'),
+            ];
+            return json_encode($response);
+        }
+        // -----------------------------------------------------------------
 
         // 進化元の武器のデータ
         $weaponBase = WeaponInstance::where('manage_id',$manage_id)->where('weapon_id',$request->wid);

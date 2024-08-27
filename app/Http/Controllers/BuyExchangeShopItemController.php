@@ -10,6 +10,7 @@ use App\Models\UserWallet;
 use App\Models\ItemInstance;
 use App\Models\ExchangeItemShop;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class BuyExchangeShopItemController extends Controller
@@ -24,13 +25,31 @@ class BuyExchangeShopItemController extends Controller
         $errcode = '';
         $response = [];
 
-        // TODO: 今後Authの処理が安定したら
+        // --- Auth処理(ログイン確認)-----------------------------------------
+        // ユーザーがログインしていなかったらリダイレクト
+        if (!Auth::hasUser()) {
+            $response = [
+                'errcode' => config('constants.ERRCODE_LOGIN_USER_NOT_FOUND'),
+            ];
+            return json_encode($response);
+        }
 
-        // ユーザー情報
-        $userData = User::where('user_id',$request->uid)->first();
+        $authUserData = Auth::user();
 
+         // ユーザー情報取得
+         $userData = User::where('user_id',$request->uid)->first();
+       
         // ユーザー管理ID
         $manage_id = $userData->manage_id;
+
+        // ログインしているユーザーが自分と違ったらリダイレクト
+        if ($manage_id != $authUserData->manage_id) {
+            $response = [
+                'errcode' => config('constants.ERRCODE_LOGIN_SESSION'),
+            ];
+            return json_encode($response);
+        }
+        // -----------------------------------------------------------------
 
         // 交換アイテム情報のもと
         $exchangeItemBase = ItemInstance::where('manage_id',$manage_id)->where('item_id',30001);
