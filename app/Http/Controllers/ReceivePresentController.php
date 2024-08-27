@@ -28,35 +28,34 @@ class ReceivePresentController extends Controller
         $errcode = '';
         $response = 0;
 
+        // --- Auth処理(ログイン確認)-----------------------------------------
+        // ユーザーがログインしていなかったらリダイレクト
+        if (!Auth::hasUser()) {
+            $response = [
+                'errcode' => config('constants.ERRCODE_LOGIN_USER_NOT_FOUND'),
+            ];
+            return json_encode($response);
+        }
+
+        $authUserData = Auth::user();
+
         // ユーザー情報
-       $userBase = User::where('user_id',$request->uid);
-       // ユーザー情報取得
-       $userData = $userBase->first();
+        $userBase = User::where('user_id',$request->uid);
 
-    //   Auth::login($userData); // TODO: これは仮修正、本来ならログインが継続してこの下に入るはずだけど、なぜか継続されないので一旦ここでログイン
-       // --- Auth処理(ログイン確認)-----------------------------------------
-       // ユーザーがログインしていなかったらリダイレクト
-       if (!Auth::hasUser()) {
-           $response = [
-               'errcode' => config('constants.ERRCODE_LOGIN_USER_NOT_FOUND'),
-           ];
-           return json_encode($response);
-       }
+        // ユーザー情報取得
+        $userData = $userBase->first();
+       
+        // ユーザー管理ID
+        $manage_id = $userData->manage_id;
 
-       $authUserData = Auth::user();
-      
-       // ユーザー管理ID
-       $manage_id = $userData->manage_id;
-
-       // ログインしているユーザーが自分と違ったらリダイレクト
-       //if ($manage_id != $authUserData->getAuthIdentifier()) {
-       if ($manage_id != $authUserData->manage_id) {
-           $response = [
-               'errcode' => config('constants.ERRCODE_LOGIN_SESSION'),
-           ];
-           return json_encode($response);
-       }
-       // -----------------------------------------------------------------
+        // ログインしているユーザーが自分と違ったらリダイレクト
+        if ($manage_id != $authUserData->manage_id) {
+            $response = [
+                'errcode' => config('constants.ERRCODE_LOGIN_SESSION'),
+            ];
+            return json_encode($response);
+        }
+        // -----------------------------------------------------------------
 
        // プレゼントIDが存在しなかったらエラー
        if($request->pid == null)

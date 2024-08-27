@@ -25,10 +25,6 @@ class HomeController extends Controller
         $errcode = '';
         $response = 0;
 
-        // ユーザー情報取得
-        $userData = User::where('user_id',$request->uid)->first();
-
-       // Auth::login($userData); // TODO: これは仮修正、本来ならログインが継続してこの下に入るはずだけど、なぜか継続されないので一旦ここでログイン
         // --- Auth処理(ログイン確認)-----------------------------------------
         // ユーザーがログインしていなかったらリダイレクト
         if (!Auth::hasUser()) {
@@ -39,12 +35,14 @@ class HomeController extends Controller
         }
 
         $authUserData = Auth::user();
+
+         // ユーザー情報取得
+         $userData = User::where('user_id',$request->uid)->first();
        
         // ユーザー管理ID
         $manage_id = $userData->manage_id;
 
         // ログインしているユーザーが自分と違ったらリダイレクト
-        //if ($manage_id != $authUserData->getAuthIdentifier()) {
         if ($manage_id != $authUserData->manage_id) {
             $response = [
                 'errcode' => config('constants.ERRCODE_LOGIN_SESSION'),
