@@ -17,7 +17,6 @@ return new class extends Migration
             $table->dateTime('modified')->useCurrent()->useCurrentOnUpdate()->comment('更新日時');
             $table->boolean('deleted')->default(0)->comment('削除');
             $table->primary('manage_id');
-            $table->unique(['item_id']);
         });
     }
 
