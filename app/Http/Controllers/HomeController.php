@@ -107,8 +107,8 @@ class HomeController extends Controller
                 if($itemCheck <= 0){$itemCheck = 0;}
                 else{$itemCheck = ItemInstance::where('manage_id',$manage_id)->get();}
                 $response =[
-                    'user' => User::where('manage_id',$manage_id)->first(),
-                    'wallet'=> UserWallet::where('manage_id',$manage_id)->first(),
+                    'users' => User::where('manage_id',$manage_id)->first(),
+                    'wallets'=> UserWallet::where('manage_id',$manage_id)->first(),
                     'weapons' => $weaponCheck,
                     'items' => $itemCheck,
                     // TODO: 他にホームに戻った時に取得したい情報があればここに追記
