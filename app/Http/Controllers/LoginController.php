@@ -64,8 +64,8 @@ class LoginController extends Controller
                 break;
             case 1:
                 $response =[
-                    'user' => User::where('manage_id',$manage_id)->first(),
-                    'wallet'=> UserWallet::where('manage_id',$manage_id)->first(),
+                    'users' => User::where('manage_id',$manage_id)->first(),
+                    'wallets'=> UserWallet::where('manage_id',$manage_id)->first(),
                     'weapons' => WeaponInstance::where('manage_id',$manage_id)->get(),
                     'items' => ItemInstance::where('manage_id',$manage_id)->get(),
                     // TODO: 他にログイン時に取得したい情報があればここに追記
