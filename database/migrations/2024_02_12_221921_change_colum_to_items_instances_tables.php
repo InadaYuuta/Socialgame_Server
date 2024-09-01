@@ -19,7 +19,6 @@ return new class extends Migration
         Schema::table('items_instances', function (Blueprint $table) {
             $table->unsignedMediumInteger('item_num')->default(0)->comment('スタミナアイテムの所持数')->change();
             $table->unsignedMediumInteger('used_num')->default(0)->comment('交換アイテムの所持数')->change();
-            $table->dropUnique(['item_id']);
         });
     }
 };
