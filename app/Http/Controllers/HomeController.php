@@ -10,7 +10,8 @@ use App\Models\User;
 use App\Models\UserWallet;
 use App\Models\WeaponInstance;
 use App\Models\ItemInstance;
-
+use App\Models\MissionInstance;
+use App\Models\PresentBoxInstance;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -100,17 +101,13 @@ class HomeController extends Controller
                 ];
                 break;
             case 1:
-                $weaponCheck = WeaponInstance::where('manage_id',$manage_id)->count();
-                if($weaponCheck <= 0){$weaponCheck = 0;} // 中身が無かったら0で返す
-                else{$weaponCheck = WeaponInstance::where('manage_id',$manage_id)->get();}
-                $itemCheck = ItemInstance::where('manage_id',$manage_id)->count();
-                if($itemCheck <= 0){$itemCheck = 0;}
-                else{$itemCheck = ItemInstance::where('manage_id',$manage_id)->get();}
                 $response =[
                     'users' => User::where('manage_id',$manage_id)->first(),
                     'wallets'=> UserWallet::where('manage_id',$manage_id)->first(),
-                    'weapons' => $weaponCheck,
-                    'items' => $itemCheck,
+                    'weapons' => WeaponInstance::where('manage_id',$manage_id)->get(),
+                    'items' => ItemInstance::where('manage_id',$manage_id)->get(),
+                    'missions' => MissionInstance::where('manage_id',$manage_id)->get(),
+                    'present_box' => PresentBoxInstance::where('manage_id',$manage_id)->get(),
                     // TODO: 他にホームに戻った時に取得したい情報があればここに追記
                 ];
                 break;

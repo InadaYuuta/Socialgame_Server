@@ -21,7 +21,7 @@ class GetGachaLogController extends Controller
         $errcode = '';
         $response = [];
 
-         // --- Auth処理(ログイン確認)-----------------------------------------
+        // --- Auth処理(ログイン確認)-----------------------------------------
         // ユーザーがログインしていなかったらリダイレクト
         if (!Auth::hasUser()) {
             $response = [
