@@ -66,8 +66,8 @@ Route::post('/login',LoginController::class); /*ログイン */
 //Route::get('/home',HomeController::class); /* ホーム */
 Route::post('/home',HomeController::class); /* ホーム */
 
-Route::get('/buyCurrency',BuyCurrencyController::class); /*通貨購入 */
-//Route::post('/buyCurrency',BuyCurrencyController::class); /*通貨購入 */
+//Route::get('/buyCurrency',BuyCurrencyController::class); /*通貨購入 */
+Route::post('/buyCurrency',BuyCurrencyController::class); /*通貨購入 */
 
 //Route::get('/staminaRecovery',StaminaRecoveryController::class); /*スタミナ回復 */
 Route::post('/staminaRecovery',StaminaRecoveryController::class); /*スタミナ回復 */
