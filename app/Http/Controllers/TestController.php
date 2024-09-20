@@ -20,8 +20,7 @@ class TestController extends Controller
         $response = [];
 
         // ユーザー情報取得
-        //$userData = User::where('user_id','01J68TDP1C5GCN40347FGZCWEE')->first();
-        $userData = User::where('user_id','01HNZ1RCSETXM2PKHVM37HXHM5')->first();
+        $userData = User::where('user_id','01J68TDP1C5GCN40347FGZCWEE')->first();
        
         // ユーザー管理ID
         $manage_id = $userData->manage_id;
