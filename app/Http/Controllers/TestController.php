@@ -9,13 +9,19 @@ use Illuminate\Support\Facades\DB;
 
 class TestController extends Controller
 {
+    public function __invoke()
+    {
+        return TestController::test_check();
+    }
+
     public static function test_check(){
         $result = 0;
         $errcode = -1;
         $response = [];
 
         // ユーザー情報取得
-        $userData = User::where('user_id','01J68TDP1C5GCN40347FGZCWEE')->first();
+        //$userData = User::where('user_id','01J68TDP1C5GCN40347FGZCWEE')->first();
+        $userData = User::where('user_id','01HNZ1RCSETXM2PKHVM37HXHM5')->first();
        
         // ユーザー管理ID
         $manage_id = $userData->manage_id;
