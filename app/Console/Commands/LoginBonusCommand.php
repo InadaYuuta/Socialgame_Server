@@ -18,7 +18,7 @@ class LoginBonusCommand extends Command
 
     public function handle()
     {
-        TestController::class; // 実行する処理
+        TestController::test_check(); // 実行する処理
     }
 
 }

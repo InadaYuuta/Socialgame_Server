@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\DB;
 
 class TestController extends Controller
 {
-    public function __invoke(){
+    public static function test_check(){
         $result = 0;
         $errcode = -1;
         $response = [];
 
-         // ユーザー情報取得
-         $userData = User::where('user_id','01J68TDP1C5GCN40347FGZCWEE')->first();
+        // ユーザー情報取得
+        $userData = User::where('user_id','01J68TDP1C5GCN40347FGZCWEE')->first();
        
         // ユーザー管理ID
         $manage_id = $userData->manage_id;
@@ -26,7 +26,7 @@ class TestController extends Controller
         $walletBase = UserWallet::where('manage_id',$manage_id);
 
         // 指定された商品分通貨を増やす処理
-        DB::transaction(function() use (&$result,$manage_id,$paymentData,$walletBase){
+        DB::transaction(function() use (&$result,$paymentData,$walletBase){
             $walletsData = $walletBase->first();
             $bonus_currency = $paymentData->bonus_currency;
             $paid_currency = $paymentData->paid_currency;
