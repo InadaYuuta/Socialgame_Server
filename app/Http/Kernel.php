@@ -3,6 +3,8 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use App\Console\Commands\GenerateMasterData;
+use App\Console\Commands\LoginBonusCommand;
 
 class Kernel extends HttpKernel
 {
@@ -68,6 +70,7 @@ class Kernel extends HttpKernel
     ];
 
     protected $command = [
-        Commands\GenerateMasterData::class,
+        GenerateMasterData::class,
+        LoginBonusCommand::class,
     ];
 }
