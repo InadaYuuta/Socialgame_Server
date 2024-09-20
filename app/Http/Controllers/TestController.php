@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\DB;
 
 class TestController extends Controller
 {
+    public function __invoke()
+    {
+        return TestController::test_check();
+    }
+
     public static function test_check(){
         $result = 0;
         $errcode = -1;
